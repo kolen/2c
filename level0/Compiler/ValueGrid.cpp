@@ -170,6 +170,8 @@ enum
 	enLoad,
 	enLength,
 	enPrec,
+	enSetControlRect,
+	enGetControlRect,
 };
 void CValueGrid::PrepareNames(void)
 {
@@ -266,7 +268,8 @@ void CValueGrid::PrepareNames(void)
 		{"Load","Загрузить"},//enLoad
 		{"ColumnLength","ДлинаКолонки"},//enLength
 		{"ColumnPrecision","ТочностьКолонки"},//enPrec
-		
+		{"SetControlRect","УстановитьКоординаты"},
+		{"GetControlRect","ПолучитьКоординаты"},
 		
 	};
 	int nCountM=sizeof(aMethods)/sizeof(aMethods[0]);
@@ -635,10 +638,6 @@ CValue CValueGrid::Method(int iName,CValue **p)
 				
 		}
 		
-		
-		
-		
-		
 	case enView:
 		{
 			if(pGrid)
@@ -832,10 +831,6 @@ CValue CValueGrid::Method(int iName,CValue **p)
 			
 		}
 		
-		
-		
-		
-		
 	case enVirtualMode:
 		{
 			if(pGrid)
@@ -1021,9 +1016,6 @@ CValue CValueGrid::Method(int iName,CValue **p)
 			}
 			break;
 		}
-
-
-
 
 	case enColumnIdentifier:
 		{
@@ -1314,7 +1306,31 @@ CValue CValueGrid::Method(int iName,CValue **p)
 				КонецЦикла
 			КонецЦикла
 */		
-
+		case enSetControlRect:
+			{
+				int x, y, nWidth, nHeight;
+				x=p[0]->GetNumber();
+				y=p[1]->GetNumber();
+				nWidth=p[2]->GetNumber();
+				nHeight=p[3]->GetNumber();
+				ASSERT(pWnd);
+				((CWnd*)pWnd)->MoveWindow(x, y, nWidth, nHeight,1);
+				((CWnd*)pWnd)->RedrawWindow();
+				break;
+			}
+		case enGetControlRect:
+			{
+				CRect mRect(0,0,0,0);
+				ASSERT(pWnd);
+				((CWnd*)pWnd)->GetWindowRect(&mRect);
+				CWnd* pParentWnd=((CWnd*)pWnd)->GetParent();
+				pParentWnd->ScreenToClient(&mRect);
+				*p[0] = CValue(mRect.left);
+				*p[1] = CValue(mRect.top);
+				*p[2] = CValue(mRect.right - mRect.left);
+				*p[3] = CValue(mRect.bottom - mRect.top);
+				break;
+			}
 
 	}
 	

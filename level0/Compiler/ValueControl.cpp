@@ -65,8 +65,8 @@ enum
 	enClose,
 	enModif,
 	enFocus,
-
-
+	enSetControlRect,
+	enGetControlRect,
 	enLastMethod
 };
 
@@ -83,6 +83,8 @@ void CValueControl::PrepareNames(void)
 //		{"Parameter","Параметр"},
 		{"Modify","Модифицированность"},
 		{"Activate","Активизировать"},
+		{"SetControlRect","УстановитьКоординаты"},
+		{"GetControlRect","ПолучитьКоординаты"},
 	};
 	int nCountM=sizeof(aMethods)/sizeof(aMethods[0]);
 	Methods.Prepare(aMethods,nCountM,aMethods,nCountM);
@@ -154,6 +156,31 @@ CValue CValueControl::Method(int iName,CValue **p)
 		case enFocus:
 			{
 				((CWnd*)pWnd)->SetFocus();
+			}
+		case enSetControlRect:
+			{
+				int x, y, nWidth, nHeight;
+				x=p[0]->GetNumber();
+				y=p[1]->GetNumber();
+				nWidth=p[2]->GetNumber();
+				nHeight=p[3]->GetNumber();
+				ASSERT(pWnd);
+				((CWnd*)pWnd)->MoveWindow(x, y, nWidth, nHeight,1);
+				((CWnd*)pWnd)->RedrawWindow();
+				break;
+			}
+		case enGetControlRect:
+			{
+				CRect mRect(0,0,0,0);
+				ASSERT(pWnd);
+				((CWnd*)pWnd)->GetWindowRect(&mRect);
+				CWnd* pParentWnd=((CWnd*)pWnd)->GetParent();
+				pParentWnd->ScreenToClient(&mRect);
+				*p[0] = CValue(mRect.left);
+				*p[1] = CValue(mRect.top);
+				*p[2] = CValue(mRect.right - mRect.left);
+				*p[3] = CValue(mRect.bottom - mRect.top);
+				break;
 			}
 	}
 	return Ret;

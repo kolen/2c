@@ -89,6 +89,8 @@ enum
 	enVisible,
 	enEnable,
 	enFocus,
+	enSetControlRect,
+	enGetControlRect,
 
 };
 
@@ -142,7 +144,8 @@ void CValueTreeCtrl::PrepareNames(void)
 		{"Visible","Видимость"},
 		{"Enable","Доступность"},
 		{"Activate","Активизировать"},
-
+		{"SetControlRect","УстановитьКоординаты"},
+		{"GetControlRect","ПолучитьКоординаты"},
 
 	};
 	int nCountM=sizeof(aMethods)/sizeof(aMethods[0]);
@@ -484,7 +487,31 @@ break;\
 					return 0;
 				((CWnd*)pWnd)->SetFocus();
 			}
-			
+		case enSetControlRect:
+			{
+				int x, y, nWidth, nHeight;
+				x=p[0]->GetNumber();
+				y=p[1]->GetNumber();
+				nWidth=p[2]->GetNumber();
+				nHeight=p[3]->GetNumber();
+				ASSERT(pWnd);
+				((CWnd*)pWnd)->MoveWindow(x, y, nWidth, nHeight,1);
+				((CWnd*)pWnd)->RedrawWindow();
+				break;
+			}
+		case enGetControlRect:
+			{
+				CRect mRect(0,0,0,0);
+				ASSERT(pWnd);
+				((CWnd*)pWnd)->GetWindowRect(&mRect);
+				CWnd* pParentWnd=((CWnd*)pWnd)->GetParent();
+				pParentWnd->ScreenToClient(&mRect);
+				*p[0] = CValue(mRect.left);
+				*p[1] = CValue(mRect.top);
+				*p[2] = CValue(mRect.right - mRect.left);
+				*p[3] = CValue(mRect.bottom - mRect.top);
+				break;
+			}	
 	}
 	return Ret;
 }

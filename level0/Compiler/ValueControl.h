@@ -136,6 +136,7 @@ public:
 		if(pWnd)
 			PWINDOW->SendMessage(WM_CLOSE);
 	};
+	
 	#undef	PWINDOW
 };
 

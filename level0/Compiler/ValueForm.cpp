@@ -137,7 +137,7 @@ enum
 	enDescriptionText,
 	enLineSelect,
 	enCurrentValue,
-
+	
 	enLastMethod
 };
 void CValueForm::PrepareNames(void)
@@ -178,7 +178,7 @@ void CValueForm::PrepareNames(void)
 		{"ModuleText","ТекстМодуля","ТекстМодуля()"},
 		{"FormText","ТекстФормы","ТекстФормы()"},
 		{"DescriptionText","ТекстОписания","ТекстОписания()"},
-
+		
 		{"ProcessSelectLine","ОбработкаВыбораСтроки","ОбработкаВыбораСтроки(Флаг=\"\")"},
 
 		{"CurrentValue","ТекущийЭлемент","ТекущийЭлемент(Значение=\"\")"},
@@ -518,6 +518,7 @@ CValue CValueForm::Method(int iName,CValue **p)
 				}
 				break;
 			}
+		
 		case enLineSelect:
 			{
 				if(bIsView)
