@@ -51,10 +51,11 @@ int afxChoiceMode=0;
 int OpenFormExt2(CString csFormName,CValue &vContext, CValue Param,CString csFileName,CString csFormID,int nMode,  CValue vChoiceContext,int nChoiceMode,CValue vCurrentValue, CMicroForm* pControl,CWnd *pParent)
 {
 	afxFormPath="";
-	afxChoiceContext=vChoiceContext;
-	afxChoiceMode=nChoiceMode;
 	afxCurrentValue=vCurrentValue;
-
+	if(!pControl)
+		afxChoiceContext=vChoiceContext;
+	afxChoiceMode=nChoiceMode;
+	
 
 	if(csFormID.IsEmpty() && (!csFileName.IsEmpty()))
 		csFormID=csFileName;
