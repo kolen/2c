@@ -2208,6 +2208,18 @@ CValue SubscribeOnEvent(CValue **p)//ѕодписатьс€Ќа—обытие
 	return 1;
 }
 
+CValue GetTextOfActiveWindow(CValue **p)//ѕолучить“екстјктивногоќкна
+{
+	return CValue("");
+}
+CValue SetTextOfActiveWindow(CValue **p)//”становить“екстјктивногоќкна
+{
+	return 1;
+}
+CValue GoToLineActiveWindow(CValue **p)//ѕерейти —трокејктивногоќкна
+{
+	return 1;
+}
 
 //ћассив
 struct SCallFunction DefSystemFunctionsArray[]=
@@ -2569,6 +2581,9 @@ struct SCallFunction DefSystemFunctionsArray[]=
 	{"ѕодписатьс€Ќа—обытие",	    4,SubscribeOnEvent,"ѕодписатьс€Ќа—обытие(»м€—обыти€,»м€ќбработчика,‘лагќшибки)"},
     {"SubscribeOnEvent",			4,SubscribeOnEvent},
 
+	{"ѕолучить“екстјктивногоќкна",	0,GetTextOfActiveWindow,"ѕолучить“екстјктивногоќкна()"},
+    {"”становить“екстјктивногоќкна",2,SetTextOfActiveWindow,"”становить“екстјктивногоќкна(—тр,‘лагћодифицированности)"},
+	{"ѕерейти —трокејктивногоќкна", 1,GoToLineActiveWindow,"ѕерейти —трокејктивногоќкна(Ќомер)"},
 
 	{"END",0,NULL},
 };
