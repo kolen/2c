@@ -148,6 +148,7 @@ void CModuleManager::Clear()
 //извлечение модуля конфигурации (если еще не скомилирован - то производится компиляция)
 CCompileModule *CModuleManager::GetCompileModule(CString csModuleName,CCompileModule *pSetParent,CCompileModule *pSetStopParent,BOOL bRetZero)
 {
+	//Message(CValue(csModuleName));
 	CCompileModule *pModule=(CCompileModule *)ListModules[mUpper(csModuleName)];
 	if(pModule)//ранее был скомпилирован
 		return pModule;
@@ -169,6 +170,7 @@ CCompileModule *CModuleManager::GetCompileModule(CString csModuleName,CCompileMo
 	{
 		pSetParent=GetParent(csModuleName,pSetStopParent,pContinueParent);
 	}
+	
 	pModule->SetParent(pSetParent,pSetStopParent,pContinueParent);
 
 	pModule->csModuleName=csModuleName;
@@ -247,8 +249,7 @@ void CModuleManager::Load(BOOL bRunFunction)
 
 		pCommonParent=pCurParent;
 		pCommonRunParent=pRunCurParent;
-		CCompileModule *pStopParent=pCommonParent;//общие модули конфигурации для объектов не доступны
-
+		CCompileModule *pStopParent=0;//общие модули конфигурации для объектов не доступны
 		//компиляция и проецирование общих модулей объектов
 		for(i=0;i<pMetadata->ListObjectName.GetSize();i++)
 		{
@@ -270,7 +271,7 @@ void CModuleManager::Load(BOOL bRunFunction)
 				for(int m=0;m<pObject->aModule.GetSize();m++)
 				{
 					CString csPath(OBJECTSNAME+"\\"+csName+"\\"+OBJMODULE+"\\"+pObject->aModule[m]);
-					ObjParent=GetCompileModule(csPath,0,pStopParent);
+					ObjParent=GetCompileModule(csPath,0,0);
 					ASSERT(ObjParent);
 					ObjParent->nCommonModule=2;//приоритет запуска
 					if(bRunFunction)
@@ -279,6 +280,7 @@ void CModuleManager::Load(BOOL bRunFunction)
 						if(ObjRunParent)//запуск предопределенной процедуры общих модулей объектов
 						{
 							aRunModules.Add(ObjRunParent);
+							ObjRunParent->CallFunction("ИнициализацияМодуля");
 						}
 					}
 				}
@@ -286,7 +288,7 @@ void CModuleManager::Load(BOOL bRunFunction)
 
 			if(afxAppRunMode==CONFIG_MODE)
 			{
-				ObjParent=GetCompileModule(OBJECTSNAME+"\\"+csName+"\\"+OBJMODULE+"\\"+CONFIGMODULENAME,ObjParent,pStopParent);
+				ObjParent=GetCompileModule(OBJECTSNAME+"\\"+csName+"\\"+OBJMODULE+"\\"+CONFIGMODULENAME,ObjParent,0);
 				ASSERT(ObjParent);
 				ObjParent->nCommonModule=2;//приоритет запуска
 				if(bRunFunction)
@@ -305,6 +307,13 @@ void CModuleManager::Load(BOOL bRunFunction)
 		{
 			//все общие модули
 			RegisterEvent("ПриОткрытииФормы");
+			/*for(int nMode=1;nMode<=3;nMode++)//запуск по приоритетам
+			for(int k=0;k<aRunModules.GetSize();k++)
+			if(nMode==aRunModules[k]->nCommonModule)
+			{
+				CProcUnit *P=aRunModules[k];
+				P->CallFunction("ИнициализацияМодуля");
+			}*/
 			for(int nMode=1;nMode<=3;nMode++)//запуск по приоритетам
 			for(int k=0;k<aRunModules.GetSize();k++)
 			if(nMode==aRunModules[k]->nCommonModule)
@@ -547,6 +556,7 @@ CCompileModule *CModuleManager::GetParent(CString csPath,CCompileModule *&pStopP
 		return pCommonParent;
 
 	static int nLevel=0;
+	//Message(CValue(nLevel));
 	nLevel++;
 	if(nLevel>MAX_OBJECTS_LEVEL)
 	{
@@ -570,7 +580,7 @@ CCompileModule *CModuleManager::GetParent(CString csPath,CCompileModule *&pStopP
 		else
 		if(nType==TYPE_OBJECT_CONTEXT)
 		{
-			pStopParent=pCommonParent; 
+			//pStopParent=pCommonParent; 
 			ObjectDescription *pObject;
 			pObject=(ObjectDescription *)pMetadata->OList[mUpper(csName)];
 			if(pObject)
