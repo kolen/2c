@@ -92,6 +92,7 @@ public:
 
 
 	int nRunCount;
+	CToolTipCtrl	m_ToolTip;  //ѕанель»нструментов ‘ормы
 // Operations
 public:
 
