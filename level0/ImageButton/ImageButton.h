@@ -52,7 +52,9 @@ public:
 //	BOOL SetButtonImage( HBITMAP hBitmap  , COLORREF clrMask );
 //	BOOL DoImage(COLORREF clrMask );
 //	void Clear();
-
+	void SetTooltipText(CString & sText, BOOL bActivate);
+	BOOL PreTranslateMessage(MSG* pMsg);
+	
 	virtual ~CImageButton();
 
 	// Generated message map functions
@@ -60,7 +62,8 @@ protected:
 
 
 	void ReCalculateSettings();
-
+	void InitToolTip();
+//	void OnMouseMove(UINT nFlags, CPoint point);
 
 	int nImage;
 
@@ -70,6 +73,7 @@ protected:
 	HBITMAP	    m_hbmpDisabled;
 	CImageList	m_ImageList;
 	BOOL        m_bLoaded;
+	CToolTipCtrl	m_cToolTip;
 
 	DWORD       m_dwAlign;   //View Style 
 

@@ -35,7 +35,8 @@ CImageButton::CImageButton()
 	m_RectTextFocus.SetRectEmpty();
 	
 	m_clrText = GetSysColor( COLOR_WINDOWTEXT );
-	
+	m_cToolTip.m_hWnd = NULL;
+
 }
 
 
@@ -54,6 +55,7 @@ BEGIN_MESSAGE_MAP(CImageButton, CButton)
 ON_WM_SETFOCUS()
 ON_WM_SYSCOLORCHANGE()
 ON_WM_SIZE()
+ON_WM_MOUSEMOVE()
 ON_WM_ENABLE()
 //}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -117,7 +119,6 @@ void CImageButton::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct )
 			pDC->FrameRect(&rectItem,CBrush::FromHandle((HBRUSH)GetStockObject(BLACK_BRUSH))); 
             
 		}
-		
 		
 	}
 	
@@ -285,6 +286,21 @@ void CImageButton::OnSetFocus(CWnd* pOldWnd)
 	
 	// TODO: Add your message handler code here
 	Invalidate(TRUE);
+}
+
+//void CImageButton::OnMouseMove(UINT nFlags, CPoint point)
+//{
+//	CButton::OnMouseMove(nFlags, point);
+
+//	Invalidate();
+//	UpdateWindow();
+//}
+
+BOOL CImageButton::PreTranslateMessage(MSG* pMsg) 
+{
+	InitToolTip();
+	m_cToolTip.RelayEvent(pMsg);
+	return CButton::PreTranslateMessage(pMsg);
 }
 
 BOOL CImageButton::SetAlignStyle( DWORD dwStyle )
@@ -481,4 +497,29 @@ void CImageButton::OnEnable(BOOL bEnable)
 	
 	// TODO: Add your message handler code here
 	
+}
+
+void CImageButton::SetTooltipText(CString & sText, BOOL bActivate)
+{
+	if( sText.IsEmpty() )
+		return;
+	InitToolTip();
+	if( m_cToolTip.GetToolCount() == 0 )
+	{
+		CRect rectBtn; 
+		GetClientRect(rectBtn);
+		m_cToolTip.AddTool(this,(LPCTSTR)sText,rectBtn,1);
+	}
+	m_cToolTip.UpdateTipText((LPCTSTR)sText,this,1);
+	m_cToolTip.Activate( bActivate );
+}
+
+void CImageButton::InitToolTip()
+{
+	if( m_cToolTip.m_hWnd == NULL )
+	{
+		m_cToolTip.Create(this,TTS_ALWAYSTIP);
+		m_cToolTip.SetDelayTime(100);
+		m_cToolTip.Activate(FALSE);
+	}
 }
