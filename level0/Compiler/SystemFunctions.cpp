@@ -1858,7 +1858,7 @@ CString FuncFormat(CValue &v,CString &fmt){
 			
 			//Обычное число
 			//ASSERT(0);
-			int width=-1,prec=-1,stat=1;
+			int width=-1,prec=0,stat=1;
 			char zero=0,dot='.',coma=0; 
 			LPCTSTR s=fmt;
 			if('0'==*s)
@@ -1887,7 +1887,6 @@ CString FuncFormat(CValue &v,CString &fmt){
 			
 			if('.'==*s)
 			{
-				prec=0;
 				for(s++;*s;s++)
 				{
 					if('0' <= *s 
