@@ -881,16 +881,14 @@ CValue Round(CValue **p)
 	if(Prec>MAX_PREC)
 		Prec=MAX_PREC;
 
-	long nDelta=0;
+	__int64 nDelta=0;
 	if(Prec>0)
 	{
-		nDelta=long(fNumber);
+		nDelta=__int64(fNumber);
 		fNumber=fNumber-nDelta;
 	}
-	else
-		fNumber=long(fNumber);
 
-	long N=long(fNumber*pow(10,Prec+1));
+	__int64 N=__int64(fNumber*pow(10,Prec+1));
 	//округление - в зависимости от метода
 	if(nMode)
 	{
@@ -906,8 +904,7 @@ CValue Round(CValue **p)
 		else
 			N=N/10;
 	}
-
-	return (nDelta+(N/pow(10,Prec)));
+	return CValue(nDelta)+(N/pow(10,Prec));
 }
 
 CValue Int(CValue &cNumber)
