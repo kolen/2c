@@ -105,7 +105,8 @@ public:
 
 
 //Расширенные методы
-	void Sort(CValue vSort=CValue(),int nDirect=0);
+	void Sort(CValue cvSort=CValue(),int nDirect=0);
+	void SortId(CValue cvSort=CValue(),int nDirect=0);
 	void Load(CValue &vSource,int nMode=0,int nClear=1);//nMode - количество вложенных загрузок массивов
 	void RemoveAll();
 	CValue Find(CValue &vFind,CValue vExtValue=CValue());

@@ -36,6 +36,7 @@ enum
 	enFindId=0,
 	enIdentifierByNumber,
 	enSort,
+	enSortId,
 	enRemoveAll,
 	enLoad,
 	enFind,
@@ -50,8 +51,9 @@ void CValueArray::PrepareNames(void)
 	SEngRus aMethods[]=
 	{
 		{"FindId","НайтиИдентификатор","НайтиИдентификатор(СтрИдентификатор) - возвращает 1, если найден и 0, если не найден"},
-		{"IdentifierByNumber","ИдентификаторПоНомеру","ИдентификаторПоНомеру(НомПоПрядку) - возвращает строковый идентификатор"},
-		{"Sort","Сортировать","Сортировать(ИдентфифкаторИлиИндексПодчМассива=\"\",НаправлениеСортировки)"},
+		{"IdentifierByNumber","ИдентификаторПоНомеру","ИдентификаторПоНомеру(НомПоПорядку) - возвращает строковый идентификатор"},
+		{"Sort","Сортировать","Сортировать(ИдентификаторИлиНомерПодчМассива=\"\",НаправлениеСортировки)"},
+		{"SortId","СортироватьИД","СортироватьИД(ИдентификаторИлиНомерПодчМассива=\"\",НаправлениеСортировки)"},
 		{"RemoveAll","УдалитьВсе","УдалитьВсе()"},
 		{"Load","Загрузить","Загрузить(МассивИсточник,КолВложенныхМассивовЗагрузки=0,ФлОчистки=1)"},
 		{"FindValue","НайтиЗначение","НайтиЗначение(Значение,ИдентфифкаторИлиИндексПодчМассива=\"\")"},
@@ -129,6 +131,11 @@ CValue CValueArray::Method(int iName,CValue **p)
 		case enSort:
 			{
 				Sort(*p[0],p[1]->GetNumber());
+				break;
+			}
+		case enSortId:
+			{
+				SortId(*p[0],p[1]->GetNumber());
 				break;
 			}
 		case enRemoveAll:
@@ -325,15 +332,8 @@ int CompareListValue( const void *arg1, const void *arg2 )
 }
 
 //сортировка численно-индексной части массива
-void CValueArray::Sort(CValue vExtValue,int nDirect)
+void CValueArray::Sort(CValue cvSort, int nDirect)
 {
-
-	int nMode=vExtValue.nType;
-	CString csName=vExtValue.GetString();
-	int nName=vExtValue.GetNumber();
-	if(nMode==TYPE_STRING&&csName.IsEmpty())
-		nMode=0;
-
 	if(nDirect<=0)
 		nListDirectSort2=1;
 	else
@@ -348,13 +348,7 @@ void CValueArray::Sort(CValue vExtValue,int nDirect)
 		Val=GetAt(nKey);
 		CElementSort data;
 		data.Value=Val;
-		if(nMode==TYPE_STRING)
-			data.vSort=Val.GetAt(csName);
-		else
-		if(nMode==TYPE_NUMBER)
-			data.vSort=Val.GetAt(nName);
-		else
-			data.vSort=Val;
+		data.vSort=Val;
 		aList.Add(data);
 	}
 	if(aList.GetSize()>0)
@@ -364,6 +358,99 @@ void CValueArray::Sort(CValue vExtValue,int nDirect)
 	for(int i=0;i<aList.GetSize();i++)
 	{
 		SetAt(i+1,aList[i].Value);
+	}
+	aList.RemoveAll();
+	CString csIdString;
+	CValueArray aValues;
+	CValueArray aIds;
+	//Теперь то же самое для строковых индексов
+	for(int nKey1=1;nKey1<=GetSizeStrArray();nKey1++)
+	{
+		csIdString=GetIdentifierByNumber(nKey1-1);
+		Val=GetAt(csIdString);
+		aValues.SetAt(CString(nKey1),Val);
+		aIds.SetAt(CString(nKey1),CValue(csIdString));
+		CElementSort data;
+		data.Value=Val;
+		data.vSort=Val;
+		aList.Add(data);
+	}
+	if(aList.GetSize()>0)
+		qsort(&aList[0], aList.GetSize(), sizeof(aList[0]), CompareListValue);
+	//Удалить все строковые индексы
+	if(pStringValueList)
+	{
+		pStringValueList->RemoveAll();
+		delete pStringValueList;
+		pStringValueList=0;
+	}
+	if(pStringKey)
+	{
+		pStringKey->RemoveAll();
+		delete pStringKey;
+		pStringKey=0;
+	}
+	//Занести из отсортированного массива
+	CString csFind;
+	for(int j=0;j<aList.GetSize();j++)
+	{
+		csFind=aValues.Find(aList[j].Value);
+		SetAt(CString(aIds.GetAt(csFind)),aValues.GetAt(csFind));
+		aValues.RemoveKey(csFind);
+		aIds.RemoveKey(csFind);
+	}
+	aList.RemoveAll();
+}
+
+//сортировка строковых индексов
+void CValueArray::SortId(CValue cvSort,int nDirect)
+{
+	if(nDirect<=0)
+		nListDirectSort2=1;
+	else
+		nListDirectSort2=-1;
+
+	//выгружаем в список
+	CArray <CElementSort,CElementSort&> aList;//список значений и представлений
+
+	CValue Val;
+	CString csIdString;
+	CValueArray aValues;
+	CValueArray aIds;
+	for(int nKey1=1;nKey1<=GetSizeStrArray();nKey1++)
+	{
+		csIdString=GetIdentifierByNumber(nKey1-1);
+		Val=CValue(csIdString);
+		aValues.SetAt(CString(nKey1),GetAt(csIdString));
+		aIds.SetAt(CString(nKey1),CValue(csIdString));
+		CElementSort data;
+		data.Value=Val;
+		data.vSort=Val;
+		aList.Add(data);
+	}
+	if(aList.GetSize()>0)
+		qsort(&aList[0], aList.GetSize(), sizeof(aList[0]), CompareListValue);
+	//Удалить все строковые индексы
+	if(pStringValueList)
+	{
+		pStringValueList->RemoveAll();
+		delete pStringValueList;
+		pStringValueList=0;
+	}
+	if(pStringKey)
+	{
+		pStringKey->RemoveAll();
+		delete pStringKey;
+		pStringKey=0;
+	}
+	//Занести из отсортированного массива
+	CString csFind;
+	for(int j=0;j<aList.GetSize();j++)
+	{
+		csFind=aIds.Find(aList[j].Value);
+		SetAt(CString(aIds.GetAt(csFind)),aValues.GetAt(csFind));
+		aValues.RemoveKey(csFind);
+		aIds.RemoveKey(csFind);
 	}
 	aList.RemoveAll();
 }
