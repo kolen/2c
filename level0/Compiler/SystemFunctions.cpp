@@ -1,6 +1,5 @@
 // Авторские права: VTOOLS.RU (info@vtools.ru) 2002,2003г.
 // SystemFunctions.cpp: implementation of the SystemFunctions class.
-//
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
