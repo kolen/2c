@@ -664,6 +664,9 @@ void CEnterpriseApp::OnButtonEnterprise()
 			return;
 
 	SetCurrentDirectory(csCurrentExeDir);
+	if (bSingleMode)
+	ShellExecute(NULL,NULL,__argv[0],CString("/M")+" /N"+csUserName+" /P"+csUserPassword+" /d\""+csIBDir+"\""+" /title\""+csTitleWndOrig+"\"",NULL,SW_HIDE);
+	else
 	ShellExecute(NULL,NULL,__argv[0],CString("/enterprise")+" /N"+csUserName+" /P"+csUserPassword+" /d\""+csIBDir+"\""+" /title\""+csTitleWndOrig+"\"",NULL,SW_HIDE);
 }
 
