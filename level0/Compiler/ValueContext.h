@@ -15,6 +15,9 @@
 class CValueContext : public CValueObject
 {
 DECLARE_DYNCREATE(CValueContext);
+private:
+	CValue aContVarList;
+	CValue aContValueList;
 public:
 	CValueContext();
 	virtual ~CValueContext();
