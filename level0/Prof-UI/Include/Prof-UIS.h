@@ -24,7 +24,7 @@
 #define __PROF_UIS_H
 
 #if (!defined __EXT_MFC_DEF_H)
-	#include <ExtMfcDef.h>
+	#include "ExtMfcDef.h"
 #endif // __EXT_MFC_DEF_H
 
 #ifndef __AFXWIN_H__
@@ -91,67 +91,67 @@
 #if (!defined __PROF_UIS_IMPL__)
 
 	#if (!defined __EXTBTNONFLAT_H)
-		#include <ExtBtnOnFlat.h>
+		#include "ExtBtnOnFlat.h"
 	#endif
 
 	#if (!defined __EXT_BUTTON_H)
-		#include <ExtButton.h>
+		#include "ExtButton.h"
 	#endif
 
 	#if (!defined __EXT_COMBO_BOX_H)
-		#include <ExtComboBox.h>
+		#include "ExtComboBox.h"
 	#endif
 
 	#if (!defined __EXT_EDIT_H)
-		#include <ExtEdit.h>
+		#include "ExtEdit.h"
 	#endif
 
 	#if (!defined __EXT_CMD_ICON_H)
-		#include <ExtCmdIcon.h>
+		#include "ExtCmdIcon.h"
 	#endif
 
 	#if (!defined __ExtCmdManager_H)
-		#include <ExtCmdManager.h>
+		#include "ExtCmdManager.h"
 	#endif
 
 	#if (!defined __EXT_PAINT_MANAGER_H)
-		#include <ExtPaintManager.h>
+		#include "ExtPaintManager.h"
 	#endif
 
 	#if (!defined __EXT_CONTROLBAR_H)
-		#include <ExtControlBar.h>
+		#include "ExtControlBar.h"
 	#endif
 
 	#if (!defined __EXT_TOOLCONTROLBAR_H)
-		#include <ExtToolControlBar.h>
+		#include "ExtToolControlBar.h"
 	#endif
 
 	#if (!defined __EXT_MENUCONTROLBAR_H)
-		#include <ExtMenuControlBar.h>
+		#include "ExtMenuControlBar.h"
 	#endif
 
 	#if (!defined __EXT_STATUSCONTROLBAR_H)
-		#include <ExtStatusControlBar.h>
+		#include "ExtStatusControlBar.h"
 	#endif
 
 	#if (!defined __EXT_POPUP_MENU_WND_H)
-		#include <ExtPopupMenuWnd.h>
+		#include "ExtPopupMenuWnd.h"
 	#endif
 
 	#if (!defined __EXT_RESIZABLE_DIALOG_H)
-		#include <ExtResizableDialog.h>
+		#include "ExtResizableDialog.h"
 	#endif
 
 	#if (!defined __EXTCOLORCTRL_H)
-		#include <ExtColorCtrl.h>
+		#include "ExtColorCtrl.h"
 	#endif
 
 	#if (!defined __EXTCOLORDLG_H)
-		#include <ExtColorDlg.h>
+		#include "ExtColorDlg.h"
 	#endif
 
 	#if (!defined __EXT_TEMPL_H)
-		#include <ExtTempl.h>
+		#include "ExtTempl.h"
 	#endif
 
 #endif // !__PROF_UIS_IMPL__

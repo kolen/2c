@@ -28,7 +28,7 @@
 #endif // _MSC_VER >= 1000
 
 #if (!defined __EXT_MOUSECAPTURESINK_H)
-	#include <../Src/ExtMouseCaptureSink.h>
+	#include "../Src/ExtMouseCaptureSink.h"
 #endif
 
 #if (!defined __EXT_MFC_NO_RTF_TOOLTIPS)

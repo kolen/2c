@@ -28,7 +28,7 @@
 #include <afxtempl.h>
 #include <afxrich.h>		// MFC rich edit classes
 
-#include <Prof-UIS.h>
+#include "Prof-UI\Include\Prof-UIS.h"
 
 
 //Messages

@@ -28,7 +28,7 @@
 #endif // __EXT_MFC_DEF_H
 
 #if (!defined __EXT_MEMORY_DC_H)
-	#include <../Src/ExtMemoryDC.h>
+	#include "../Src/ExtMemoryDC.h"
 #endif
 
 #if (!defined __EXT_PAINT_MANAGER_H)

@@ -28,7 +28,7 @@
 #endif // __EXT_MFC_DEF_H
 
 #if (!defined __EXT_TEMPL_H)
-	#include <ExtTempl.h>
+	#include "ExtTempl.h"
 #endif // __EXT_TEMPL_H
 
 #if (!defined __EXT_BUTTON_H)
