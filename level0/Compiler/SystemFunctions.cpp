@@ -2137,6 +2137,116 @@ CValue GetSysRegistersObjectsArray(CValue **pv)//ПолучитьМассивСистемныхОбъектов
 	((CValueArray*)vRet.pRef)->Sort();
 	return vRet;
 }
+CValueArray aEvents;
+CValue RegisterEvent(CValue **p)//ЗарегистрироватьСобытие
+{
+	//AfxMessageBox("регистрация события: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+	if (aEvents.FindId(p[0]->GetString()))
+	{
+		//AfxMessageBox("Не зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+		return 0;
+	}
+	CValueArray aEventName;
+	aEvents.SetAt(p[0]->GetString(),aEventName);
+	//AfxMessageBox("Зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+	return 1;
+}
+
+CValue NotifyEvent(CValue **p)//ВызватьСобытие
+{
+	CValue aEventName;
+	aEventName.CreateObject("Массив");
+	CValueArray *pEventName=(CValueArray *)aEventName.pRef;
+	pEventName->Load(aEvents.GetAt(p[0]->GetString()),0,0);
+	pEventName->Sort(CValue(),0);
+	int nDimStrSize=pEventName->GetSizeStrArray(); //КоличествоОбработчиков
+	if (nDimStrSize==0)
+	{
+		//Message(CValue("Cобытие: "+p[0]->GetString()+" не существует"));
+		return 0;
+	}
+	CValue *aP[7];
+	int i=1;
+	while(p[i]->nType!=TYPE_EMPTY)
+	{
+		aP[i-1]=p[i];
+		i++;
+	}
+	CString csFunctionName;
+	//Message(CValue("Вызов события: "+p[0]->GetString()));
+	int nDimSize=i-1; //КоличествоПараметров
+	for (int j=1;j<=nDimStrSize;j++)
+	{
+		
+		csFunctionName=pEventName->GetIdentifierByNumber(j-1);
+		CString csModuleName=Mid(aEventName.GetAt(csFunctionName),3,0);
+		CProcUnit *pModule;
+		ASSERT(AfxGetModuleManager());
+		pModule=AfxGetModuleManager()->GetRunModule(csModuleName,0,0);
+		CValue CheckEnd=pModule->CallFunction(csFunctionName,aP,nDimSize);
+		//Message(CValue("-Cобытие: "+p[0]->GetString()+" вызов обработчика "+csFunctionName+" из модуля:"+csModuleName));
+		if (CheckEnd.GetNumber()!=0) break;
+	}
+
+	return 1;
+}
+
+CValue SubscribeOnEvent(CValue **p)//ПодписатьсяНаСобытие
+{
+
+	CString csEventName=p[0]->GetString();
+	CString csFunctionName=p[1]->GetString();
+	int nErrorFlag;
+	if (p[2]->GetType()==TYPE_NUMBER)
+		nErrorFlag=p[2]->GetNumber();
+	else
+		nErrorFlag=0;
+
+	int nPriority;
+	if (p[3]->GetType()==TYPE_NUMBER)
+		nPriority=p[3]->GetNumber();
+	else
+		nPriority=50;		
+
+	CRunContext *pCont=AfxGetCurrentRunContext();
+	CProcUnit  *pModule;
+	pModule=pCont->pProcUnit;
+	CByteCode *pByteCode=pModule->pByteCode;
+	CString csModuleName=Right(CValue(nPriority+100),2)+pByteCode->csModuleName;
+	if (aEvents.FindId(csEventName))
+	{
+	    CValue aEventName;
+		aEventName.CreateObject("Массив");
+		CValueArray *pEventName=(CValueArray *)aEventName.pRef;
+		if (aEvents.GetAt(csEventName).GetType()==TYPE_ARRAY)
+		{
+			pEventName->Load(aEvents.GetAt(csEventName),0,0);
+			if (pEventName->FindId(csFunctionName))
+			{
+				//AfxMessageBox("Подписка на событие уже есть: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+				return 0;
+			}
+			else
+			{
+				aEventName.SetAt(csFunctionName,CValue(csModuleName));
+				aEvents.SetAt(p[0]->GetString(),aEventName);
+				//AfxMessageBox("Подписка на событие: "+p[0]->GetString()+" обработчик "+csFunctionName+" из модуля:"+csModuleName,MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+			}
+		}
+		else
+		{
+			aEventName.SetAt(csFunctionName,CValue(csModuleName));
+			aEvents.SetAt(p[0]->GetString(),aEventName);
+			//AfxMessageBox("Подписка на событие: "+p[0]->GetString()+" обработчик "+csFunctionName+" из модуля:"+csModuleName,MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+		}
+	}
+	else
+	{
+		//Message(CValue("Cобытие: "+p[0]->GetString()+" не существует"));
+		return 0;
+	}
+	return 1;
+}
 
 
 //Массив
@@ -2489,6 +2599,15 @@ struct SCallFunction DefSystemFunctionsArray[]=
 
     {"ПолучитьМассивСистемныхОбъектов",	    0,GetSysRegistersObjectsArray,"ПолучитьМассивСистемныхОбъектов()"},
     {"GetSysRegistersObjectsArray",			0,GetSysRegistersObjectsArray},
+
+	{"ЗарегистрироватьСобытие",	    1,RegisterEvent,"ЗарегистрироватьСобытие(ИмяСобытия)"},
+    {"RegisterEvent",				1,RegisterEvent},
+
+	{"ВызватьСобытие",			    8,NotifyEvent,"ВызватьСобытие(ИмяСобытия,Параметры...)"},
+    {"NotifyEvent",			        8,NotifyEvent},
+
+	{"ПодписатьсяНаСобытие",	    4,SubscribeOnEvent,"ПодписатьсяНаСобытие(ИмяСобытия,ИмяОбработчика,ФлагОшибки)"},
+    {"SubscribeOnEvent",			4,SubscribeOnEvent},
 
 
 	{"END",0,NULL},
