@@ -1279,10 +1279,24 @@ CValue CProcUnit::CallFunction(int nCodeLine,CValue &vParam1,CValue &vParam2)
 	return Ret;
 }
 
-
 void CProcUnit::SetAttribute(int iName,CValue &Val)//установка атрибута
-{
+{	
 	*cCurContext.pRefLocVars[iName]=Val;
+}
+void CProcUnit::SetAttribute(CString csName,CValue &Val)//установка атрибута
+{	
+	int iName=FindAttribute(csName);
+	if(iName==-1)
+	{
+		iName=cCurContext.GetLocalCount();
+		cCurContext.SetLocalCount(iName+1);
+		cCurContext.cLocVars[iName]=CValue(csName);
+		*cCurContext.pRefLocVars[iName]=Val;
+	}
+	else
+	{
+		*cCurContext.pRefLocVars[iName]=Val;
+	}
 }
 CValue CProcUnit::GetAttribute(int iName)//значение атрибута
 {

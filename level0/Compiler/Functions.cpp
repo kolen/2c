@@ -653,9 +653,14 @@ int RegisterEvent(CString csEventName)//ЗарегистрироватьСобытие
 		//AfxMessageBox("Не зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
 		return 0;
 	}
-	CValueArray aEventName;
-	aEvents.SetAt(csEventName,aEventName);
-	//AfxMessageBox("Зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+	//CValue aEventName;
+	//aEventName.CreateObject("Массив");
+	//CValueArray *pEventName=(CValueArray *)aEventName.pRef;
+	//pEventName->SetAt(1,1);
+
+	//aEvents.SetAt(csEventName,aEventName);
+	aEvents.SetAt(csEventName,CValueArray());
+	//Message(CValue("Зарегистрировано событие: "+csEventName));
 	return 1;
 }
 
@@ -664,14 +669,17 @@ int NotifyEvent(CString csEventName, CValue **p)//ВызватьСобытие
 	CValue aEventName;
 	aEventName.CreateObject("Массив");
 	CValueArray *pEventName=(CValueArray *)aEventName.pRef;
+	if(aEvents.GetAt(csEventName).GetType()==TYPE_EMPTY) return 0;
 	pEventName->Load(aEvents.GetAt(csEventName),0,0);
-	pEventName->Sort();
 	int nDimStrSize=pEventName->GetSizeStrArray(); //КоличествоОбработчиков
+	//Message(CValue("Кол. обработчиков: "+CValue(nDimStrSize)));
 	if (nDimStrSize==0)
 	{
 		//Message(CValue("Cобытие: "+p[0]->GetString()+" не существует"));
-		return 0;
+		return -1;
 	}
+	pEventName->Sort();
+	
 	CValue *aP[7];
 	int ii=0;
 	while(p[ii]->nType!=TYPE_EMPTY)
@@ -681,6 +689,7 @@ int NotifyEvent(CString csEventName, CValue **p)//ВызватьСобытие
 	}
 	int nDimSize=ii; //КоличествоПараметров
 	CString csFunctionName;
+	CValue CheckEnd=CValue(0);
 	for (int j=1;j<=nDimStrSize;j++)
 	{
 		
@@ -689,10 +698,10 @@ int NotifyEvent(CString csEventName, CValue **p)//ВызватьСобытие
 		CProcUnit *pModule;
 		ASSERT(AfxGetModuleManager());
 		pModule=AfxGetModuleManager()->GetRunModule(csModuleName,0,0);
-		CValue CheckEnd=pModule->CallFunction(csFunctionName,aP,nDimSize);
+		CheckEnd=pModule->CallFunction(csFunctionName,aP,nDimSize);
 		//Message(CValue("-Cобытие: "+p[0]->GetString()+" вызов обработчика "+csFunctionName+" из модуля:"+csModuleName));
 		if (CheckEnd.GetNumber()!=0) break;
 	}
 
-	return 1;
+	return CheckEnd;
 }

@@ -199,7 +199,7 @@ public:
 	CValue CallFunction(int nAddr,CValue **ppParams,int nReceiveParamCount=MAX_STATIC_VAR);
 
 
-
+	void SetAttribute(CString csName,CValue &Val);
 	void SetAttribute(int iName,CValue &Val);//установка атрибута
 	CValue GetAttribute(int iName);//значение атрибута
 	int  FindAttribute(CString csName);
