@@ -1328,7 +1328,7 @@ BOOL CFormUnit::Load()
 		try
 		{
 			aP[0]->SetString(csPath);
-			if(NotifyEvent("ѕриќткрытии‘ормы",aP)==0)
+			if(NotifyEvent("ѕриќткрытии‘ормы",aP)!=0)
 				return FALSE;
 		}
 		catch(...){}
@@ -1611,7 +1611,7 @@ CValue CFormUnit::MakeChoice(CValue Val)
 			vRet=vParentChoiceContext.CallFunction("ќбработкаѕодбора",&Val,&vContext);
 		else
 		if(vParentChoiceContext.FindMethod("ProcessPermanentChoice")>=0)
-		vRet=vParentChoiceContext.CallFunction("ProcessPermanentChoice",&Val,&vContext);
+			vRet=vParentChoiceContext.CallFunction("ProcessPermanentChoice",&Val,&vContext);
 
 		return vRet;
 	}
