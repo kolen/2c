@@ -32,7 +32,7 @@ CAPTION "О программе"
 FONT 8, "MS Sans Serif"
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
-    LTEXT           "2C: Enterprise (release from May 22 2004)",
+    LTEXT           "gpl-2C: Enterprise (release from May 22 2004)",
                     IDC_ENTERPRISE_NAME,35,10,150,8,SS_NOPREFIX
     LTEXT           "Copyright (C)  VTOOLS.RU, 2003-2004",IDC_STATIC,35,20,
                     133,8
