@@ -88,8 +88,8 @@ void CValueFileSystem::PrepareNames(void)
 		{"LockFile ","ЗаблокироватьФайл","ЗаблокироватьФайл(ИмяФайла,Позиция=0,Длина=1) /блокировка участка файла/"},
 		{"UnLockFile ","РазблокироватьФайл","РазблокироватьФайл(ИмяФайла,Позиция=0,Длина=1) /разблокировка участка файла/"},
 		{"UnLockAllFile ","РазблокироватьВсеФайлы","РазблокироватьВсеФайлы() /разблокировка всех ранее заблокированных файлов/"},
-
-
+		{"WriteData ","ЗаписатьДанные","ЗаписатьДанные(ИмяФайла,СтрДанные,Позиция) /записать данные в файл с указанной позиции"},
+		{"ReadData ","ПрочитатьДанные","ПрочитатьДанные(ИмяФайла,Позиция,Длина) /прочитать данные из файла с указанной позиции"},
 	};
 	int nCountM=sizeof(aMethods)/sizeof(aMethods[0]);
 	Methods.Prepare(aMethods,nCountM);
@@ -114,6 +114,8 @@ enum
 	enLockFile,
 	enUnLockFile,
 	enUnLockAllFile,
+	enWriteData,
+	enReadData,
 };
 
 
@@ -369,6 +371,43 @@ CValue CValueFileSystem::Method(int iName,CValue **p)
 			{
 				CloseAllHandle();
 				Ret=1;
+				break;
+			}
+		case enWriteData:
+			{
+				CString sFileName=p[0]->GetString();
+				CString Str=p[1]->GetString();
+				int nPos=p[2]->GetNumber();
+				HANDLE hFile=CreateFile(sFileName,GENERIC_WRITE,0,NULL,CREATE_ALWAYS,NULL,NULL);
+				if(hFile)
+				{
+					DWORD dwWrite=Str.GetLength();
+					SetFilePointer(hFile,nPos,NULL,FILE_BEGIN);
+					WriteFile(hFile,Str.GetBuffer(0),dwWrite,&dwWrite,NULL);
+					CloseHandle (hFile);
+				}
+				break;
+			}
+		case enReadData:
+			{
+				CString sFileName=p[0]->GetString();
+				int nPos=p[1]->GetNumber();
+				int nLenght=p[2]->GetNumber();
+				HANDLE hFile=CreateFile(sFileName,GENERIC_WRITE,0,NULL,CREATE_ALWAYS,NULL,NULL);
+				if(hFile)
+				{
+					SetFilePointer(hFile,nPos,NULL,FILE_BEGIN);
+					DWORD dwRead;
+					char *pBuf=new char [nLenght+1];
+					pBuf[nLenght]=0;
+					if(!ReadFile(hFile,pBuf,nLenght,&dwRead,NULL))
+					{
+						CloseHandle (hFile);
+						Error(ERROR_FILE_READ,sFileName.GetBuffer(0));
+					}
+					CloseHandle (hFile);
+					return pBuf;
+				}
 				break;
 			}
 	}
