@@ -46,16 +46,14 @@ CValue CValueContext::Method(int iName,CValue **p)
 	if(iName==EXT_ATTRIBUTE_CALL)
 	{
 		int n=FindAttribute(p[0]->GetString());
-		if(n<0)
-			Error(CString("Атрибут ")+p[0]->GetString()+" не найден");
+		//if(n<0)
+		//	Error(CString("Атрибут ")+p[0]->GetString()+" не найден");
 		if(p[1]->nType==0)
 			return GetAttribute(n);
 		else
 			SetAttribute(n,*p[1]);
 		return CValue();
 	}
-
-
 	if(iName>=0&&pRun)
 		return pRun->CallFunction(iName,p);
 	return CValue();
