@@ -920,7 +920,7 @@ CValue Max(CValue **p)
 	CValue *pRes=p[0];
 	while(p[i]->nType!=TYPE_EMPTY)
 	{
-		if(p[i]->fData>p[i-1]->fData)
+		if(p[i]->fData>pRes->fData)
 			pRes=p[i];
 		i++;
 	}
