@@ -18,7 +18,7 @@
 #include <afxwin.h>
 #include "CompileModule.h"
 #include "../ModuleManager.h"
-
+#include "ValueArray.h"
 //extern int afxCountTryCatchList;
 extern int afxEventMessage;
 CString afxStrErrorMessage;
@@ -644,3 +644,55 @@ BOOL GrantCheck(CString csPathName)
 	return 1;
 }
 //-----------------------------------------------------
+CValueArray aEvents;
+int RegisterEvent(CString csEventName)//ЗарегистрироватьСобытие
+{
+	//AfxMessageBox("регистрация события: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+	if (aEvents.FindId(csEventName))
+	{
+		//AfxMessageBox("Не зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+		return 0;
+	}
+	CValueArray aEventName;
+	aEvents.SetAt(csEventName,aEventName);
+	//AfxMessageBox("Зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
+	return 1;
+}
+
+int NotifyEvent(CString csEventName, CValue **p)//ВызватьСобытие
+{
+	CValue aEventName;
+	aEventName.CreateObject("Массив");
+	CValueArray *pEventName=(CValueArray *)aEventName.pRef;
+	pEventName->Load(aEvents.GetAt(csEventName),0,0);
+	pEventName->Sort();
+	int nDimStrSize=pEventName->GetSizeStrArray(); //КоличествоОбработчиков
+	if (nDimStrSize==0)
+	{
+		//Message(CValue("Cобытие: "+p[0]->GetString()+" не существует"));
+		return 0;
+	}
+	CValue *aP[7];
+	int ii=0;
+	while(p[ii]->nType!=TYPE_EMPTY)
+	{
+		aP[ii]=p[ii];
+		ii++;
+	}
+	int nDimSize=ii; //КоличествоПараметров
+	CString csFunctionName;
+	for (int j=1;j<=nDimStrSize;j++)
+	{
+		
+		csFunctionName=pEventName->GetIdentifierByNumber(j-1);
+		CString csModuleName=Mid(aEventName.GetAt(csFunctionName),3,0);
+		CProcUnit *pModule;
+		ASSERT(AfxGetModuleManager());
+		pModule=AfxGetModuleManager()->GetRunModule(csModuleName,0,0);
+		CValue CheckEnd=pModule->CallFunction(csFunctionName,aP,nDimSize);
+		//Message(CValue("-Cобытие: "+p[0]->GetString()+" вызов обработчика "+csFunctionName+" из модуля:"+csModuleName));
+		if (CheckEnd.GetNumber()!=0) break;
+	}
+
+	return 1;
+}

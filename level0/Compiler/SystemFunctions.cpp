@@ -26,6 +26,8 @@ BOOL bHasError=0;
 
 CString GetHash(CString csPassword);
 CString GetPassword(CString csHash);
+int RegisterEvent(CString csEventName);
+int NotifyEvent(CString csEventName, CValue **p);
 CMap <void*,void*,CString,CString&> *GetRegistersObjectsArray();
  
 
@@ -2137,58 +2139,19 @@ CValue GetSysRegistersObjectsArray(CValue **pv)//ПолучитьМассивСистемныхОбъектов
 	((CValueArray*)vRet.pRef)->Sort();
 	return vRet;
 }
-CValueArray aEvents;
+
+extern CValueArray aEvents;
 CValue RegisterEvent(CValue **p)//ЗарегистрироватьСобытие
 {
-	//AfxMessageBox("регистрация события: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
-	if (aEvents.FindId(p[0]->GetString()))
-	{
-		//AfxMessageBox("Не зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
-		return 0;
-	}
-	CValueArray aEventName;
-	aEvents.SetAt(p[0]->GetString(),aEventName);
-	//AfxMessageBox("Зарегистрировано событие: "+p[0]->GetString(),MB_OK | MB_ICONSTOP|MB_APPLMODAL);
-	return 1;
+    return CValue(RegisterEvent(p[0]->GetString()));
 }
 
 CValue NotifyEvent(CValue **p)//ВызватьСобытие
 {
-	CValue aEventName;
-	aEventName.CreateObject("Массив");
-	CValueArray *pEventName=(CValueArray *)aEventName.pRef;
-	pEventName->Load(aEvents.GetAt(p[0]->GetString()),0,0);
-	pEventName->Sort(CValue(),0);
-	int nDimStrSize=pEventName->GetSizeStrArray(); //КоличествоОбработчиков
-	if (nDimStrSize==0)
-	{
-		//Message(CValue("Cобытие: "+p[0]->GetString()+" не существует"));
-		return 0;
-	}
 	CValue *aP[7];
-	int i=1;
-	while(p[i]->nType!=TYPE_EMPTY)
-	{
-		aP[i-1]=p[i];
-		i++;
-	}
-	CString csFunctionName;
-	//Message(CValue("Вызов события: "+p[0]->GetString()));
-	int nDimSize=i-1; //КоличествоПараметров
-	for (int j=1;j<=nDimStrSize;j++)
-	{
-		
-		csFunctionName=pEventName->GetIdentifierByNumber(j-1);
-		CString csModuleName=Mid(aEventName.GetAt(csFunctionName),3,0);
-		CProcUnit *pModule;
-		ASSERT(AfxGetModuleManager());
-		pModule=AfxGetModuleManager()->GetRunModule(csModuleName,0,0);
-		CValue CheckEnd=pModule->CallFunction(csFunctionName,aP,nDimSize);
-		//Message(CValue("-Cобытие: "+p[0]->GetString()+" вызов обработчика "+csFunctionName+" из модуля:"+csModuleName));
-		if (CheckEnd.GetNumber()!=0) break;
-	}
-
-	return 1;
+	for (int i=0;i<7;i++)
+		aP[i]=p[i+1];
+	return CValue(NotifyEvent(CString(p[0]->GetString()),aP));
 }
 
 CValue SubscribeOnEvent(CValue **p)//ПодписатьсяНаСобытие
