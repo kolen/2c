@@ -18,6 +18,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+int RegisterEvent(CString csEventName);
 CString LoadFromFile(CString csFileName);
 void SortList(CArray <CString,CString&>  &List);
 
@@ -303,6 +304,7 @@ void CModuleManager::Load(BOOL bRunFunction)
 		if(bRunFunction)
 		{
 			//все общие модули
+			RegisterEvent("ѕриќткрытии‘ормы");
 			for(int nMode=1;nMode<=3;nMode++)//запуск по приоритетам
 			for(int k=0;k<aRunModules.GetSize();k++)
 			if(nMode==aRunModules[k]->nCommonModule)
