@@ -1258,7 +1258,8 @@ void CDynControl::CreateMicroForm()
 	pControl->m_csObjName=m_csObjName;
 	
 	//eventVal - хранится контекст формы
-	OpenFormExt(m_csObjName,eventVal,CValue(),csFileName,"",0, 0,0,FormParam, pControl,m_pParentWnd);
+	OpenFormExt(m_csObjName,eventVal,FormParam,csFileName,"",0, 0,0,FormParam, pControl,m_pParentWnd);
+	//OpenFormExt(m_csObjName,eventVal,CValue(),csFileName,"",0, 0,0,FormParam, pControl,m_pParentWnd);
 
 	if(m_bVisible||m_bConfigMode)
 		pControl->ShowWindow(SW_SHOW);
@@ -1410,6 +1411,8 @@ void CDynControl::OnUpdate()
 	if (m_nControlType == ID_DYNBUTTON) // BUTTON
 	{
 		CImageButton* pControl=(CImageButton*)m_pWnd;
+		pControl->SetTooltipText(m_csDescription,TRUE);
+		
 		pControl->SetTextColor(aDataList[4].Color);
 		int nPicture=aDataList[5].nData;//картинка
 		if(nPicture)
