@@ -106,6 +106,8 @@
 #define IDD_DIALOG3                     261
 #define IDD_LAYERSELECT_FORM            261
 #define IDD_DIALOG4                     262
+#define IDR_TOOLFORM                    270
+#define IDB_BITMAP9                     273
 #define IDC_WINDOWLIST_ACTIVATE         300
 #define IDC_WINDOWLIST_CLOSE            301
 #define IDC_WINDOWLIST_SAVE             302
@@ -382,6 +384,7 @@
 #define ID_VIEW_FORM                    33098
 #define ID_VIEW_MODULE                  -32437
 #define ID_VIEW_DESCRIPTION             -32436
+#define ID_BUTTON33102                  33102
 #define ID_EDIT_DELETE                  37000
 #define ID_EDIT_FIND_PREVIOUS           37126
 #define ID_FORMAT_BLOCK                 37199
@@ -463,9 +466,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        264
-#define _APS_NEXT_COMMAND_VALUE         33101
-#define _APS_NEXT_CONTROL_VALUE         1237
-#define _APS_NEXT_SYMED_VALUE           412
+#define _APS_NEXT_RESOURCE_VALUE        274
+#define _APS_NEXT_COMMAND_VALUE         33103
+#define _APS_NEXT_CONTROL_VALUE         1238
+#define _APS_NEXT_SYMED_VALUE           415
 #endif
 #endif
