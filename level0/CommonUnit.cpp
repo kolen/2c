@@ -9,7 +9,9 @@
 //#include "MicroForm.h"
 
  
-BOOL GrantCheck(CString csPathName);
+//BOOL GrantCheck(CString csPathName);
+int RegisterEvent(CString csEventName);
+int NotifyEvent(CString csEventName, CValue **p);
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -1319,11 +1321,19 @@ BOOL CFormUnit::Load()
 	if("CMicroForm"!=csName)//микроформу закрывать нельзя
 	{ 
 		//Поддержка проверки прав доступа.
-		if(!GrantCheck(csPath))
-			return FALSE;
+		//if(!GrantCheck(csPath))
+		CValue *aP[7];
+		for(int i=0;i<7;i++)
+			aP[i]=new CValue();
+		try
+		{
+			aP[0]->SetString(csPath);
+			if(NotifyEvent("ПриОткрытииФормы",aP)==0)
+				return FALSE;
+		}
+		catch(...){}
 	}
-
-	return TRUE;
+	return  TRUE;
 }
 
 extern int glVirtKey;
