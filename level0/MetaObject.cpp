@@ -45,6 +45,7 @@ void CMetaObject::SaveToInfo()
 	vExtVal.SetAt("Comment",String(csComment));
 	vExtVal.SetAt("Enable",bEnable);
 	vExtVal.SetAt("Param1",String(csParam1));
+	vExtVal.SetAt("NameDB",String(csIdDB));
 
 	vExtVal.SaveToString(csInfo);
 
@@ -60,6 +61,7 @@ void CMetaObject::LoadFromInfo()
 //		csComment=vExtVal.GetAt("Comment").GetString();
 		bEnable=vExtVal.GetAt("Enable")?1:0;
 		csParam1=vExtVal.GetAt("Param1").GetString();
+		csIdDB=vExtVal.GetAt("NameDB").GetString();
 	}
 	else
 	{
@@ -109,6 +111,7 @@ BOOL CMetaObject::Load(CZipArchive &m_zip,CString csFileName,CString csObjName)
 	csOldName=csObjName;
 	csAlias="";
 	csComment="";
+	csIdDB="";
 	csForm=ReadFileToString(m_zip,csFileName+".frm",csAlias,csComment);
 	csFile=ReadFileToString(m_zip,csFileName,csAlias,csComment);
 	int n=csFile.GetLength();

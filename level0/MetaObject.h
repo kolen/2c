@@ -44,6 +44,7 @@ public:
 	CString csAlias;		//синоним объекта
 	CString csComment;		//комментарий объекта
 	bool	bEnable;		//использование объекта в конфигурации
+	CString csIdDB;		    //идентификатор БД
 	//int		nImage;
 
 //	class CObjectData *pData;		//дополнительные данные по поведению объекта в конфигураторе

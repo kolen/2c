@@ -1359,6 +1359,7 @@ void CMetadataTree::ShowProperty(bool bShow)
 		AfxGetProperty()->AddProperty("Основные","Синоним",pObj->csAlias);
 		AfxGetProperty()->AddProperty("Основные","Комментарий",pObj->csComment);
 		AfxGetProperty()->AddProperty("Основные","Использование",pObj->bEnable);
+		AfxGetProperty()->AddProperty("Основные","ИдентификаторБД",pObj->csIdDB);
 
 
 		//TVIS_CUT 
