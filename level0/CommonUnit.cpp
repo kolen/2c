@@ -130,6 +130,7 @@ void CFormUnit::Init()
 	m_hIcon=0;
 	nLineSelect=0;
 	nRunCount=0;
+
 }
 
 CFormUnit::~CFormUnit()
@@ -357,14 +358,16 @@ BOOL CALLBACK VIRUALFUNCTION(GV_DISPINFO *dispinfo, LPARAM lParam)
 #define FORM_DELTA_X	form_dx+10
 #define FORM_DELTA_Y	form_dy+30
 
+
+
 void CFormUnit::SetFormSize() 
 {
 #ifndef CFormUnit
 	::SetWindowPos(GetParentFrame()->m_hWnd,0,0, 0, FORM_DELTA_X, FORM_DELTA_Y,SWP_NOREPOSITION | SWP_NOSENDCHANGING | SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOREDRAW);
 
 	SIZE size;
-	size.cx=form_dx-5;
-	size.cy=form_dy-5;
+	size.cx=form_dx-10;
+	size.cy=form_dy-10;
 	SetScrollSizes( MM_TEXT, size,size,size);
 	GetParentFrame()->RecalcLayout();
 #else
@@ -1333,7 +1336,12 @@ BOOL CFormUnit::Load()
 		}
 		catch(...){}
 	}
-	return  TRUE;
+
+  
+  return TRUE;  // возвращает TRUE  до тех пор, пока ¬ы не установите
+                // фокус на элемент управлени€
+
+
 }
 
 extern int glVirtKey;
