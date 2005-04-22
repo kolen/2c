@@ -378,7 +378,7 @@ void CMetadataTree::OnRButtonUp(UINT nFlags, CPoint point)
 				pPopup->EnableMenuItem(ID_INSERT_FORM,MF_BYCOMMAND|MF_ENABLED );
 		}
 
-		//ищем модули и формы, которые можно отрыть на редактирование
+		//ищем модули и формы, которые можно открыть на редактирование
 		int nPos=4;
 		aMenuItem.RemoveAll();
 		AddMenuInfo(pPopup,CurItem,nPos);
@@ -1369,6 +1369,7 @@ void CMetadataTree::ShowProperty(bool bShow)
 			CString Str=aChooseList[nTypeValue];
 			CObjectData *pData=&dataMetaObj[hSel];
 
+			AfxGetProperty()->AddProperty("Основные","Параметр",pObj->csParam1);
 			AfxGetProperty()->AddProperty("Основные","Тип элемента",pData->sType,Str);
 			AfxGetProperty()->AddProperty("Основные","Длина",pData->nLength);
 			AfxGetProperty()->AddProperty("Основные","Точность",pData->nPrec,0,10);
