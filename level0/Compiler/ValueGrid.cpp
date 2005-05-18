@@ -172,6 +172,8 @@ enum
 	enPrec,
 	enSetControlRect,
 	enGetControlRect,
+	enSetCoveredCells,
+	enSetUnCoveredCells,
 };
 void CValueGrid::PrepareNames(void)
 {
@@ -270,6 +272,8 @@ void CValueGrid::PrepareNames(void)
 		{"ColumnPrecision","ТочностьКолонки"},//enPrec
 		{"SetControlRect","УстановитьКоординаты"},
 		{"GetControlRect","ПолучитьКоординаты"},
+		{"SetCoveredCells","ОбъединитьЯчейки"}, //enSetCoveredCells,
+		{"SetUncoveredCells","РазъединитьЯчейки"}, //enSetUncoveredCells,
 		
 	};
 	int nCountM=sizeof(aMethods)/sizeof(aMethods[0]);
@@ -777,7 +781,7 @@ CValue CValueGrid::Method(int iName,CValue **p)
 			if(pGrid)
 			{
 				CImageList *hPictureForIcon=new CImageList();
-				hPictureForIcon->Create( p[1]->GetNumber(), p[2]->GetNumber(), ILC_COLOR4, 1, 10);
+				hPictureForIcon->Create( p[1]->GetNumber(), p[2]->GetNumber(), ILC_COLOR8, 1, 10);
 				HBITMAP h=(HBITMAP)LoadImage(NULL,CString(p[0]->GetString()), IMAGE_BITMAP, 0,
 					0, LR_DEFAULTSIZE|LR_LOADFROMFILE);
 				if(!h)
@@ -1331,6 +1335,24 @@ CValue CValueGrid::Method(int iName,CValue **p)
 				*p[3] = CValue(mRect.bottom - mRect.top);
 				break;
 			}
+		case enSetCoveredCells:
+			{
+				if(p[0]->GetType()!=0&&p[1]->GetType()!=0&&p[2]->GetType()!=0&&p[3]->GetType()!=0)
+				{
+					pGrid->SetCoveredCells(p[0]->GetNumber(),p[1]->GetNumber(),p[2]->GetNumber(),p[3]->GetNumber());
+				}
+				break;
+			}
+		case enSetUnCoveredCells:
+			{
+				if(p[0]->GetType()!=0&&p[1]->GetType()!=0)
+				{
+					pGrid->SetUnCoveredCells(p[0]->GetNumber(),p[1]->GetNumber(),0);
+				}
+				break;
+			}
+		
+			
 
 	}
 	
