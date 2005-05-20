@@ -807,7 +807,6 @@ CValue SetTimer(CValue **p)//УстановитьТаймер
 	CString Str;
 	CValue vContext=*afxCurrentRunModule->pByteCode->aExternValue[0];//GetAttribute(0);
 	Str.Format("%d:%s",(UINT)vContext.pRef,p[0]->GetString());
-
 	DeleteTimer(Str);
 	int nTime=p[1]->GetNumber();
 	if(nTime>0)

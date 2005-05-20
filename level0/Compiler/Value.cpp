@@ -635,7 +635,7 @@ CValue CValue::Method(CString csName,CValue **aParams)
 	if(iName>=0)
 		return pThis->Method(iName,aParams);
 
-	SetError(CString("Значение не представляет агрегатный объект (")+csName+")");
+	SetError(CString("Значение не представляет агрегатный объект (")+GetTypeString()+"."+csName+")");
 	return *this;
 }
 
