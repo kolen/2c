@@ -1023,7 +1023,9 @@ void CGridCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				next.row--;
 			}
 			if( !bFoundVisible)
+			{
 				next.row = iOrig;
+			}
 		}
     }
     else if (nChar == VK_RIGHT || (nChar == VK_TAB && !IsSHIFTpressed()) )
@@ -1201,6 +1203,7 @@ void CGridCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
         // Added check for NULL mouse mode - Chris Maunder.
         //if (m_MouseMode == MOUSE_NOTHING)//а убрал проверку я :-)
         {
+			
             m_PrevSelectedCellMap.RemoveAll();
             m_MouseMode = m_bListMode? MOUSE_SELECT_ROW : MOUSE_SELECT_CELLS;
             if (!IsSHIFTpressed() || nChar == VK_TAB)
@@ -1213,7 +1216,7 @@ void CGridCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
         if (!IsCellVisible(next))
         {
-
+			
             switch (nChar)
             {
             case VK_RIGHT:  
@@ -1270,14 +1273,16 @@ void CGridCtrl::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
                 break;
             }
             EnsureVisible(next); // Make sure cell is visible
-            Invalidate();
+            //Invalidate();
         }
-        EnsureVisible(next); // Make sure cell is visible
-
+        
+		EnsureVisible(next); // Make sure cell is visible
+		
 		if (bHorzScrollAction)
 			SendMessage(WM_HSCROLL, SB_ENDSCROLL, 0);
 		if (bVertScrollAction)
 			SendMessage(WM_VSCROLL, SB_ENDSCROLL, 0);
+		
     }
 }
 
@@ -1611,9 +1616,10 @@ void CGridCtrl::OnVScroll(UINT nSBCode, UINT /*nPos*/, CScrollBar* /*pScrollBar*
         if (scrollPos > 0 && idTopLeft.row > GetFixedRowCount())
         {
             int iRowToUse = idTopLeft.row-1;
-            // may have contiguous hidden rows.  Blow by them
+            
+			// may have contiguous hidden rows.  Blow by them
             while(  iRowToUse > GetFixedRowCount()
-                    && GetRowHeight( iRowToUse) < 1 )
+                    && GetRowHeight( iRowToUse) < 1)
             {
                 iRowToUse--;
             }
@@ -5731,8 +5737,7 @@ void CGridCtrl::EnsureVisible(int nRow, int nCol)
     int left  = VisibleCells.GetMinCol() - nCol;
     int down  = nRow - VisibleCells.GetMaxRow();
     int up    = VisibleCells.GetMinRow() - nRow;
-
-
+	
 	int delta=(VisibleCells.GetMaxRow()-VisibleCells.GetMinRow())/2;
 	if(down>0)
 		down+=delta;
@@ -5771,6 +5776,7 @@ void CGridCtrl::EnsureVisible(int nRow, int nCol)
     }
 
     iRowStart = VisibleCells.GetMinRow() - 1;
+	
     while( up > 0 )
     {
         if( GetRowHeight( iRowStart ) > 0 )
@@ -5784,10 +5790,8 @@ void CGridCtrl::EnsureVisible(int nRow, int nCol)
     CRect rectCell;
     if (!GetCellRect(nRow, nCol, rectCell))
         return;
-
-    GetClientRect(rectWindow);
-
-    // The previous fix was fixed properly by Martin Richter <martin.richter@grutzeck.de>
+	GetClientRect(rectWindow);
+	// The previous fix was fixed properly by Martin Richter <martin.richter@grutzeck.de>
     while (rectCell.right > rectWindow.right
            && rectCell.left > GetFixedColumnWidth())
     {
@@ -5803,7 +5807,7 @@ void CGridCtrl::EnsureVisible(int nRow, int nCol)
            && rectCell.top > GetFixedRowHeight())
     {
 		CRect PrevRect=rectCell;//Yuriy Iwanow 2003
-        SendMessage(WM_VSCROLL, SB_LINEDOWN, 0);
+		SendMessage(WM_VSCROLL, SB_LINEDOWN, 0);
         if (!GetCellRect(nRow, nCol, rectCell))
             return;
 		if(PrevRect==rectCell)//Yuriy Iwanow 2003
@@ -6784,7 +6788,7 @@ void CGridCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 void CGridCtrl::OnRButtonUp(UINT nFlags, CPoint point)
 {
     CWnd::OnRButtonUp(nFlags, point);
-	return;
+	//return;
 
 	m_bRMouseButtonDown = FALSE;
 
