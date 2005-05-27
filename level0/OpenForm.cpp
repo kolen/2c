@@ -104,18 +104,21 @@ int OpenFormExt2(CString csFormName,CValue &vContext, CValue Param,CString csFil
 	{
 		CDialogUnit dlg;
 		dlg.DoModal();
+		vContext=afxFormParam;
 	}
 	else
 	if(NORMAL_MODE==nMode && CONFIG_MODE==afxAppRunMode)
 	{
 		OpenFormMDI("»сполн€ема€‘орма",1,0,afxMetaObj);
+		vContext=afxFormContext;
 	}
 	else
 	if(EDITABLE_MODE==nMode || ENTERPRISE_MODE==afxAppRunMode)
 	{
 		OpenFormMDI("‘орма",1,0,afxMetaObj);
+		vContext=afxFormContext;
 	}
-	vContext=afxFormContext;
+	
 	return 1;
 }
 
