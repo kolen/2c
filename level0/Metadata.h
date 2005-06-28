@@ -139,6 +139,7 @@ public:
 
 	CString ReadFileToString(CString csKey,CString &csAlias,CString &csComment);
 	int WriteFileFromString(CString csModule,CString csKey,CString csAlias,CString csComment);
+	int WriteFileFromStream(void *pBuffer,int nSize,CString csFile,CString csKey,CString csAlias,CString csComment);
 	int DeleteData(CString csPath);
 	
 	void Clear();

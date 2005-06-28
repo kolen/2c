@@ -1240,8 +1240,6 @@ IDB_EDIT_MAKET          BITMAP  DISCARDABLE     "res\\bmp00011.bmp"
 IDB_EDIT_FORM           BITMAP  DISCARDABLE     "res\\edit_mak.bmp"
 IDB_EDIT_MODULE         BITMAP  DISCARDABLE     "res\\edit_for.bmp"
 IDB_EDIT_DOC            BITMAP  DISCARDABLE     "res\\bmp00012.bmp"
-IDR_TOOLFORM            BITMAP  DISCARDABLE     "res\\bmp00013.bmp"
-IDB_BITMAP9             BITMAP  DISCARDABLE     "res\\bitmap9.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //

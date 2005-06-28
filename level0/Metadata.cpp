@@ -561,6 +561,12 @@ int CMetadata::WriteFileFromString(CString csModule,CString csKey,CString csAlia
 		return 0;
 	return ::WriteFileFromString(csModule,m_zip,csKey,csAlias,csComment,1);
 }
+int CMetadata::WriteFileFromStream(void *pBuffer,int nSize,CString csFile,CString csKey,CString csAlias,CString csComment)
+{
+	if(!OpenZip(OPEN_SAVE))
+		return 0;
+	return ::WriteFileFromStream(pBuffer,nSize,csFile,m_zip,csKey,csAlias,csComment,1);
+}
 
 int CMetadata::DeleteData(CString csPath)
 {

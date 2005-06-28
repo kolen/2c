@@ -161,13 +161,16 @@ int DeleteFolder(CZipArchive &m_zip,CString csPath)
 	return (nDelCount>0);
 }
 
-void OpenNewFile(CZipArchive &m_zip,CString csPath,CString csComment)
+void OpenNewFile(CZipArchive &m_zip,CString csPath,CString csComment,CString csFile)
 {
 	DeleteFile(m_zip,csPath);
 	CZipFileHeader header;
 	header.SetFileName(csPath);
 	header.SetComment(csComment);
-	bool bRes=m_zip.OpenNewFile(header,Z_BEST_SPEED);
+	if(csFile.IsEmpty())
+		bool bRes=m_zip.OpenNewFile(header,Z_BEST_SPEED);
+	else
+		bool bRes=m_zip.OpenNewFile(header,Z_BEST_SPEED,csFile);
 }
 
 void WriteInt(CZipArchive &m_zip,int nValue)
@@ -227,7 +230,7 @@ int WriteFileFromString(CString csModule,CZipArchive &m_zip,CString csKey,CStrin
 		return 0;
 	if(bMastSave||(!csModule.IsEmpty()))
 	{
-		OpenNewFile(m_zip,csKey,csAlias+"\n"+csComment);
+		OpenNewFile(m_zip,csKey,csAlias+"\n"+csComment,"");
 		m_zip.WriteNewFile(csModule.GetBuffer(0),csModule.GetLength());
 		csModule.ReleaseBuffer();
 		m_zip.CloseNewFile();
@@ -236,3 +239,17 @@ int WriteFileFromString(CString csModule,CZipArchive &m_zip,CString csKey,CStrin
 	return 0;
 }
 
+int WriteFileFromStream(void *pBuffer,int nSize,CString csFile,CZipArchive &m_zip,CString csKey,CString csAlias,CString csComment,BOOL bMastSave)
+{
+	if(csKey.IsEmpty())
+		return 0;
+	if(bMastSave||(!sizeof(pBuffer)))
+	{
+		OpenNewFile(m_zip,csKey,csAlias+"\n"+csComment,csFile);
+		m_zip.WriteNewFile(pBuffer, nSize);
+		delete []pBuffer;
+		m_zip.CloseNewFile();
+		return 1;
+	}
+	return 0;
+}

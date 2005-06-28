@@ -1295,7 +1295,7 @@ BOOL CFormUnit::Load()
 		}
 		catch(...)
 		{
-			AfxMessageBox(CString("Ошибка открытия файла ")+csPath);
+			AfxMessageBox(CString("Ошибка открытия файла: ")+csPath);
 			bCanOpen=0;
 			return FALSE;
 		}

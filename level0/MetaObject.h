@@ -15,13 +15,14 @@
 
 int DeleteFile(CZipArchive &m_zip,CString csPath);
 int DeleteFolder(CZipArchive &m_zip,CString csPath);
-void OpenNewFile(CZipArchive &m_zip,CString csPath,CString csComment);
+void OpenNewFile(CZipArchive &m_zip,CString csPath,CString csComment,CString csFile="");
 void WriteInt(CZipArchive &m_zip,int nValue);
 void WriteString(CZipArchive &m_zip,CString csStr);
 int ReadInt(CZipArchive &m_zip);
 CString ReadString(CZipArchive &m_zip);
 CString ReadFileToString(CZipArchive &m_zip,CString csKey,CString &csAlias,CString &csComment);
 int WriteFileFromString(CString csModule,CZipArchive &m_zip,CString csKey,CString csAlias,CString csComment,BOOL bMastSave=0);
+int WriteFileFromStream(void *pBuffer,int nSize,CString csFile,CZipArchive &m_zip,CString csKey,CString csAlias,CString csComment,BOOL bMastSave=0);
 
 #define MODULENAME	CString("module.2c")
 #define CONFIGNAME	CString("config.2c")
