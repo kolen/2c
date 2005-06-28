@@ -26,6 +26,7 @@ BOOL bHasError=0;
 
 CString GetHash(CString csPassword);
 CString GetPassword(CString csHash);
+CValue cvWorkingDate;
 int RegisterEvent(CString csEventName);
 int NotifyEvent(CString csEventName, CValue **p);
 CMap <void*,void*,CString,CString&> *GetRegistersObjectsArray();
@@ -1124,14 +1125,20 @@ CValue CurDate(void)
 }
 CValue WorkingDate(CValue &cValue,int nMode)
 {
-	return CurDate();
+	if(cValue.GetType()!=TYPE_EMPTY)
+		cvWorkingDate=Date(cValue);
+	if(cvWorkingDate.GetType()==TYPE_DATE)
+		return cvWorkingDate;
+	else
+		return CurDate();
+	
 }
-CValue AddMonth(CValue &cData,int nMonthAdd)
+CValue AddMonth(CValue &cData, int nMonthAdd)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
 	int SummaMonth=nYear*12+nMonth-1;
-	SummaMonth+=nMonthAdd;
+	SummaMonth=SummaMonth+ nMonthAdd;
 	nYear=SummaMonth/12;
 	nMonth=SummaMonth%12+1;
 	return Date(nYear,nMonth,nDay);
@@ -1140,13 +1147,15 @@ CValue BegOfMonth(CValue &cData)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
+	
 	return Date(nYear,nMonth,1);
 }
 CValue EndOfMonth(CValue &cData)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
-	return AddMonth(Date(nYear,nMonth,1))-1;
+	CValue Rez=AddMonth(Date(nYear,nMonth,1))-1;
+	return Date(Rez);
 }
 CValue BegOfQuart(CValue &cData)
 {
@@ -1156,7 +1165,8 @@ CValue BegOfQuart(CValue &cData)
 }
 CValue EndOfQuart(CValue &cData)
 {
-	return AddMonth(BegOfQuart(cData),3)-1;
+	CValue Rez=AddMonth(BegOfQuart(cData),3)-1;
+	return Date(Rez);
 }
 CValue BegOfYear(CValue &cData)
 {
@@ -1174,13 +1184,15 @@ CValue BegOfWeek(CValue &cData)
 {
 	int nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear;
 	cData.FromDate(nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear);
-	return Date(nYear,nMonth,nDay)-DayOfWeek+1;
+	CValue Rez=Date(nYear,nMonth,nDay)-DayOfWeek+1;
+	return Date(Rez);
 }
 CValue EndOfWeek(CValue &cData)
 {
 	int nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear;
 	cData.FromDate(nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear);
-	return Date(nYear,nMonth,nDay)+(7-DayOfWeek);
+	CValue Rez=Date(nYear,nMonth,nDay)+(7-DayOfWeek);
+	return Date(Rez);
 }
 int GetYear(CValue &cData)
 {
