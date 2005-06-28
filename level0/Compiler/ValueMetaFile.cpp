@@ -45,7 +45,9 @@ enum
 {
 	enOpen=0,
 	enSaveData,
+	enSaveData3,
 	enLoadData,
+	enLoadData3,
 	enSaveData2,
 	enLoadData2,
 	enSaveText,
@@ -60,7 +62,9 @@ void CValueMetadata::PrepareNames(void)
 	SEngRus aMethods[]={
 		{"Open","Открыть","Открыть(ИмяФайла,ФлагТолькоЧтение) - открытие внешнего файла метаданных"},
 		{"SaveData","ЗаписатьДанные","ЗаписатьДанные(Путь,Объект)"},
+		{"SaveDataFromFile","ЗагрузитьДанные","ЗагрузитьДанные(Путь,ИмяФайла,Синоним,Комментарий)"},
 		{"LoadData","ПрочитатьДанные","ПрочитатьДанные(Путь,Объект)"},
+		{"LoadDataToFile","ВыгрузитьДанные","ВыгрузитьДанные(Путь,ИмяФайла,Синоним,Комментарий)"},
 		{"SaveObject","ЗаписатьОбъект","ЗаписатьОбъект(Путь,Объект)"},
 		{"LoadObject","ПрочитатьОбъект","ПрочитатьОбъект(Путь,Объект)"},
 		{"SaveText","ЗаписатьТекст","ЗаписатьТекст(Путь,Текст)"},
@@ -152,6 +156,24 @@ CValue CValueMetadata::Method(int iName,CValue **p)
 				return 1;
 			}
 
+		case enSaveData3:
+			{   
+				CString csPath=GetFullMetaPath(csPathObject,p[0]->GetString());
+				CString csFile=p[1]->GetString();
+				int nSize=0;
+				char *buf=LoadFromFileBin(csFile,nSize);
+				if(buf)
+				{
+					if(bWasOpenZip)
+					{
+						return ::WriteFileFromStream(buf,nSize,csFile,m_zip,p[0]->GetString(),p[2]->GetString(),p[3]->GetString(),1);
+					}
+					else
+					{
+						return pMeta->WriteFileFromStream(buf,nSize,csFile,csPath,p[2]->GetString(),p[3]->GetString());
+					}
+				}
+			}
 		case enSaveData:
 		case enSaveData2:
 		case enSaveText:
@@ -174,6 +196,47 @@ CValue CValueMetadata::Method(int iName,CValue **p)
 				{
 					return pMeta->WriteFileFromString(csData,csPath,p[2]->GetString(),p[3]->GetString());
 				}
+			}
+		case enLoadData3:
+			{
+				CString csAlias,csComment;
+				CString csPath=GetFullMetaPath(csPathObject,p[0]->GetString());
+				CString csFile=p[1]->GetString();
+				
+				if(bWasOpenZip)
+				{
+					if(!csPath.IsEmpty())
+					{
+						int nRes=m_zip.FindFile(csPath);
+						if(nRes>=0)
+						{
+							bool bRes=m_zip.OpenFile(nRes);
+							CZipFileHeader fhInfo;
+							m_zip.GetFileInfo(fhInfo, nRes);
+							CString csDescription=fhInfo.GetComment();
+							int nIndex=csDescription.Find("\n");
+							csAlias=csDescription.Left(nIndex);
+							csComment=csDescription.Mid(nIndex+1);
+							int nSize=fhInfo.m_uUncomprSize;
+							char* pBuffer=new char [nSize+1];
+							pBuffer[nSize]=0;
+							DWORD nRez=m_zip.ReadFile(pBuffer,nSize);
+							if(FILE *sFile=fopen(csFile,"w+b"))
+							{
+						
+								fwrite(pBuffer,sizeof(char),nSize, sFile);
+								fclose(sFile);
+							}
+							delete []pBuffer;
+							m_zip.CloseFile();
+						}
+					}
+				}
+				Ret=1;
+				p[2]->SetString(csAlias);
+				p[3]->SetString(csComment);
+
+				break;
 			}
 		case enLoadData:
 		case enLoadData2:
