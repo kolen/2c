@@ -91,6 +91,7 @@ void CValueForm::Close()
 {
 	if(pWnd)
 	{
+		afxFormParam=vParam;
 		PWINDOW->SendMessage(WM_CLOSEFORM);
 	}
 };
@@ -606,6 +607,11 @@ void CValueForm::SetAttribute(int iName,CValue &Val)
 
 		if(iName<pValueList->GetSize()-1)
 			pValueList->GetAt(iName)->SetValue(Val);
+		if(iName=pValueList->GetSize()-1)
+		{
+			pValueList->GetAt(iName)->SetValue(Val);
+			vParam=Val;
+		}
 	}
 }
 
