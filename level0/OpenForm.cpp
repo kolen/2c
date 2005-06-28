@@ -50,41 +50,49 @@ int afxChoiceMode=0;
 #define MICROFORM_MODE	3// (or pControl!=0)
 int OpenFormExt2(CString csFormName,CValue &vContext, CValue Param,CString csFileName,CString csFormID,int nMode,  CValue vChoiceContext,int nChoiceMode,CValue vCurrentValue, CMicroForm* pControl,CWnd *pParent)
 {
+
 	afxFormPath="";
 	afxCurrentValue=vCurrentValue;
 	if(!pControl)
 		afxChoiceContext=vChoiceContext;
 	afxChoiceMode=nChoiceMode;
 	
-
 	if(csFormID.IsEmpty() && (!csFileName.IsEmpty()))
 		csFormID=csFileName;
 
 	if(!pControl)
-	if(!csFormID.IsEmpty())
 	{
-		if(CDialogUnit::FindOpen(csFormID))
+		if(!csFormID.IsEmpty())
 		{
-			vContext=afxFormContext;
-			return 1;
+			if(CDialogUnit::FindOpen(csFormID))
+			{
+				vContext=afxFormContext;
+				return 1;
+			}
+			if(CFormUnit::FindOpen(csFormID))
+			{
+				vContext=afxFormContext;
+				return 1;
+			}
 		}
-		if(CFormUnit::FindOpen(csFormID))
+		
+	}
+	try
+	{
+		int Ret=AfxGetModuleManager()->FindForm(csFormName,csFileName,afxMetaObj); 
+		if(!Ret)
 		{
-			vContext=afxFormContext;
-			return 1;
+			if(!pControl)
+				return 0;
 		}
 	}
-
-	if(!AfxGetModuleManager()->FindForm(csFormName,csFileName,afxMetaObj))
+	catch(...)
 	{
-		if(!pControl)
-			return 0;
+		afxMetaObj=new CMetaObject();
+
 	}
-
-
 	afxFormParam=Param;
 	afxFormID=csFormID;
-
 
 	if(pControl)//микроформа
 	{
