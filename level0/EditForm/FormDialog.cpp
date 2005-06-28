@@ -718,8 +718,8 @@ CDynControl *CFormDialog::AddControl(int nType,CPoint point)
 	CRect Rect;
 	Rect.left=point.x;
 	Rect.top=point.y;
-	Rect.right=Rect.left+10;
-	Rect.bottom=Rect.top+10;
+	Rect.right=Rect.left+20;
+	Rect.bottom=Rect.top+20;
 	UseGrid(&Rect);
 	point=Rect.TopLeft();
 

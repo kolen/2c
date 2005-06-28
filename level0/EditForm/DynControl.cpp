@@ -1256,11 +1256,10 @@ void CDynControl::CreateMicroForm()
 	CMicroForm* pControl = new CMicroForm();
 	pControl->m_bConfigMode=m_bConfigMode;
 	pControl->m_csObjName=m_csObjName;
-	
 	//eventVal - хранится контекст формы
 	OpenFormExt(m_csObjName,eventVal,FormParam,csFileName,"",0, 0,0,FormParam, pControl,m_pParentWnd);
 	//OpenFormExt(m_csObjName,eventVal,CValue(),csFileName,"",0, 0,0,FormParam, pControl,m_pParentWnd);
-
+	
 	if(m_bVisible||m_bConfigMode)
 		pControl->ShowWindow(SW_SHOW);
 
