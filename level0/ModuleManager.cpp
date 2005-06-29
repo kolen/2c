@@ -468,7 +468,7 @@ BOOL CModuleManager::FindObject(CString csFormName0,CString csFileName,CMetaObje
 			if(csFormName0.Mid(0,2)=="\\\\")//сетевой путь
 				csFileName=csFormName0;
 		}
-
+		
 		afxFormPath="";
 		if(!csFileName.IsEmpty())//явное задание файла
 		{
@@ -507,7 +507,7 @@ BOOL CModuleManager::FindObject(CString csFormName0,CString csFileName,CMetaObje
 			if(!pObject)
 				pObject=pMetadata->GetMetaObject(csObjectPath+"\\"+csFormName,csFormName,1);
 		}
-
+		
 		//ищем в общих формах
 		if(!pObject)
 			pObject=pMetadata->GetMetaObject(csCommonObjGroup+"\\"+csFormName,csFormName,1);
@@ -523,7 +523,6 @@ BOOL CModuleManager::FindObject(CString csFormName0,CString csFileName,CMetaObje
 */
 		if(!pObject)//полный путь
 			pObject=pMetadata->GetMetaObject(csFormName0,"",1);
-
 		if(!pObject)//неявное задание файла
 		{
 			if(!FileExist(csFormName0))
@@ -535,14 +534,13 @@ BOOL CModuleManager::FindObject(CString csFormName0,CString csFileName,CMetaObje
 
 	}
  
-
 	if(pObject)
 	{
 		return 1;
 	}
 	else
 	{
-		Message(String(CString("Оъект \"")+csFormName0+"\" не найден"));
+		Message(String(CString("Объект \"")+csFormName0+"\" не найден"));
 		return 0;
 	}
 
