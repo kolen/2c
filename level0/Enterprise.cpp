@@ -247,13 +247,13 @@ BOOL CEnterpriseApp::InitInstance()
 				break;
 			}
 			else
-			if(csMode=="/ENTERPRISE" || csMode=="ENTERPRISE")
+			if(csMode=="/ENTERPRISE" || csMode=="ENTERPRISE")   //Режим Предприятие
 				afxAppRunMode=ENTERPRISE_MODE;
 			else
-			if(csMode=="/CONFIG" || csMode=="CONFIG")
+			if(csMode=="/CONFIG" || csMode=="CONFIG")           //Режим Конфигуратор
 				afxAppRunMode=CONFIG_MODE;
 			else
-			if(csMode.Left(8)=="/DEFINE:")
+			if(csMode.Left(8)=="/DEFINE:")						//Общие константы уровня компиляции
 			{
 				CString Str=__argv[i];
 				CString csName,csValue;
@@ -272,7 +272,7 @@ BOOL CEnterpriseApp::InitInstance()
 				glDefList.SetDef(csName,csValue);
 			}
 			else
-			if(csMode.Left(2)=="/D")
+			if(csMode.Left(2)=="/D")							//Каталог конфигурации
 			{
 				csIBDir=csMode.Mid(2);
 				csIBDir.TrimRight();
@@ -282,7 +282,7 @@ BOOL CEnterpriseApp::InitInstance()
 				csIBDir.TrimRight();
 			}
 			else
-			if(csMode.Left(6)=="/TITLE")
+			if(csMode.Left(6)=="/TITLE")						//Заголовок главного окна
 			{
 				CString csMode=__argv[i];
 				csMode=csMode.Mid(6);
@@ -292,44 +292,44 @@ BOOL CEnterpriseApp::InitInstance()
 				csTitleWndOrig=csMode;
 			}
 			else
-			if(csMode.Right(3)==".FD")
+			if(csMode.Right(3)==".FD")							//Запуск внешней формы
 			{
 				if(FileExist(csMode))
 					csRunProgram=csMode;
 			}
 			else
-			if(csMode.Left(2)=="/U")
+			if(csMode.Left(2)=="/U")							//Каталог пользователя
 			{
 				CString csMode=__argv[i];
 				csMode=csMode.Mid(2);
 				csUserPath=csMode;
 			}
 			else
-			if(csMode.Left(2)=="/N")
+			if(csMode.Left(2)=="/N")							//Имя пользователя
 			{
 				CString csMode=__argv[i];
 				csMode=csMode.Mid(2);
 				csUserName=csMode;
 			}
 			else
-			if(csMode.Left(2)=="/P")
+			if(csMode.Left(2)=="/P")							//Пароль пользователя
 			{
 				CString csMode=__argv[i];
 				csMode=csMode.Mid(2);
 				csUserPassword=csMode;
 			}
 			else
-			if(csMode.Left(2)=="/M")
+			if(csMode.Left(2)=="/M")							//Монопольно
 			{
 				bSingleMode=1;
 			}
 			else
-			if(csMode.Left(2)=="/L")
+			if(csMode.Left(2)=="/L")							//Видимость библ. объектов
 			{
 				bViewLibObjects=1;
 			}
 			else
-			if(csMode.Left(2)=="/F")
+			if(csMode.Left(2)=="/F")							//Файл конфигурации
 			{
 				CString csMode=__argv[i];
 				m_csConfigPath=csMode.Mid(2);
@@ -437,9 +437,6 @@ BOOL CEnterpriseApp::InitInstance()
 	}
 
 
-
-
-
 	CMultiDocTemplate* pDocTemplate;
 	if(afxAppRunMode==CONFIG_MODE)
 	{
@@ -523,8 +520,6 @@ BOOL CEnterpriseApp::InitInstance()
 		m_pSystemManager->AddDocTemplate(pDocTemplate,"Документация","Документация",0);
 		pDocTemplate->m_hMenuShared=pMainFrame->m_hMenuDefault;
 
-
-
 		pDocTemplate=new CMultiDocTemplate(
 			IDR_ENTERPTYPE,
 			RUNTIME_CLASS(CGridDoc),
@@ -544,8 +539,6 @@ BOOL CEnterpriseApp::InitInstance()
 	// Enable DDE Execute open
 	EnableShellOpen();
 	m_pSystemManager->RegisterShellFileTypes(TRUE);
-
-
 
 
 	// The main window has been initialized, so show and update it.
@@ -570,7 +563,6 @@ BOOL CEnterpriseApp::InitInstance()
 
 	if(!AfxGetMainWnd())
 		return 0;
-
 
 
 	if(afxAppRunMode==ENTERPRISE_MODE)
