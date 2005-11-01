@@ -682,7 +682,7 @@ bool CTranslateModule::PrepareLexem()
 				{
 					n--;
 					if(n>=0)
-					if(LexemList[n].nType==DELIMETER&&(LexemList[n].nData=='['||LexemList[n].nData=='('||LexemList[n].nData=='<'||LexemList[n].nData=='>'||LexemList[n].nData=='='))
+					if(LexemList[n].nType==DELIMETER&&(LexemList[n].nData=='['||LexemList[n].nData=='('||LexemList[n].nData==','||LexemList[n].nData=='<'||LexemList[n].nData=='>'||LexemList[n].nData=='='))
 					{
 						n++;
 						if(LexemList[n].nData=='-')
