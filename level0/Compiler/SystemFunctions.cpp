@@ -8,6 +8,9 @@
 #ifndef SMALL_TRANSLATE
 	#include "../MetadataTree.h"
 	#include "../InputDialog.h"
+	#include "../InputDate.h"
+	#include "../InputNumeric.h"
+	#include "../InputPeriod.h"
 #endif
 #include "ValueArray.h"
 #include "../MsgBox/timedmsgbox.h"
@@ -24,9 +27,9 @@ extern int bSingleMode;//ћонопольный режим
 extern CMainFrame *pMainFrame;
 BOOL bHasError=0;
 
+CValue WorkDate;
 CString GetHash(CString csPassword);
 CString GetPassword(CString csHash);
-CValue cvWorkingDate;
 int RegisterEvent(CString csEventName);
 int NotifyEvent(CString csEventName, CValue **p);
 CMap <void*,void*,CString,CString&> *GetRegistersObjectsArray();
@@ -480,6 +483,85 @@ CValue RunApp(CValue **p)//«апуститьѕриложение
 	return CValue();
 }
 
+CValue InputPeriod(CValue **p)//¬вестиѕериод
+{
+#ifndef SMALL_TRANSLATE
+	CInputPeriod dlg;
+
+	int nYear, nMonth, nDay;
+	int nHour=0;
+	int nMinute=0;
+	int nSecond=0;
+	
+	p[0]->FromDate(nYear,nMonth,nDay);
+
+	SYSTEMTIME sTime;
+	sTime.wYear		=nYear;
+	sTime.wMonth	=nMonth;
+	sTime.wDay		=nDay;
+	sTime.wHour		=nHour;
+	sTime.wMinute	=nMinute;
+	sTime.wSecond	=nSecond;
+	dlg.m_DateBeg=CTime(sTime);
+	
+	p[1]->FromDate(nYear,nMonth,nDay);
+	sTime.wYear		=nYear;
+	sTime.wMonth	=nMonth;
+	sTime.wDay		=nDay;
+	sTime.wHour		=nHour;
+	sTime.wMinute	=nMinute;
+	sTime.wSecond	=nSecond;
+	dlg.m_DateEnd=CTime(sTime);
+
+	dlg.m_Date1=CTime(sTime);
+	
+	dlg.csTitle=p[2]->GetString();
+	dlg.m_RadioInterval=3;
+
+	if(dlg.DoModal()==IDOK)
+	{
+		CTime ctTime=dlg.m_DateBeg1;
+		
+		nYear =ctTime.GetYear();
+		nMonth=ctTime.GetMonth();
+		nDay  =ctTime.GetDay();
+		p[0]->dData=Date(nYear,nMonth,nDay);
+		
+		ctTime=dlg.m_DateEnd1;
+		nYear =ctTime.GetYear();
+		nMonth=ctTime.GetMonth();
+		nDay  =ctTime.GetDay();
+		p[1]->dData=Date(nYear,nMonth,nDay);
+		return 1;
+	}
+	
+#endif
+	return 0;
+}
+
+//ƒиалог ввода
+CValue InputNumeric(CValue **p)//¬вести„исло
+{
+#ifndef SMALL_TRANSLATE
+	CInputNumeric dlg;
+	dlg.csValue=String(CValue(p[0]->GetNumber()));
+	dlg.csTitle=p[1]->GetString();
+	dlg.nLength=p[2]->GetNumber();
+	dlg.nPrec=p[3]->GetNumber();
+	dlg.nTimer=p[4]->GetNumber();
+	if(dlg.DoModal()==IDOK)
+	{
+		*p[0]=String(dlg.csValue);
+		return 1;
+	}
+	else
+	{
+		if(dlg.nTimer==-1)
+			return -1;
+	}
+#endif
+	return 0;
+}
 
 //ƒиалог ввода
 CValue InputDialog(CValue **p)//¬вести—троку
@@ -490,11 +572,61 @@ CValue InputDialog(CValue **p)//¬вести—троку
 	dlg.csTitle=p[1]->GetString();
 	dlg.nLimit=p[2]->GetNumber();
 	dlg.nMultiLine=p[3]->GetNumber();
+	dlg.nTimer=p[4]->GetNumber();
 	if(dlg.DoModal()==IDOK)
 	{
 		*p[0]=String(dlg.csString);
 		return 1;
 	}
+	else
+	{
+		if(dlg.nTimer==-1)
+			return -1;
+	}
+#endif
+	return 0;
+}
+
+//ƒиалог ввода
+CValue InputDate(CValue **p)//¬вестиƒату
+{
+#ifndef SMALL_TRANSLATE
+	CInputDate dlg;
+	int nYear, nMonth, nDay;
+	int nHour=0;
+	int nMinute=0;
+	int nSecond=0;
+	
+	p[0]->FromDate(nYear,nMonth,nDay);
+
+	SYSTEMTIME sTime;
+	sTime.wYear		=nYear;
+	sTime.wMonth	=nMonth;
+	sTime.wDay		=nDay;
+	sTime.wHour		=nHour;
+	sTime.wMinute	=nMinute;
+	sTime.wSecond	=nSecond;
+	dlg.m_Date2=CTime(sTime); 
+	
+	dlg.csTitle	=p[1]->GetString();
+	dlg.nTimer	=p[2]->GetNumber();
+		
+	if(dlg.DoModal()==IDOK)
+	{
+		CTime ctTime=dlg.m_Date2;
+		
+		nYear =ctTime.GetYear();
+		nMonth=ctTime.GetMonth();
+		nDay  =ctTime.GetDay();
+		p[0]->dData=Date(nYear,nMonth,nDay);
+		return 1;
+	}
+	else
+	{
+		if(dlg.nTimer==-1)
+			return -1;
+	}
+
 #endif
 	return 0;
 }
@@ -1032,7 +1164,7 @@ int _nStaticLine=0;
 */
 CString StrGetLine(CValue &cValue,int nLine)
 {
-	CString csSource=cValue.GetString()+"\n";
+	CString csSource=cValue.GetString()+"\r\n";
 	int nLast=0;
 	int nStartLine=1;
 
@@ -1052,18 +1184,18 @@ CString StrGetLine(CValue &cValue,int nLine)
 	//перебираем строчки в тупую
 	for(int i=nStartLine;;i++)
 	{
-		int nIndex=csSource.Find("\n",nLast);
+		int nIndex=csSource.Find("\r\n",nLast);
 		if(nIndex<0)
 			return "";
 		if(i==nLine)
 		{
 			_csStaticSource=csSource;
-			_nStaticLast=nIndex+1;
+			_nStaticLast=nIndex+2;
 			_nStaticLine=nLine+1;
 
 			return csSource.Mid(nLast,nIndex-nLast);
 		}
-		nLast=nIndex+1;
+		nLast=nIndex+2;
 	}
 	return "";
 }
@@ -1125,37 +1257,38 @@ CValue CurDate(void)
 }
 CValue WorkingDate(CValue &cValue,int nMode)
 {
-	if(cValue.GetType()!=TYPE_EMPTY)
-		cvWorkingDate=Date(cValue);
-	if(cvWorkingDate.GetType()==TYPE_DATE)
-		return cvWorkingDate;
-	else
+	if (cValue.nType)
+		WorkDate=Date(cValue);
+	if (WorkDate==Date(0))
+	{
+		WorkDate=CurDate();
 		return CurDate();
-	
+	}
+	else
+		return WorkDate;
 }
-CValue AddMonth(CValue &cData, int nMonthAdd)
+CValue AddMonth(CValue &cData,int nMonthAdd)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
 	int SummaMonth=nYear*12+nMonth-1;
-	SummaMonth=SummaMonth+ nMonthAdd;
+	SummaMonth+=nMonthAdd;
 	nYear=SummaMonth/12;
 	nMonth=SummaMonth%12+1;
-	return Date(nYear,nMonth,nDay);
+	return CValue(Date(nYear,nMonth,nDay));
 }
 CValue BegOfMonth(CValue &cData)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
-	
-	return Date(nYear,nMonth,1);
+	return CValue(Date(nYear,nMonth,1));
 }
 CValue EndOfMonth(CValue &cData)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
-	CValue Rez=AddMonth(Date(nYear,nMonth,1))-1;
-	return Date(Rez);
+	CValue Date1=Date(CValue(AddMonth(Date(nYear,nMonth,1))-1));
+	return Date1;
 }
 CValue BegOfQuart(CValue &cData)
 {
@@ -1165,34 +1298,33 @@ CValue BegOfQuart(CValue &cData)
 }
 CValue EndOfQuart(CValue &cData)
 {
-	CValue Rez=AddMonth(BegOfQuart(cData),3)-1;
-	return Date(Rez);
+	return Date(CValue(AddMonth(BegOfQuart(cData),3)-1));
 }
 CValue BegOfYear(CValue &cData)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
-	return Date(nYear,1,1);
+	return CValue(Date(nYear,1,1));
 }
 CValue EndOfYear(CValue &cData)
 {
 	int nYear,nMonth,nDay;
 	cData.FromDate(nYear,nMonth,nDay);
-	return Date(nYear,12,31);
+	return CValue(Date(nYear,12,31));
 }
 CValue BegOfWeek(CValue &cData)
 {
 	int nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear;
 	cData.FromDate(nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear);
-	CValue Rez=Date(nYear,nMonth,nDay)-DayOfWeek+1;
-	return Date(Rez);
+	CValue Date1=Date(CValue(Date(nYear,nMonth,nDay)-DayOfWeek+1));
+	return Date1;
 }
 CValue EndOfWeek(CValue &cData)
 {
 	int nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear;
 	cData.FromDate(nYear,nMonth,nDay,DayOfWeek,DayOfYear,WeekOfYear);
-	CValue Rez=Date(nYear,nMonth,nDay)+(7-DayOfWeek);
-	return Date(Rez);
+	CValue Date1=Date(CValue(Date(nYear,nMonth,nDay)+(7-DayOfWeek)));
+	return Date1;
 }
 int GetYear(CValue &cData)
 {
@@ -1252,9 +1384,20 @@ CString PeriodStr(CValue &cData1,CValue &cData2)
 	else
 	//квартал
 	if(cData1==BegOfQuart(cData1)&&cData2==EndOfQuart(cData1))
-		Str.Format("%d %s %d %s",nMonth1/4+1,sd.Quart,nYear1,sd.SmallYear);
+		Str.Format("%d %s %d %s", int((nMonth1-1)/3)+1,sd.Quart,nYear1,sd.SmallYear);
 	else
-	//остальное - просто диапазон
+	if(cData1==BegOfYear(cData1))
+	{ 
+		// 6 мес€цев
+		if(cData2==EndOfMonth(Date(nYear1,6,1)))
+			Str.Format("1 ѕолугодие %d %s", nYear1,sd.SmallYear);
+		if(cData2==EndOfMonth(Date(nYear1,9,1)))
+			Str.Format("9 ћес€цев %d %s", nYear1,sd.SmallYear);
+		if(cData2==EndOfYear(Date(nYear1,1,1)));
+			Str.Format("%d %s", nYear1,sd.SmallYear);
+	}
+	else
+		//остальное - просто диапазон
 		Str=cData1.GetString()+" - "+cData2.GetString();
 
 	return Str;
@@ -2468,9 +2611,17 @@ struct SCallFunction DefSystemFunctionsArray[]=
 	{" аталог»Ѕ",			0,IBDir},
 	{"IBDir",				0,IBDir},
 
+	{"¬вести„исло",		5,InputNumeric},
+	{"InputNumeric",	5,InputNumeric},
 
 	{"¬вести—троку",	5,InputDialog},
-	{"InputDialog",		5,InputDialog},
+	{"InputString",		5,InputDialog},
+
+	{"¬вестиƒату",		5,InputDate},
+	{"InputDate",		5,InputDate},
+
+	{"¬вестиѕериод",	5,InputPeriod},
+	{"InputPeriod",		5,InputPeriod},
 
 	{"ќткрыть‘орму",	FORM_PARAM_COUNT,OpenForm,"ќткрыть‘орму(ќписательќбъекта, онтекст‘ормы,»м€‘айла,”никальный»ƒ,ѕарам1, онтекстќткрыти€,–ежимѕодбора)"},
 	{"OpenForm",		FORM_PARAM_COUNT,OpenForm},
