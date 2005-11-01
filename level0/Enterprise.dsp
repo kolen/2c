@@ -273,7 +273,19 @@ SOURCE=.\FunctionList.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\InputDate.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\InputDialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\InputNumeric.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\InputPeriod.cpp
 # End Source File
 # Begin Source File
 
@@ -427,7 +439,19 @@ SOURCE=.\FunctionList.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\InputDate.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\InputDialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\InputNumeric.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\InputPeriod.h
 # End Source File
 # Begin Source File
 

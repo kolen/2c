@@ -158,7 +158,6 @@ void DoError();
 #pragma comment( lib, ARC_LIB_NAME ) 
 
 //#include "Prof-UI\Include\all.h"
-
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
