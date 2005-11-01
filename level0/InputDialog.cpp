@@ -24,6 +24,7 @@ CInputDialog::CInputDialog(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	nMultiLine=0;
 	nLimit=0;
+	nTimer=0;
 }
 
 
@@ -38,6 +39,7 @@ void CInputDialog::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CInputDialog, CDialog)
 	//{{AFX_MSG_MAP(CInputDialog)
+	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -59,6 +61,9 @@ BOOL CInputDialog::OnInitDialog()
 		m_String.SetLimitText(nLimit);
 	m_String.SetWindowText(csString);
 
+	if(nTimer)
+		SetTimer(10000,nTimer*1000,0);
+
 	if(csTitle.IsEmpty())
 		csTitle="¬ведите строку";
 	SetWindowText(csTitle);
@@ -79,4 +84,16 @@ BOOL CInputDialog::OnInitDialog()
 	}
 	
 	return FALSE;
+}
+
+void CInputDialog::OnTimer(UINT nIDEvent) 
+{
+	// TODO: Add your message handler code here and/or call default
+	if(nIDEvent==10000)
+	{
+		nTimer=-1;
+		KillTimer(10000);
+		CDialog::OnCancel();
+	}
+	CDialog::OnTimer(nIDEvent);
 }

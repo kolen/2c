@@ -27,7 +27,7 @@ public:
 	CString csTitle;
 	int nMultiLine;
 	int nLimit;
-
+	int nTimer;
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -43,6 +43,7 @@ protected:
 	//{{AFX_MSG(CInputDialog)
 	virtual void OnOK();
 	virtual BOOL OnInitDialog();
+	afx_msg void OnTimer(UINT nIDEvent);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
