@@ -1020,9 +1020,9 @@ CValue Date(CString Str,int &nYear,int &nMonth,int &nDay)
       return Date(nYear, nMonth, nDay); 
    } 
    if(Str.IsEmpty())
-	   return CValue(); 
+	   return Date(CValue()); 
    else
-	   return String(Str);//поддержка задания строк через апострофы
+	   return Date(CValue()); //return String(Str);//поддержка задания строк через апострофы
 } 
 //---------------------------------------------------------------------------------------
 /*
