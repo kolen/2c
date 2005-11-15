@@ -363,11 +363,18 @@ CString spell_num::operator ()(double d,spell_unit &su,spell_unit &ku){
 	double t_d;
 	if( d<0.0 ){
 		t_d=ceil(d);
-		fract=floor((t_d-d)*100.0);
+		if((d*100.0-int(d*100.0))>=0.5)
+			fract=(d-int(d))*100.0+0.5;
+		else
+			fract=(d-int(d))*100.0+1;
 	}
 	else {
 		t_d=floor(d);
-		fract=floor((d-t_d)*100.0);
+		
+		if((d*100.0-int(d*100.0))>=0.5)
+			fract=(d-int(d))*100.0+1;
+		else
+			fract=(d-int(d))*100.0+0.5;
 	}
 	CString rez;
 	rez.Format("%s %02d %s",operator ()(t_d,su),fract,CString(ku[fract]) );
@@ -555,7 +562,7 @@ CString Speller::FloatFormat(double d,int width,int prec,int leadzero,char zero,
 	}
 	if(zero){
 		if(-1 == rez.FindOneOf("123456789")){
-			rez.Format("%*c",width,zero);
+			rez.Format("%*c",-width,zero);
 			return rez;
 		}
 	}
@@ -578,7 +585,7 @@ CString Speller::FloatFormat(double d,int width,int prec,int leadzero,char zero,
 				char c=rez[i];
 				estl++;
 				if(4 == estl){
-					estl=0;
+					estl=1;
 					if(' '==c || '-'==c){
 						*(cpos++)=c;
 						*(cpos++)=' ';
