@@ -42,7 +42,9 @@ enum
 	CArray<CString,CString> aText;
 	CModuleDoc* pDoc;
 	BOOL bReadOnly;
-
+	int nCodePage;
+	int nTemplate;
+	int nFixTemplate;
 	CString GetStr();
 
 

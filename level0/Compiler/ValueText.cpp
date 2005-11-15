@@ -3,9 +3,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+//#include "SystemFunctions.cpp"
 #include "stdafx.h"
 #include "ValueText.h"
 #include "Functions.h"
+
 #include "../OpenForm.h"
 
 #include "OutToDebug.h"
@@ -29,6 +31,9 @@ CValueText::CValueText()
 	pDoc=0;
 	nType=100;
 	csTitle="Текст";
+	nCodePage=0;
+	nTemplate=0;
+	nFixTemplate=0;
 }
 
 CValueText::~CValueText()
@@ -68,6 +73,8 @@ if(n<=0||n>aText.GetSize())\
 	Error("Индекс выходит за границы количества строк текста");\
 n--;
 
+//extern CString Template(CString arg);  
+
 CValue CValueText::Method(int iName,CValue **p)
 {
 
@@ -87,12 +94,18 @@ CValue CValueText::Method(int iName,CValue **p)
 				break;
 			}
 		case enAddLine:
-			aText.Add(p[0]->GetString());
+			if (nTemplate)
+				aText.Add(Template(p[0]->GetString()));
+			else
+				aText.Add(p[0]->GetString());
 			break;
 		case enReplaceLine:
 			{
 				DEF_N_LINE()
-				aText[n]=p[1]->GetString();
+				if (nTemplate)
+					aText[n]=Template(p[1]->GetString());
+				else
+					aText[n]=p[1]->GetString();
 				break;
 			}
 		case enDeleteLine:
@@ -104,7 +117,10 @@ CValue CValueText::Method(int iName,CValue **p)
 		case enInsertLine:
 			{
 				DEF_N_LINE()
-				aText.InsertAt(n,p[1]->GetString());
+				if (nTemplate)
+					aText.InsertAt(n,Template(p[1]->GetString()));
+				else
+					aText.InsertAt(n,p[1]->GetString());
 				break;
 			}
 
@@ -118,6 +134,8 @@ CValue CValueText::Method(int iName,CValue **p)
 
 				int nSize=0;
 				char *buf=LoadFromFileBin(csName,nSize);
+				if (!nSize)
+					break;
 				if(buf)
 				{
 					CString Str;
@@ -126,8 +144,12 @@ CValue CValueText::Method(int iName,CValue **p)
 					{
 						if(buf[i]==0x0D&&buf[i+1]==0x0A)
 						{
-							aText.Add(Str);
+							if (nTemplate)
+								aText.Add(Template(Str));
+							else
+								aText.Add(Str);
 							Str="";
+							i++;
 							i++;
 						}
 						else
@@ -135,7 +157,10 @@ CValue CValueText::Method(int iName,CValue **p)
 							Str+=buf[i];
 						}
 					}
-					aText.Add(Str);
+					if (nTemplate)
+						aText.Add(Template(Str));
+					else
+						aText.Add(Str);
 					Str.ReleaseBuffer();
 					delete []buf;
 				}
@@ -170,6 +195,27 @@ CValue CValueText::Method(int iName,CValue **p)
 
 				break;
 			}
+		case enCodePage:
+			{
+				Ret=nCodePage;
+				if (p[0]->nType)
+				nCodePage=p[0]->GetNumber();
+				break;
+			}
+		case enTemplate:
+			{
+				Ret=nTemplate;
+				if (p[0]->nType)
+					nTemplate=p[0]->GetNumber();
+				break;
+			}
+		case enFixTemplate:
+			{
+				Ret=nFixTemplate;
+				if (p[0]->nType)
+					nFixTemplate=p[0]->GetNumber();
+				break;
+			}
 		case enGetText:
 			Ret=String(GetStr());
 			break;
@@ -186,7 +232,7 @@ CString CValueText::GetStr()
 	for(int i=0;i<aText.GetSize();i++)
 	{
 		if(i>0)
-			Str+="\n";
+			Str+="\r\n";
 		Str+=aText[i];
 		if(Str.GetLength()>nSize)
 		{
@@ -197,3 +243,4 @@ CString CValueText::GetStr()
 	Str.ReleaseBuffer();
 	return Str;
 }
+
