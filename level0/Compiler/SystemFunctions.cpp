@@ -539,7 +539,7 @@ CValue InputPeriod(CValue **p)//ВвестиПериод
 	return 0;
 }
 
-//Диалог ввода
+//Диалог ввода числа
 CValue InputNumeric(CValue **p)//ВвестиЧисло
 {
 #ifndef SMALL_TRANSLATE
@@ -563,7 +563,7 @@ CValue InputNumeric(CValue **p)//ВвестиЧисло
 	return 0;
 }
 
-//Диалог ввода
+//Диалог ввода строки
 CValue InputDialog(CValue **p)//ВвестиСтроку
 {
 #ifndef SMALL_TRANSLATE
@@ -587,7 +587,7 @@ CValue InputDialog(CValue **p)//ВвестиСтроку
 	return 0;
 }
 
-//Диалог ввода
+//Диалог ввода даты
 CValue InputDate(CValue **p)//ВвестиДату
 {
 #ifndef SMALL_TRANSLATE
@@ -631,6 +631,35 @@ CValue InputDate(CValue **p)//ВвестиДату
 	return 0;
 }
 
+//Диалог ввода значения
+CValue InputValue(CValue **p)//ВвестиЗначение
+{
+#ifndef SMALL_TRANSLATE
+	CString csType=p[2]->GetString();
+	int ret;
+	CValue *p1[4];
+	p1[0]=p[0];
+	p1[1]=p[1];
+	p1[2]=p[3];
+	p1[3]=p[4];
+	csType.MakeUpper();
+	if (csType=="ЧИСЛО")
+		ret=InputNumeric(p1);
+	else if (csType=="СТРОКА")
+		ret=InputDialog(p1);
+	else if (csType=="ДАТА")
+	{
+		p1[2]=p[4];
+		ret=InputDate(p1);
+	}
+	else
+		ret=0;
+	p[0]=p1[0];
+	return ret;
+#endif
+	return 0;
+}
+
 #define PARSE_STRING(x,y)\
 if(csStr.Find(x)>=0)\
 {\
@@ -663,8 +692,8 @@ CValue DoQueryBox(CValue **p)//Вопрос
 		PARSE_STRING("ПОВТОР+ОТМЕНА",MB_RETRYCANCEL)
 
 	}
-
-
+	if(nMode>5)
+		nMode=0;
 
 	HWND hWnd=0;
 	if(AfxGetMainWnd())
@@ -684,12 +713,12 @@ CValue DoQueryBox(CValue **p)//Вопрос
 	{
 		if(nStrMode==1)
 		{
-			CString MasStr[8]={"Timeout","Ok","Cancel","Abort","Retry","Ignore","Yes","No"};
+			CString MasStr[8]={"Timeout","OK","Cancel","Abort","Retry","Ignore","Yes","No"};
 			return String(MasStr[nRet%8]);
 		}
 		else
 		{
-			CString MasStr[8]={"Таймаут","Ок","Отмена","Стоп","Повтор","Пропустить","Да","Нет"};
+			CString MasStr[8]={"Таймаут","ОК","Отмена","Стоп","Повтор","Пропустить","Да","Нет"};
 			return String(MasStr[nRet%8]);
 		}
 	}
@@ -1390,9 +1419,9 @@ CString PeriodStr(CValue &cData1,CValue &cData2)
 	{ 
 		// 6 месяцев
 		if(cData2==EndOfMonth(Date(nYear1,6,1)))
-			Str.Format("1 Полугодие %d %s", nYear1,sd.SmallYear);
+			Str.Format("1 %s %d %s", sd.SemiYear, nYear1, sd.SmallYear);
 		if(cData2==EndOfMonth(Date(nYear1,9,1)))
-			Str.Format("9 Месяцев %d %s", nYear1,sd.SmallYear);
+			Str.Format("%s %d %s", sd.Month_9, nYear1, sd.SmallYear);
 		if(cData2==EndOfYear(Date(nYear1,1,1)));
 			Str.Format("%d %s", nYear1,sd.SmallYear);
 	}
@@ -1908,27 +1937,23 @@ CString FuncFormat(CValue &v,CString &fmt){
 						break;
 					}
 				}
-
+				
 				switch(octParam){
 				case 0665577: //DDMMYY
-					rez.Format( (LeadingZero? "%02d.%02d.%02d":"%d.%02d.%02d")
-						,dd,mm,yy%100);
+					rez.Format( "%02d.%02d.%02d",dd,mm,yy%100);
 					break;
 				case 066557777: //DDMMYYYY
 				default: //он же формат по-умолчанию
-					rez.Format( (LeadingZero? "%02d.%02d.%04d":"%d.%02d.%04d")
-						,dd,mm,yy);
+					rez.Format( "%02d.%02d.%04d",dd,mm,yy);
 					break;
 
 				case 066555577: //DDMMMMYY
-					rez.Format( (LeadingZero? "%02d %s %02d %s":"%d %s %02d %s")
-						,dd,sd[spell_date::InM + mm] ,yy%100,sd.SmallYear);
+					rez.Format((LeadingZero? "%02d %s %02d %s":"%d %s %02d %s"),dd,sd[spell_date::InM + mm] ,yy%100,sd.SmallYear);
 					Speller::FirstCharBig(rez);
 					break;
 
 				case 06655557777: //DDMMMMYYYY
-					rez.Format( (LeadingZero? "%02d %s %04d %s":"%d %s %04d %s")
-						,dd, sd[spell_date::InM + mm],yy,sd.SmallYear);
+					rez.Format((LeadingZero? "%02d %s %04d %s":"%d %s %04d %s"),dd, sd[spell_date::InM + mm],yy,sd.SmallYear);
 					Speller::FirstCharBig(rez);
 					break;
 
@@ -1949,19 +1974,19 @@ CString FuncFormat(CValue &v,CString &fmt){
 
 				case 03333: //QQQQ
 					rez.Format( (LeadingZero? "%02d %s":"%d %s")
-						,mm/4+1,sd.Quart);
+						,mm/3+1,sd.Quart);
 					Speller::FirstCharBig(rez);
 					break;
 
 				case 0333377: //QQQQYY
 					rez.Format( (LeadingZero? "%02d %s %02d %s":"%d %s %02d %s")
-						,mm/4+1,sd.Quart,yy%100,sd.SmallYear);
+						,mm/3+1,sd.Quart,yy%100,sd.SmallYear);
 					Speller::FirstCharBig(rez);
 					break;
 
 				case 033337777: //QQQQYYYY
 					rez.Format( (LeadingZero? "%02d %s %04d %s":"%d %s %04d г.")
-						,mm/4+1,sd.Quart,yy,sd.SmallYear);
+						,mm/3+1,sd.Quart,yy,sd.SmallYear);
 					Speller::FirstCharBig(rez);
 					break;
 
@@ -2012,7 +2037,7 @@ CString FuncFormat(CValue &v,CString &fmt){
 			
 			//Обычное число
 			//ASSERT(0);
-			int width=-1,prec=0,stat=1;
+			int width=-1,prec=0,stat=1,move=0;
 			char zero=0,dot='.',coma=0; 
 			LPCTSTR s=fmt;
 			if('0'==*s)
@@ -2053,6 +2078,21 @@ CString FuncFormat(CValue &v,CString &fmt){
 				}
 			}
 			
+			if('>'==*s)
+			{
+				for(s++;*s;s++)
+				{
+					if('0' <= *s 
+						&& *s <= '9')
+					{
+						move*=10;
+						move+=(*s-'0');
+					}
+					else 
+						break;
+				}
+			}
+
 			if(*s)
 			{
 				dot=*s;
@@ -2063,6 +2103,7 @@ CString FuncFormat(CValue &v,CString &fmt){
 			{
 				coma=*s;
 			}
+			v=CValue(v.GetNumber()/pow(10,move));
 			rez=Speller::FloatFormat(double(v.GetNumber())
 				,width,prec,LeadingZero,zero,dot,coma);
 			break;
@@ -2072,11 +2113,15 @@ CString FuncFormat(CValue &v,CString &fmt){
 	//Строки
 	case 'S': case 'С':
 		{
-			int len=-atoi(fmt); //У Format по умолчанию дополнение пробелами слева, у 1С - справа
+			int len=atoi(fmt); //У Format по умолчанию дополнение пробелами слева, у 1С - справа
+			CString csStr=v.GetString();
+			
 			if(!len)
-				rez=v.GetString();
+				rez=csStr;
 			else 
-				rez.Format("%*s",len,v.GetString());
+				if (len<csStr.GetLength())
+					csStr=csStr.Left(len);
+				rez.Format("%*s",-len,csStr);
 			break;
 		}
 	default: //Не распознан или не задан
@@ -2106,7 +2151,6 @@ CString Template(CString arg)
 			int nQuote=0;
 			int nBracket=0;
 			for(pars++;*pars;pars++){ 
-
 				if(nQuote){
 					//Строка в кавычках - все символы пропускаем
 					aExpr+=*pars;
@@ -2138,8 +2182,6 @@ CString Template(CString arg)
 				case ']': nBracket--;break;
 				case '"': nQuote = 1;break; //строка в кавычках либо 2-я часть кавычек
 				}
-
-
 			}
 			if(nBracket || nQuote){
 				CString StrError("Незавершенное выражение в шаблоне! ");
@@ -2155,10 +2197,94 @@ CString Template(CString arg)
 	return rez;
 }
 
+CString FixTemplate(CString arg)
+{
+	LPCTSTR pars=arg;
+	CString rez("");
+	int len=0;
+	CRunContext *pContext=AfxGetCurrentRunContext();
+	
+	for(;*pars;pars++)
+	{
+		if('['!=*pars)
+		{
+			//Обычная строка
+			rez += *pars; 
+		}
+		else
+		{ //Выражение
+			CString aExpr,aFmt;
+			int nQuote=0;
+			int nBracket=0;
+			len=1;
+			for(pars++;*pars;pars++)
+			{ 
+				if(nQuote)
+				{
+					//Строка в кавычках - все символы пропускаем
+					aExpr+=*pars;
+
+					if('"' == *pars)nQuote = 0;//Строка закончена либо 1-я часть кавычек в строке
+					continue;
+				}
+
+				if(!nBracket)
+				{
+					//Обычное выражение
+					if(']' == *pars ) 
+					{	
+						len++;
+						aFmt="S"+CString(CValue(len));
+						break;	//Выражение закончено
+					}
+					if('#' == *pars)
+					{//Форматная строка
+						for(pars++;*pars;pars++)
+						{
+							if(']' == *pars)break;//Выражение закончено
+							aFmt +=*pars;
+						}
+						if(aFmt.GetLength())
+						{
+							aFmt.TrimLeft();
+							aFmt.TrimRight();
+						}
+						break;
+					}
+				}
+
+				//Обычные символы либо выражение внутри []
+				aExpr +=*pars;
+				len++;
+				switch(*pars){
+				case '[': nBracket++;break;
+				case ']': nBracket--;break;
+				case '"': nQuote = 1;break; //строка в кавычках либо 2-я часть кавычек
+				}
+			}
+			if(nBracket || nQuote)
+			{
+				CString StrError("Незавершенное выражение в шаблоне! ");
+				StrError += aExpr;
+				Error(StrError);
+				break;
+			}
+			//Вычисляем выражение
+			rez += FuncFormat(CProcUnit::Eval(aExpr,pContext),aFmt);
+		}
+
+	}
+	return rez;
+}
 
 CValue FuncTemplate(CValue **p)
 {
 	return String(Template(p[0]->GetString()));
+}
+
+CValue FuncFixTemplate(CValue **p)
+{
+	return String(FixTemplate(p[0]->GetString()));
 }
 
 CValue Activate(CValue **p)//Активизировать
@@ -2483,8 +2609,11 @@ struct SCallFunction DefSystemFunctionsArray[]=
 //Форматирование
 
 	{"Формат",		2,FuncFormat},
+	{"Format",		2,FuncFormat},
 	{"Шаблон",		1,FuncTemplate},
-	
+	{"Template",	1,FuncTemplate},
+	{"ФиксШаблон",	1,FuncFixTemplate},
+	{"FixTemplate",	1,FuncFixTemplate},
 
 	{"РазмерМассива",		2,Dim},
 	{"DimArray",			2,Dim},
@@ -2617,11 +2746,14 @@ struct SCallFunction DefSystemFunctionsArray[]=
 	{"ВвестиСтроку",	5,InputDialog},
 	{"InputString",		5,InputDialog},
 
-	{"ВвестиДату",		5,InputDate},
-	{"InputDate",		5,InputDate},
+	{"ВвестиДату",		3,InputDate},
+	{"InputDate",		3,InputDate},
 
 	{"ВвестиПериод",	5,InputPeriod},
 	{"InputPeriod",		5,InputPeriod},
+
+	{"ВвестиЗначение",	5,InputValue},
+	{"InputValue",		5,InputValue},
 
 	{"ОткрытьФорму",	FORM_PARAM_COUNT,OpenForm,"ОткрытьФорму(ОписательОбъекта,КонтекстФормы,ИмяФайла,УникальныйИД,Парам1,КонтекстОткрытия,РежимПодбора)"},
 	{"OpenForm",		FORM_PARAM_COUNT,OpenForm},
