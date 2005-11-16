@@ -6,7 +6,8 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-
+#include "../dialogplugins.h"
+/*
 enum
 {
 	STRING_DATA=0,
@@ -17,6 +18,7 @@ enum
 	LIST_DATA,//выбор строки из заранее определенного списка STRING+INT, где INT - номер списка выбора
 	DOUBLE_DATA,
 };
+*/
 class ControlData
 {
 public:

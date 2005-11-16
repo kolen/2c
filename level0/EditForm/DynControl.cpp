@@ -1126,8 +1126,11 @@ void CDynControl::AddControl(CPoint* ppoint)
 		int nStyle = WS_CHILD;
 		if(aDataList[0].bData) 
 			nStyle=nStyle | BS_DEFPUSHBUTTON;
-
-		AddDialog(new CImageButton(),ppoint,80,22,"BUTTON",nStyle | BS_OWNERDRAW);
+		if(aDataList[5].nData&&m_csValue.IsEmpty())
+			nStyle=nStyle | BS_FLAT;
+		else
+			nStyle=nStyle | BS_OWNERDRAW;
+		AddDialog(new CImageButton(),ppoint,80,22,"BUTTON",nStyle);
 		OnUpdate();
 	}
 	else
@@ -1256,10 +1259,11 @@ void CDynControl::CreateMicroForm()
 	CMicroForm* pControl = new CMicroForm();
 	pControl->m_bConfigMode=m_bConfigMode;
 	pControl->m_csObjName=m_csObjName;
+	
 	//eventVal - хранится контекст формы
 	OpenFormExt(m_csObjName,eventVal,FormParam,csFileName,"",0, 0,0,FormParam, pControl,m_pParentWnd);
 	//OpenFormExt(m_csObjName,eventVal,CValue(),csFileName,"",0, 0,0,FormParam, pControl,m_pParentWnd);
-	
+
 	if(m_bVisible||m_bConfigMode)
 		pControl->ShowWindow(SW_SHOW);
 
@@ -1356,6 +1360,7 @@ void CDynControl::OnUpdate()
 		if (m_nControlType == ID_DYNBUTTON &&aDataList[5].nData) // BUTTON + картинка
 		{
 			m_pWnd->SetWindowText(m_csValue);
+			
 		}
 		else
 		{
