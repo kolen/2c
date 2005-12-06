@@ -546,6 +546,7 @@ void CValueList::FromSeparatedString(CString Str)
 	{
 		int nStart=i;
 		CElementList data;
+		
 		if(Str[nStart]!='\"')
 		{//число
 			int n=Str.Find(",",i+1);
@@ -562,7 +563,7 @@ void CValueList::FromSeparatedString(CString Str)
 		}
 		else
 		{//строка
-			CString csAdd;
+			CString csAdd;	
 			while(true)
 			{
 				int n=Str.Find("\"",i+1);//ищем окончание строки
@@ -588,8 +589,7 @@ void CValueList::FromSeparatedString(CString Str)
 			csAdd.Replace("\"\"","\"");
 			data.Value=String(csAdd);
 		}
-		data.Present="";
-		aValue.Add(data);
+		AddValue(data.Value);
 	}
 
 	bValidFind=FALSE;
@@ -606,7 +606,10 @@ int CValueList::ChooseValue(CValue &Val,CString Title,int &nIndex,int nMode)
 			if(aValue[i].Present.IsEmpty())
 				AppendMenu (hmenu, MF_STRING|MF_ENABLED+MF_CHECKED*aValue[i].bCheck,i+MENU_START_ID,CString(String(aValue[i].Value)));
 			else
-				AppendMenu (hmenu, MF_STRING|MF_ENABLED+MF_CHECKED*aValue[i].bCheck,i+MENU_START_ID,aValue[i].Present);//MF_CHECKED
+				if(aValue[i].Present=="-")
+					AppendMenu (hmenu, MF_SEPARATOR,0,0);
+				else
+					AppendMenu (hmenu, MF_STRING|MF_ENABLED+MF_CHECKED*aValue[i].bCheck,i+MENU_START_ID,aValue[i].Present);//MF_CHECKED
 		}
 		
 		HWND hParent=AfxGetMainWnd()->m_hWnd;
@@ -677,7 +680,10 @@ int CValueList::ChooseValue(CValue &Val,CString Title,int &nIndex,int nMode)
 			if(aValue[i].Present.IsEmpty())
 				m_listbox.AddString(CString(String(aValue[i].Value)));
 			else
-				m_listbox.AddString(aValue[i].Present);
+				if(aValue[i].Present=="-")
+					m_listbox.AddString("");
+				else
+					m_listbox.AddString(aValue[i].Present);
 			if(Val.GetString()==aValue[i].Value.GetString())
 			{
 				m_listbox.SetCurSel(i);
@@ -745,7 +751,7 @@ int CValueList::ChooseValue(CValue &Val,CString Title,int &nIndex,int nMode)
 			for(int i=0;i<aValue.GetSize();i++)
 			{
 				BOOL bCheck=dlg.ListCheck[i];
-				aValue[i].bCheck=bCheck;
+				Check(i+1,bCheck);
 			}
 
 
