@@ -1104,7 +1104,7 @@ void CDynControl::AddControl(CPoint* ppoint)
 		CIconListBox* pControl=new CIconListBox();
 		if(aDataList[0].bData)
 		{
-			nStyle = nStyle | LBS_OWNERDRAWFIXED |LBS_NOTIFY;
+			nStyle = nStyle | LBS_OWNERDRAWFIXED |LBS_NOTIFY |LBS_HASSTRINGS;
 			pControl->SetImageList(GetImageList());
 		}
 		
