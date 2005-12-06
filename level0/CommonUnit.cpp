@@ -4,6 +4,8 @@
 #include "Compiler/ValueGrid.h"
 #include "Compiler/ValueContext.h"
 #include "Compiler/Definition.h"
+#include "Compiler/ValueListBox.h"
+//#include "IconListBox.h"
 #include "Compiler/ValueListLayers.h"
 #include "MainFrm.h"
 //#include "MicroForm.h"
