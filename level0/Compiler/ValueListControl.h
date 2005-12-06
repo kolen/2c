@@ -18,7 +18,7 @@ public:
 //	virtual int Check(int nIndex,int bValue=-1);//для CListBox
 	virtual void GetText(int nIndex,CString &csPresent){;};
 
-	void LoadItems(void);
+	virtual void LoadItems(void);
 	virtual int CurSel(int nCur=-1);
 	virtual void SetSize(int nSize);
 	virtual void MoveValue(int nCount,int nIndex);
@@ -45,7 +45,12 @@ LoadItems(void)
 {
 	((CTYPE *)pWnd)->ResetContent();
 	for(int i=0;i<aValue.GetSize();i++)
-		((CTYPE *)pWnd)->InsertString(-1,aValue[i].Present);
+	{
+		if (aValue[i].Present.IsEmpty())
+			((CTYPE *)pWnd)->InsertString(-1,CString(String(aValue[i].Value)));
+		else
+			((CTYPE *)pWnd)->InsertString(-1,aValue[i].Present);
+	}
 }
 
 

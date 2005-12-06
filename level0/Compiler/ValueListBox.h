@@ -11,7 +11,8 @@
 #endif // _MSC_VER > 1000
 
 #include "ValueListControl.h"
-class CValueListBox : public CValueListControl<CListBox>
+#include "../IconListBox.h"
+class CValueListBox : public CValueListControl<CIconListBox>
 {
 DECLARE_DYNCREATE(CValueListBox);
 public:
@@ -21,10 +22,37 @@ public:
 	{
 		if(nIndex<1||nIndex>GetListSize())
 			SetError("Индекс выходит за границы списка значений!");
-		int nRes=((CListBox*)pWnd)->GetSel(nIndex-1);
+		int nRes=aValue[nIndex-1].bCheck;
 		if(bValue!=-1)
-			((CListBox *)pWnd)->SetSel(nIndex-1,bValue);
+		{
+			((CIconListBox *)pWnd)->SetItemImage(nIndex-1,bValue+18);
+			aValue[nIndex-1].bCheck=bValue;
+		}
 		return nRes;
+	};
+	virtual void AddValue(CValue Val,CString Str="")
+	{
+		CValueList::AddValue(Val,Str);
+		if(Str=="")
+		Str=CString(String(Val));
+		if (((CIconListBox*)pWnd)->GetImageList()!=NULL)
+			((CIconListBox*)pWnd)->InsertString(-1,Str,18);
+		else
+			((CIconListBox*)pWnd)->InsertString(-1,Str);
+		
+	};
+	virtual void LoadItems(void)
+	{
+		((CIconListBox*)pWnd)->ResetContent();
+		for(int i=0;i<aValue.GetSize();i++)
+		{
+			if (aValue[i].Present.IsEmpty())
+				((CIconListBox*)pWnd)->InsertString(-1,CString(String(aValue[i].Value)));
+			else
+				((CIconListBox*)pWnd)->InsertString(-1,aValue[i].Present);
+			if (((CIconListBox*)pWnd)->GetImageList()!=NULL)
+				((CIconListBox*)pWnd)->SetItemImage(i,aValue[i].bCheck+18);
+		}
 	};
 	virtual void GetText(int nIndex,CString &csPresent)
 	{

@@ -32,6 +32,8 @@ public:
 	void SetItemImage(int iIndex, int iImg);
 	inline void SetImageList(CImageList* pImgList = NULL)
 	{ m_pImageList = pImgList; }
+	inline CImageList* GetImageList()
+	{ return m_pImageList; }
 
 // Overrides
 	// ClassWizard generated virtual function overrides
