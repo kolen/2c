@@ -245,6 +245,10 @@ SOURCE=.\ObjInfo.cpp
 # End Group
 # Begin Source File
 
+SOURCE=.\EditForm\ChangeOrder.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ChildFrm.cpp
 # End Source File
 # Begin Source File
@@ -413,6 +417,10 @@ SOURCE=.\ModuleView.h
 SOURCE=.\ObjInfo.h
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\EditForm\ChangeOrder.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\ChildFrm.h
@@ -588,6 +596,10 @@ SOURCE=.\res\bmp00011.bmp
 # Begin Source File
 
 SOURCE=.\res\bmp00012.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\bmp00013.bmp
 # End Source File
 # Begin Source File
 
