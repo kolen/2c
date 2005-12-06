@@ -479,7 +479,10 @@ CValue ComputerName(CValue **p)//ИмяКомпьютера
 }
 CValue RunApp(CValue **p)//ЗапуститьПриложение
 {
-	ShellExecute(NULL,NULL,p[0]->GetString(),p[1]->GetString(),NULL,SW_HIDE);
+	if(p[2]->nType==TYPE_EMPTY||p[2]->GetNumber()==0)
+		ShellExecute(NULL,NULL,p[0]->GetString(),p[1]->GetString(),NULL,SW_SHOW);
+	else
+		ShellExecute(NULL,NULL,p[0]->GetString(),p[1]->GetString(),NULL,SW_HIDE);
 	return CValue();
 }
 
@@ -2733,8 +2736,8 @@ struct SCallFunction DefSystemFunctionsArray[]=
 	{"ИмяКомпьютера",		0,ComputerName},
 	{"ComputerName",		0,ComputerName},
 
-	{"ЗапуститьПриложение",	2,RunApp},
-	{"RunApp",				2,RunApp},
+	{"ЗапуститьПриложение",	3,RunApp},
+	{"RunApp",				3,RunApp},
 
 
 	{"КаталогИБ",			0,IBDir},
