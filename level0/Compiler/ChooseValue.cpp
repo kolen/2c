@@ -51,9 +51,10 @@ void CChooseValue::OnOK()
 
 	nRes=m_List.GetCurSel();
 
+	/*
 	for(int i=0;i<List.GetSize();i++)
 	{
-		m_List.InsertString(-1,List[i]);
+		//m_List.InsertString(-1,List[i]);
 		if(nMode<0)
 			ListCheck[i]=FALSE;
 	}
@@ -71,8 +72,8 @@ void CChooseValue::OnOK()
 		}
 
 	}
-
-
+	*/
+	
 	CDialog::OnOK();
 }
 
@@ -80,9 +81,10 @@ BOOL CChooseValue::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	if(nMode<0)
-		m_List.ModifyStyleEx(0,LBS_EXTENDEDSEL);
-
+	if(nMode>=0)
+		m_List.SetImageList();
+		//m_List.ModifyStyle(LBS_NOREDRAW,LBS_OWNERDRAWFIXED| LBS_HASSTRINGS);
+		
 	m_List.SetFont(GetFont());
 		//m_listbox.Create(LBS_OWNERDRAWFIXED |  LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP | WS_VSCROLL | WS_CHILD | WS_VISIBLE | LBS_STANDARD | LBS_HASSTRINGS , p, this,IDC_LIST);
 //LBS_MULTIPLESEL
@@ -91,12 +93,14 @@ BOOL CChooseValue::OnInitDialog()
 	for(int i=0;i<List.GetSize();i++)
 	{
 		int nImage=0;
-		if(i<ListImage.GetSize())
-			nImage=ListImage[i];
-
-		m_List.InsertString(-1,List[i],nImage);
+		
 		if(nMode<0)
-			m_List.SetSel(i,ListCheck[i]);
+		{
+			m_List.InsertString(-1,List[i]);
+			m_List.SetItemImage(i,ListCheck[i]+18);
+		}
+		else
+			m_List.InsertString(-1,List[i]);
 	}
 
 	
@@ -110,5 +114,11 @@ BOOL CChooseValue::OnInitDialog()
 
 void CChooseValue::OnDblclkList1() 
 {
-	OnOK();
+	if(nMode<0)
+	{
+		ListCheck[m_List.GetCurSel()]=1-ListCheck[m_List.GetCurSel()];
+		m_List.SetItemImage(m_List.GetCurSel(),ListCheck[m_List.GetCurSel()]+18);
+	}
+	else
+		OnOK();
 }

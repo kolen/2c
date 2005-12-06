@@ -12,7 +12,7 @@
 #include "../Compiler/ValueArray.h"
 #include "../ImageButton/ImageButton.h"
 #include "../MetadataTree.h"
-
+#include "../IconListBox.h"
 #include "../GridCtrl_src/GridCtrl.h"
 #include "../MicroForm.h"
 #include "../OpenForm.h"
@@ -1101,9 +1101,13 @@ void CDynControl::AddControl(CPoint* ppoint)
 	if (m_nControlType == ID_DYNBUTTONLISTBOX) // LISTBOX
 	{
 		int nStyle = WS_CHILD|LBS_STANDARD|WS_HSCROLL|LBS_NOINTEGRALHEIGHT;
+		CIconListBox* pControl=new CIconListBox();
 		if(aDataList[0].bData)
-			nStyle = nStyle | LBS_MULTIPLESEL | LBS_EXTENDEDSEL;
-		CListBox* pControl=new CListBox();
+		{
+			nStyle = nStyle | LBS_OWNERDRAWFIXED |LBS_NOTIFY;
+			pControl->SetImageList(GetImageList());
+		}
+		
 		AddDialog(pControl,ppoint,90,20*5,"LISTBOX",nStyle,WS_EX_CLIENTEDGE );
 
 		OnUpdate();

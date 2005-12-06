@@ -30,14 +30,26 @@ int CompareListByPresent( const void *arg1, const void *arg2 )//функция сравнени
 }
 int CompareListByValue( const void *arg1, const void *arg2 )
 {
-   BOOL Res=(*(CElementList*)arg1).Value > (*(CElementList*)arg2).Value;
-   if(Res)
-	   return nListDirectSort;
-   Res=(*(CElementList*)arg1).Value == (*(CElementList*)arg2).Value;
-   if(Res)
-	   return 0;
-   else
-	   return -nListDirectSort;
+	CValue Val1=(*(CElementList*)arg1).Value;
+	CValue Val2=(*(CElementList*)arg2).Value;
+	if(Val1.nType>Val2.nType)
+		return 1;
+	else 
+	{
+		if(Val1.nType==Val2.nType)
+		{
+			BOOL Res=(Val1>Val2);
+			if(Res)
+				return nListDirectSort;
+			Res=(Val1 == Val2);
+			if(Res)
+				return 0;
+			else
+				return -nListDirectSort;
+		}
+		else
+			return -1;
+	}
 }
 
 
@@ -246,14 +258,16 @@ CValue CValueList::Method(int iName,CValue **aParams)
 		case enUnload:
 			{
 				//CValue List=Param1;
-				if(Param2.nType==TYPE_EMPTY)
-					Unload(Param1);
-				else
+				
 				if(Param3.nType==TYPE_EMPTY)
-					Unload(Param1,Param2);
+				{
+					if(Param2.nType==TYPE_EMPTY)
+						Unload(Param1);
+					else
+						Unload(Param1,Param2.GetNumber());
+				}
 				else
-					Unload(Param1,Param2,Param3);
-
+					Unload(Param1,Param2.GetNumber(),Param3.GetNumber());
 				//Param1=List;
 				break;
 			}
@@ -314,8 +328,8 @@ CValue CValueList::Method(int iName,CValue **aParams)
 //******************************
 void CValueList::AddValue(CValue Val,CString Str)
 {
-	if(Str=="")
-		Str=Val.GetString();
+	//if(Str=="")
+	//	Str="";
 
 	CElementList data;
 	data.Value=Val;
@@ -477,7 +491,10 @@ CValue CValueList::GetItemValue(int nIndex,CString &Str)
 	nIndex--;
 	if(nIndex<0||nIndex>=GetListSize())
 		SetError("Индекс не входит в границы списка значений!");
-	Str=aValue[nIndex].Present;
+	if(aValue[nIndex].Present=="")
+		Str="";
+	else
+		Str=aValue[nIndex].Present;
 	return aValue[nIndex].Value;
 }
 CValue CValueList::GetItemValue(int nIndex)
@@ -571,7 +588,7 @@ void CValueList::FromSeparatedString(CString Str)
 			csAdd.Replace("\"\"","\"");
 			data.Value=String(csAdd);
 		}
-		data.Present=data.Value;
+		data.Present="";
 		aValue.Add(data);
 	}
 
@@ -587,7 +604,7 @@ int CValueList::ChooseValue(CValue &Val,CString Title,int &nIndex,int nMode)
 		for(int i=0;i<aValue.GetSize();i++)
 		{
 			if(aValue[i].Present.IsEmpty())
-				AppendMenu (hmenu, MF_SEPARATOR,0,0);
+				AppendMenu (hmenu, MF_STRING|MF_ENABLED+MF_CHECKED*aValue[i].bCheck,i+MENU_START_ID,CString(String(aValue[i].Value)));
 			else
 				AppendMenu (hmenu, MF_STRING|MF_ENABLED+MF_CHECKED*aValue[i].bCheck,i+MENU_START_ID,aValue[i].Present);//MF_CHECKED
 		}
@@ -657,7 +674,10 @@ int CValueList::ChooseValue(CValue &Val,CString Title,int &nIndex,int nMode)
 		m_listbox.SetFont(pItem->GetFont());
 		for(int i=0;i<aValue.GetSize();i++)
 		{
-			m_listbox.AddString(aValue[i].Present);
+			if(aValue[i].Present.IsEmpty())
+				m_listbox.AddString(CString(String(aValue[i].Value)));
+			else
+				m_listbox.AddString(aValue[i].Present);
 			if(Val.GetString()==aValue[i].Value.GetString())
 			{
 				m_listbox.SetCurSel(i);
@@ -703,7 +723,10 @@ int CValueList::ChooseValue(CValue &Val,CString Title,int &nIndex,int nMode)
 	dlg.List.RemoveAll();
 	for(int i=0;i<aValue.GetSize();i++)
 	{
-		dlg.List.Add(aValue[i].Present);
+		if(aValue[i].Present.IsEmpty())
+			dlg.List.Add(CString(String(aValue[i].Value)));
+		else
+			dlg.List.Add(aValue[i].Present);
 		if(nMode<0)
 		{
 			BOOL bCheck=aValue[i].bCheck;
@@ -774,7 +797,7 @@ void CValueList::MoveValue(int nCount,int nIndex)
 	int ndelta=0;
 	if(nCount<0)
 		ndelta=1;
-	int nNewIndex=nIndex+nCount+1;
+	int nNewIndex=nIndex+nCount+1-ndelta;
 	if(nIndex+ndelta==nNewIndex+1)
 		return;
 
@@ -792,9 +815,9 @@ void CValueList::MoveValue(int nCount,int nIndex)
 }
 void CValueList::Unload(CValue &List,int nStart,int nEnd)
 {
-	if(nStart=-1)
+	if(nStart==-1)
 		nStart=1;
-	if(nEnd=-1)
+	if(nEnd==-1)
 		nEnd=GetListSize();
 
 	if(List.nType!=TYPE_REFFER||List.pRef==0)
@@ -820,7 +843,7 @@ void CValueList::Unload(CValue &List,int nStart,int nEnd)
 	{
 		if(nStart<1||nStart>GetListSize())
 			SetError("Индекс 1 выходит за границы списка значений!");
-		if(nEnd<1||nEnd>GetListSize())
+		if(nEnd<1||(nEnd+nStart-1)>GetListSize())
 			SetError("Индекс 2 выходит за границы списка значений!");
 	}
 
@@ -838,12 +861,12 @@ void CValueList::Unload(CValue &List,int nStart,int nEnd)
 */
 	pList->Method("RemoveAll",0);
 
-	CValue vSize=pList->Method("GetListSize",0)+nEnd-nStart+1;
+	CValue vSize=pList->Method("GetListSize",0)+nEnd;
 	CValue **RefSize=new CValue*[3];
 	RefSize[0]=&vSize;
 	pList->Method("SetSize",RefSize);
 
-	for(int i=nStart;i<=nEnd;i++)
+	for(int i=nStart;i<nEnd+nStart;i++)
 	{
 		CValue Val1=aValue[i-1].Value;
 		CValue Val2=String(aValue[i-1].Present);
@@ -865,7 +888,7 @@ void CValueList::Unload(CValue &List,int nStart,int nEnd)
 
 			CValue Val1=nIndex;
 			RefSize[0]=&Val1;
-			pList->Method("AddValue",RefSize);
+			//pList->Method("AddValue",RefSize);
 			pList->Method("CurSel",RefSize);
 
 		}
