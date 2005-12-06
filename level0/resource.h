@@ -111,6 +111,9 @@
 #define IDD_INPUTDATE                   274
 #define IDD_INPUTNUMERIC                275
 #define IDD_INPUTPERIOD                 276
+#define IDD_CHANGEORDER                 278
+#define IDR_CHANGEORDER                 279
+#define IDD_DIALOG5                     281
 #define IDC_WINDOWLIST_ACTIVATE         300
 #define IDC_WINDOWLIST_CLOSE            301
 #define IDC_WINDOWLIST_SAVE             302
@@ -204,6 +207,7 @@
 #define IDC_DATETIMEPICKER3             1249
 #define IDC_CHECK2                      1250
 #define IDC_CHECK3                      1251
+#define IDC_GRID1                       1256
 #define IDB_ELB_ADD                     20516
 #define IDB_ELB_DELETE                  20517
 #define IDB_ELB_UP                      20518
@@ -399,6 +403,9 @@
 #define ID_VIEW_MODULE                  -32437
 #define ID_VIEW_DESCRIPTION             -32436
 #define ID_BUTTON33102                  33102
+#define ID_ORDER_ELEMENTS               33103
+#define ID_UP                           33104
+#define ID_DOWN                         33105
 #define ID_EDIT_DELETE                  37000
 #define ID_EDIT_FIND_PREVIOUS           37126
 #define ID_FORMAT_BLOCK                 37199
@@ -480,9 +487,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        278
-#define _APS_NEXT_COMMAND_VALUE         33103
-#define _APS_NEXT_CONTROL_VALUE         1253
+#define _APS_NEXT_RESOURCE_VALUE        282
+#define _APS_NEXT_COMMAND_VALUE         33106
+#define _APS_NEXT_CONTROL_VALUE         1257
 #define _APS_NEXT_SYMED_VALUE           416
 #endif
 #endif

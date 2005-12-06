@@ -107,6 +107,7 @@ BEGIN_MESSAGE_MAP(CFormEditor, CBaseClass)
 	ON_UPDATE_COMMAND_UI(ID_CNTERINVIEW_VERT, OnUpdateCnterinviewHoriz)
 	ON_UPDATE_COMMAND_UI(ID_SEND_TO_BACK, OnUpdateBringToFront)
 	ON_COMMAND(ID_LAYERS, OnLayers)
+	ON_COMMAND(ID_ORDER_ELEMENTS, OnChangeOrder)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -116,6 +117,7 @@ END_MESSAGE_MAP()
 void CFormEditor::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
+	
 	if(m_FormSelector&&m_pDialog)
 	{
 /*		CRect Rect=m_FormSelector->m_rect;
@@ -165,6 +167,9 @@ void CFormEditor::OnInitialUpdate()
 
 	m_Layers.Create(IDD_LAYERSELECT_FORM,this);
 	m_Layers.AttachEditor(this);
+
+	//m_ChangeOrder.Create(IDD_CHANGEORDER,this);
+	m_ChangeOrder.AttachEditor(this);
 
 	//CMetaObject *m_MetaObj=((CMetaDocument*)GetDocument())->m_MetaObj;
 	if(m_MetaObj)
@@ -620,7 +625,15 @@ void CFormEditor::LoadData(int bCheckNew)
 
 			for(int i=0;i<AllElements.GetSizeArray();i++)
 			{
-				CDynControl *pControl=m_pDialog->AddControl(AllElements.GetAt(i+1));
+				ObjectVal=AllElements.GetAt(i+1);
+				CDynControl *pControl=m_pDialog->AddControl(ObjectVal);
+				CChangeOrderItem data;
+				data.csCapture=ObjectVal.GetAt("Заголовок");
+				data.csType=ObjectVal.GetAt("ТипЭлемента");
+				data.csId=ObjectVal.GetAt("Идентификатор");
+				data.csLayer=ObjectVal.GetAt("Слой");
+				data.pControl=pControl;
+				m_ChangeOrder.aList.Add(data);
 				pControl->OnUpdate();
 
 				//корректируем список слоев
@@ -629,6 +642,7 @@ void CFormEditor::LoadData(int bCheckNew)
 			}
 			m_pDialog->ReloadWindows();
 			m_Layers.ReLoadGrid();
+			m_ChangeOrder.ReLoadGrid();
 		}
 		else
 		if(bCheckNew)
@@ -894,8 +908,20 @@ void CFormEditor::OnSendToBack()
 void CFormEditor::OnLayers() 
 {
 	m_Layers.ShowWindow(SW_NORMAL);
+	
 }
-
+void CFormEditor::OnChangeOrder() 
+{
+	if(m_ChangeOrder.DoModal()==IDOK)
+	{
+		for(int i=0;i<m_ChangeOrder.aList.GetSize();i++)
+		{
+			CDynControl *pControl=m_ChangeOrder.aList[i].pControl;
+			if(pControl)
+				pControl->nCreate=FORM_START_ID+i;
+		}
+	}
+}
 
 CString CFormEditor::GetLayerName()
 {

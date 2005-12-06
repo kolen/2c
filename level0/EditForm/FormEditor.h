@@ -9,6 +9,7 @@
 //
 #include "FormDialog.h"
 #include "LayerSelect.h"
+#include "ChangeOrder.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CFormEditor view
@@ -30,8 +31,8 @@ public:
 
 	//поддержка работы со слоями (аля 1С 7.7)
 	CLayerSelect m_Layers;
-
-
+	CChangeOrder m_ChangeOrder;
+	
 	//Методы:
 	CString GetStrLayers();
 	CString GetLayerName();
@@ -137,6 +138,7 @@ public:
 	afx_msg void OnUpdateBringToFront(CCmdUI* pCmdUI);
 	afx_msg void OnSendToBack();
 	afx_msg void OnLayers();
+	afx_msg void OnChangeOrder();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
