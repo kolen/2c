@@ -16,7 +16,7 @@ DECLARE_DYNCREATE(CValueFileSystem);
 public:
 	CValueFileSystem();
 	virtual ~CValueFileSystem();
-
+	int nTimer;
 	HANDLE hFindFile;
 	CMapStringToPtr aListHandle;
 
