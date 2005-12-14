@@ -1397,18 +1397,6 @@ SOURCE=.\Menu\MenuListBox.cpp
 SOURCE=.\Menu\MenuListBox.h
 # End Source File
 # End Group
-# Begin Group "BCMenu"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\BCMenu\BCMenu.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\BCMenu\BCMenu.h
-# End Source File
-# End Group
 # Begin Group "DirDialog"
 
 # PROP Default_Filter ""
@@ -1595,170 +1583,6 @@ SOURCE=.\DragDialog\DragFormView.cpp
 # Begin Source File
 
 SOURCE=.\DragDialog\DragFormView.h
-# End Source File
-# End Group
-# Begin Group "SourceUT"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\SourceUT\OXBitmapMenu.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXBitmapMenu.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXBitmapMenuOrganizer.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXBitmapMenuOrganizer.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXCoolToolBar.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXCoolToolBar.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXDllExt.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXDragDockContext.CPP
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXDragDockContext.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXFrameWndDock.CPP
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXFrameWndDock.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXMDIFloatWnd.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXMDIFloatWnd.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXRectTracker.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXRectTracker.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSizeCtrlBar.CPP
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSizeCtrlBar.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSizeDockBar.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSizeDockBar.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSizeToolBar.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSizeToolBar.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSpinCtrl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSpinCtrl.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSpinCtrlRes.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplashWnd.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplashWnd.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplashWnd.inl
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplashWndDIB.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplashWndDIB.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplitterColRowState.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplitterColRowState.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplitterRect.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSplitterRect.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXStaticText.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXStaticText.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXStaticText.inl
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSzMiniDockFrmWnd.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXSzMiniDockFrmWnd.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXTabView.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXTabView.h
 # End Source File
 # End Group
 # Begin Group "IconListBox"
@@ -2091,6 +1915,42 @@ SOURCE=.\MySQL\ODBCRecordset.cpp
 # Begin Source File
 
 SOURCE=.\MySQL\ODBCRecordset.h
+# End Source File
+# End Group
+# Begin Group "GUI"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\GUI\XColorStatic.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\GUI\XColorStatic.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\GUI\XHyperLink.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\GUI\XHyperLink.h
+# End Source File
+# End Group
+# Begin Group "SourceUT"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\SourceUT\OXDllExt.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\SourceUT\OXTabView.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\SourceUT\OXTabView.h
 # End Source File
 # End Group
 # End Group
