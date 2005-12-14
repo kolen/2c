@@ -150,7 +150,7 @@ CValue CValueText::Method(int iName,CValue **p)
 								aText.Add(Str);
 							Str="";
 							i++;
-							i++;
+							//i++;
 						}
 						else
 						{
