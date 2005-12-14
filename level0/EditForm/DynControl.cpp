@@ -1070,7 +1070,7 @@ void CDynControl::AddControl(CPoint* ppoint)
 			nStyle = nStyle | WS_VISIBLE;
 
 
-		COXStaticText *pControl=new COXStaticText();
+		CXColorStatic *pControl=new CXColorStatic();
 		AddDialog(pControl,ppoint,90,DEFAULT_DIALOG_H,"STATIC",WS_CHILD|WS_DISABLED | WS_BORDER);
 		CWnd *p=pControl->GetOwner();
 		pControl->SetOwner(m_pParentWnd);
@@ -1350,7 +1350,7 @@ void CDynControl::OnUpdate()
 		else
 		if (m_nControlType == ID_DYNBUTTONLABEL) // LABEL
 		{
-			COXStaticText* pControl=(COXStaticText*)m_pWnd;
+			CXColorStatic* pControl=(CXColorStatic*)m_pWnd;
 			int nHAllign=GetPosNumber(aDataList[5].sData,aDataList[5].nData);
 			int nVAllign=GetPosNumber(aDataList[6].sData,aDataList[6].nData);
 			SetStaticParams(*pControl,nHAllign,nVAllign,"MS Sans Serif",aDataList[1].bData,aDataList[2].bData,aDataList[3].bData,aDataList[0].nData,aDataList[4].Color);
