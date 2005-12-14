@@ -1,4 +1,4 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            // credits.cpp : implementation file
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      // credits.cpp : implementation file
 //**************************************************************************
 
 // NOTE: Be sure you have defined your bitmaps by assigning them a resource
@@ -73,7 +73,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 // 
 // Array count. Make sure this keeps up with how many lines there are
 // in the array!
-char *pArrCredit[] = { 	"2C: Предприятие 1.0 \n",
+char *pArrCredit[] = { 	"gpl-2C: Предприятие \n",
 						"",
 						"Copyright (C)  VTOOLS.RU, 2003-2004 \f",
 						"All Rights Reserved \f",
@@ -102,6 +102,7 @@ CCredits::CCredits(CWnd* pParent /*=NULL*/)
 {
 	//{{AFX_DATA_INIT(CCredits)
 	m_Info = _T("");
+	m_Info1= _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -112,6 +113,7 @@ void CCredits::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CCredits)
 	DDX_Control(pDX, IDC_STATIC_DBDIR, m_DBDir);
 	DDX_Text(pDX, IDC_EDIT_INFO, m_Info);
+	DDX_Text(pDX, IDC_EDIT_INFO1, m_Info1);
 	//}}AFX_DATA_MAP
 }
 
@@ -119,7 +121,6 @@ void CCredits::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CCredits, CDialog)
 	//{{AFX_MSG_MAP(CCredits)
 	ON_WM_PAINT()
-	ON_WM_TIMER()
 	ON_WM_DESTROY()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -130,7 +131,7 @@ END_MESSAGE_MAP()
 
 void CCredits::OnOK() 
 {
-	KillTimer(DISPLAY_TIMER_ID);
+	//KillTimer(DISPLAY_TIMER_ID);
 	
 	CDialog::OnOK();
 }
@@ -144,7 +145,7 @@ BOOL CCredits::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	BOOL bRet;
-    	UINT nRet;
+    //UINT nRet;
 	
 	nCurrentFontHeight = NORMAL_TEXT_HEIGHT;
 	
@@ -161,18 +162,18 @@ BOOL CCredits::OnInitDialog()
 	m_bDrawText=FALSE;
 	m_hBmpOld = 0;
 	
-	m_pDisplayFrame=(CWnd*)GetDlgItem(IDC_DISPLAY_STATIC);	
+	//m_pDisplayFrame=(CWnd*)GetDlgItem(IDC_DISPLAY_STATIC);	
 
 	// If you assert here, you did not assign your static display control
 	// the IDC_ value that was used in the GetDlgItem(...). This is the
     // control that will display the credits.
-	_ASSERTE(m_pDisplayFrame);
+	//_ASSERTE(m_pDisplayFrame);
 				 
-	m_pDisplayFrame->GetClientRect(&m_ScrollRect);
+	//m_pDisplayFrame->GetClientRect(&m_ScrollRect);
 
 
-	nRet = SetTimer(DISPLAY_TIMER_ID,DISPLAY_SPEED,NULL);
-    _ASSERTE(nRet != 0);
+	//nRet = SetTimer(DISPLAY_TIMER_ID,DISPLAY_SPEED,NULL);
+    //_ASSERTE(nRet != 0);
 
 	m_Info.Format("Установленные компоненты:\r\n");
 	if(ListPlugins)
@@ -184,10 +185,11 @@ BOOL CCredits::OnInitDialog()
 		}
 
 	}
+	m_Info1="gpl-2C Enterprise";
 	m_DBDir.SetWindowText(CString("Каталог базы данных:\n")+csIBDir);
 	UpdateData(0);
 
-	GetDlgItem(IDC_ENTERPRISE_NAME)->SetWindowText(CString("2C:Enterprise (release from ")+__DATE__+")");
+	GetDlgItem(IDC_ENTERPRISE_NAME)->SetWindowText(CString("gpl-2C:Enterprise (release from ")+__DATE__+")");
 	return TRUE;
 	              
 }
@@ -200,6 +202,7 @@ BOOL CCredits::OnInitDialog()
 //      Invalidate and UpdateWindow to invoke the OnPaint which will paint 
 //      the contents of the newly updated work string.
 //************************************************************************
+/*
 void CCredits::OnTimer(UINT nIDEvent) 
 {
 	if (nIDEvent != DISPLAY_TIMER_ID)
@@ -235,7 +238,7 @@ void CCredits::OnTimer(UINT nIDEvent)
 
 	CDialog::OnTimer(nIDEvent);
 }
-
+*/
 
 //************************************************************************
 //	 OnPaint
@@ -244,6 +247,7 @@ void CCredits::OnTimer(UINT nIDEvent)
 //************************************************************************
 void CCredits::OnPaint() 
 {
+	/*
 	CPaintDC dc(this); // device context for painting
 	
 	PAINTSTRUCT ps;
@@ -427,7 +431,7 @@ void CCredits::OnPaint()
 		m_fntArial.DeleteObject();
 		}
 
-	m_pDisplayFrame->EndPaint(&ps);
+	m_pDisplayFrame->EndPaint(&ps);*/
 	
 	// Do not call CDialog::OnPaint() for painting messages
 }

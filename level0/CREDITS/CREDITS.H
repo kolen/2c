@@ -38,6 +38,7 @@ public:
 	enum { IDD = IDD_ABOUTBOX };
 	CStatic	m_DBDir;
 	CString	m_Info;
+	CString m_Info1;
 	//}}AFX_DATA
 
 
@@ -56,7 +57,6 @@ protected:
 	virtual void OnOK();
 	afx_msg void OnPaint();
 	virtual BOOL OnInitDialog();
-	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnDestroy();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
