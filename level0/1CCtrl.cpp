@@ -15,8 +15,9 @@ static char THIS_FILE[]=__FILE__;
 
 
 //œŒƒƒ≈–∆ ¿ “≈ —“¿
-void SetStaticParams(COXStaticText &m_StaticText,int hAlign=0,int vAlign=0,CString csFont="MS Sans Serif",bool bBold=0,bool bItalic=0,bool bUnderL=0,int nHeight=15,int nColor=0)
+void SetStaticParams(CXColorStatic &m_StaticText,int hAlign=0,int vAlign=0,CString csFont="MS Sans Serif",bool bBold=0,bool bItalic=0,bool bUnderL=0,int nHeight=15,int nColor=0)
 {
+	/*
 	if(hAlign==0)
 	m_StaticText.SetHorzAlignment(OX_ALIGNHORZ_LEFT,TRUE);
 	else if(hAlign==1)
@@ -30,14 +31,14 @@ void SetStaticParams(COXStaticText &m_StaticText,int hAlign=0,int vAlign=0,CStri
 	m_StaticText.SetVertAlignment(OX_ALIGNVERT_CENTER,TRUE);
 	else if(vAlign==2)
 	m_StaticText.SetVertAlignment(OX_ALIGNVERT_BOTTOM,TRUE);
+	*/
 
-
-	m_StaticText.SetFontName(csFont);
-	m_StaticText.SetFontAttr(OX_BOLD_FONT, bBold);
-	m_StaticText.SetFontAttr(OX_ITALIC_FONT, bItalic);
-	m_StaticText.SetFontAttr(OX_UNDERLINED_FONT, bUnderL);
+	m_StaticText.SetFont(csFont,nHeight);
+	m_StaticText.SetBold(bBold,TRUE);
+	m_StaticText.SetItalic(bItalic,TRUE);
+	m_StaticText.SetUnderline(bUnderL,TRUE);
 	//m_StaticText.SetFontAttr(OX_STRIKED_OUT_FONT, 0);
-	m_StaticText.SetFontHeight(nHeight);
+	//m_StaticText.SetFontHeight(nHeight);
 	
 
 	//m_StaticText.Set3Doffset(0);
@@ -46,7 +47,7 @@ void SetStaticParams(COXStaticText &m_StaticText,int hAlign=0,int vAlign=0,CStri
 	
 
 	
-	m_StaticText.SetBkColor(::GetSysColor(COLOR_3DFACE));
+	m_StaticText.SetBackgroundColor(::GetSysColor(COLOR_3DFACE));
 	m_StaticText.SetPlainBorder(TRUE);
 	m_StaticText.SetPlainBorder(FALSE);
 }

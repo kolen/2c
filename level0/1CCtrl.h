@@ -13,10 +13,10 @@
 #include "Edit/DropEdit.h"
 #include "Edit/SecCalc.h"
 #include "Edit/amsEdit.h"
-
+#include "GUI/XColorStatic.h"
 
 //онддепфйю рейярю
-void SetStaticParams(COXStaticText &m_StaticText,int hAlign,int vAlign,CString csFont,bool bBold,bool bItalic,bool bUnderL,int nHeight,int nColor);
+void SetStaticParams(CXColorStatic &m_StaticText,int hAlign,int vAlign,CString csFont,bool bBold,bool bItalic,bool bUnderL,int nHeight,int nColor);
 
 //онддепфйю гюйкюднй
 class CLayerTabCtrl

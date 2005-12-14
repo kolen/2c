@@ -923,17 +923,18 @@ void CFormUnit::OnButton2(UINT nID,int nMessage)
 							{
 								CString csValue=CProcUnit::Eval(csFormule,&pRunModule->cCurContext);
 								CWnd *pWnd=pControl->GetWnd();
-
+									
 								if(pWnd)
 								{
 									bWasEnter=1;
 									#define PWINDOW ((CWnd*)pWnd)
-									#define PWINDOW2 ((COXStaticText*)pWnd)
-
-									if(pWnd->GetRuntimeClass()==(RUNTIME_CLASS(COXStaticText)))	
-										PWINDOW2->SetWindowText(csValue,1);
-									else
-										PWINDOW->SetWindowText(csValue);
+									#define PWINDOW2 ((CXColorStatic*)pWnd)
+									PWINDOW->SetWindowText(csValue);
+									if(pWnd->GetRuntimeClass()==(RUNTIME_CLASS(CXColorStatic)))	
+									{
+										PWINDOW2->SetPlainBorder(TRUE);
+										PWINDOW2->SetPlainBorder(FALSE);
+									}	
 									bWasEnter=0;
 								}
 							}
@@ -1648,7 +1649,14 @@ int CFormUnit::RefreshExpr(WPARAM wParam, LPARAM lParam)
 			if( pControl->aDataList[i].nData==NM_CUSTOMDRAW)
 			//if(!pControl->aDataList[i].sData.IsEmpty())
 			{
-				pControl->GetWnd()->Invalidate();
+				CWnd *pWnd=pControl->GetWnd();
+				pWnd->RedrawWindow();
+				#define PWINDOW2 ((CXColorStatic*)pWnd)
+				if(pWnd->GetRuntimeClass()==(RUNTIME_CLASS(CXColorStatic)))	
+				{
+					PWINDOW2->SetPlainBorder(TRUE);
+					PWINDOW2->SetPlainBorder(FALSE);
+				}	
 				//pControl->GetWnd()->PostMessage(NM_CUSTOMDRAW);
 				//OnButton(pControl->m_nID,NM_CUSTOMDRAW);
 				break;
