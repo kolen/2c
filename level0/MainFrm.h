@@ -12,7 +12,7 @@
 #include "MessageBar.h"
 #include "ObjectInspector\PropertyBar.h"
 #include "DocumentBar_src\DocSelect.h"
-#include "BCMenu\BCMenu.h"
+//#include "BCMenu\BCMenu.h"
 #include "DebugMessageBar.h"
 #include "StackBar.h"
 
