@@ -481,15 +481,12 @@ CString CValueControl::GetTypeString(void)const
 };
 
 #define PWINDOW ((CWnd*)pWnd)
-#define PWINDOW2 ((COXStaticText*)pWnd)
+#define PWINDOW2 ((CXColorStatic*)pWnd)
 void CValueControl::Caption(CString Str)
 {
 	if(pWnd)
 	{
-		if(pWnd->GetRuntimeClass()==(RUNTIME_CLASS(COXStaticText)))	
-			PWINDOW2->SetWindowText(Str,1);
-		else
-			PWINDOW->SetWindowText(Str);
+		PWINDOW->SetWindowText(Str);
 	}
 };
 

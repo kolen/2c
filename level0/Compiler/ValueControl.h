@@ -11,7 +11,7 @@
 #endif // _MSC_VER > 1000
 
 #include "Value.h"
-//#include "SourceUT/OXStaticText.h"
+#include "../GUI/XColorStatic.h"
 
 
 #define MAX_RADIO  100 // максимальное количество элементов у переключателя (RADIO)
@@ -239,7 +239,7 @@ public:
 
 
 //ПОДДЕРЖКА ТЕКСТА
-#define PWINDOW ((COXStaticText *)pWnd)
+#define PWINDOW ((CXColorStatic *)pWnd)
 class CValueStatic : public CValueControl
 {
 DECLARE_DYNCREATE(CValueStatic);
@@ -254,6 +254,8 @@ public:
 	void Caption(CString Str)
 	{
 		CString csRes=Caption();
+		CXColorStatic m;
+		
 		PWINDOW->SetWindowText(Str);
 		PWINDOW->SetPlainBorder(TRUE);
 		PWINDOW->SetPlainBorder(FALSE);
