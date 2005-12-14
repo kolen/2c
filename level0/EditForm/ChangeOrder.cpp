@@ -39,21 +39,12 @@ void CChangeOrder::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CChangeOrder, CDialog)
 	//{{AFX_MSG_MAP(CChangeOrder)
 	ON_COMMAND(ID_UP, OnUpElement)
-    ON_NOTIFY(NM_DBLCLK, IDC_GRID1, OnGridDblClick)
 	ON_COMMAND(ID_DOWN, OnDownElement)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CChangeOrder message handlers
-
-
-void CChangeOrder::OnCancel() 
-{
-	// TODO: Add extra cleanup here
-	nCancel=1;
-	CDialog::OnCancel();
-}
 
 BOOL CChangeOrder::OnInitDialog() 
 {
@@ -90,49 +81,18 @@ BOOL CChangeOrder::OnInitDialog()
 	m_Grid.SetFocusCell(1,2);
 
 	ReLoadGrid();
-	
 	m_ToolBar.Create(this, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS |
-		CBRS_FLYBY | CBRS_BORDER_BOTTOM|TBSTYLE_DROPDOWN,AFX_IDW_TOOLBAR);//надо изменить AFX_IDW_TOOLBAR
+			CBRS_FLYBY | CBRS_BORDER_BOTTOM|TBSTYLE_DROPDOWN,AFX_IDW_TOOLBAR);//надо изменить AFX_IDW_TOOLBAR
 	m_ToolBar.LoadToolBar(IDR_CHANGEORDER);
-
-	
-	// Положение панелей
+		// Положение панелей
 	RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, 0);
-
+		
 	return FALSE;
 }
 
-
-void CChangeOrder::OnGridDblClick(NMHDR *pNotifyStruct, LRESULT* /*pResult*/)
+void CChangeOrder::AttachEditor(class CFormEditor *pSet)
 {
-   /* NM_GRIDVIEW* pItem = (NM_GRIDVIEW*) pNotifyStruct;
-	CCellID curCell=m_Grid.GetFocusCell();
-	int nLine=curCell.row;
-	if(nLine<0 || nLine>=aList.GetSize())
-		return;
-
-	if(0==curCell.col)
-		aList[nLine].bVisible=!aList[nLine].bVisible;
-
-	if(1==curCell.col)
-		nCurrentEdit=nLine;
-
-	if(2==curCell.col)
-	{
-		for(int i=0;i<aList.GetSize();i++)
-		{
-			aList[i].bVisible=0;
-		}
-		nCurrentEdit=nLine;
-	}
-
-	ReLoadGrid();
-
-	ASSERT(pEditor);
-	pEditor->SetModifiedFlag(1);
-	if(pEditor->m_pDialog)
-		pEditor->m_pDialog->SendMessage(WM_ENDSELECT);
-	*/
+	pEditor=pSet;
 }
 
 void CChangeOrder::OnUpElement() 
@@ -191,12 +151,6 @@ void CChangeOrder::ReLoadGrid()
 
 	m_Grid.SetFocusCell(curCell);
 }
-
-void CChangeOrder::AttachEditor(class CFormEditor *pSet)
-{
-	pEditor=pSet;
-}
-
 
 CString CChangeOrder::GetType(int nType)
 {

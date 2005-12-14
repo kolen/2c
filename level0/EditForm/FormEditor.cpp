@@ -167,10 +167,7 @@ void CFormEditor::OnInitialUpdate()
 
 	m_Layers.Create(IDD_LAYERSELECT_FORM,this);
 	m_Layers.AttachEditor(this);
-
-	//m_ChangeOrder.Create(IDD_CHANGEORDER,this);
-	m_ChangeOrder.AttachEditor(this);
-
+	
 	//CMetaObject *m_MetaObj=((CMetaDocument*)GetDocument())->m_MetaObj;
 	if(m_MetaObj)
 	{
@@ -633,7 +630,7 @@ void CFormEditor::LoadData(int bCheckNew)
 				data.csId=ObjectVal.GetAt("Идентификатор");
 				data.csLayer=ObjectVal.GetAt("Слой");
 				data.pControl=pControl;
-				m_ChangeOrder.aList.Add(data);
+				m_aChangeOrder.Add(data);
 				pControl->OnUpdate();
 
 				//корректируем список слоев
@@ -642,7 +639,7 @@ void CFormEditor::LoadData(int bCheckNew)
 			}
 			m_pDialog->ReloadWindows();
 			m_Layers.ReLoadGrid();
-			m_ChangeOrder.ReLoadGrid();
+			
 		}
 		else
 		if(bCheckNew)
@@ -912,11 +909,15 @@ void CFormEditor::OnLayers()
 }
 void CFormEditor::OnChangeOrder() 
 {
-	if(m_ChangeOrder.DoModal()==IDOK)
+	CChangeOrder dlg; 
+	dlg.AttachEditor(this);
+	for(int i=0;i<m_aChangeOrder.GetSize();i++)
+		dlg.aList.Add(m_aChangeOrder[i]);
+	if(dlg.DoModal()==IDOK)
 	{
-		for(int i=0;i<m_ChangeOrder.aList.GetSize();i++)
+		for(int i=0;i<dlg.aList.GetSize();i++)
 		{
-			CDynControl *pControl=m_ChangeOrder.aList[i].pControl;
+			CDynControl *pControl=dlg.aList[i].pControl;
 			if(pControl)
 				pControl->nCreate=FORM_START_ID+i;
 		}

@@ -34,21 +34,18 @@ public:
 	CButton	m_Cancel;
 	//}}AFX_DATA
 	int nCancel;
-	class CFormEditor *pEditor;//обратная связь с редактором форм для выдачи сообщений по изменению состава слоев
-
-
+	
 	CArray <CChangeOrderItem,CChangeOrderItem&> aList;
 
+	class CFormEditor *pEditor;//обратная связь с редактором форм для выдачи сообщений по изменению состава слоев
 
 	CToolBar m_ToolBar;
 	CGridCtrl m_Grid;
 
 
-	void AttachEditor(class CFormEditor *);
 	void ReLoadGrid();
+	void AttachEditor(class CFormEditor *);
 
-
-	void OnGridDblClick(NMHDR *pNotifyStruct, LRESULT* /*pResult*/);
 	// Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CChangeOrder)
@@ -62,7 +59,6 @@ protected:
 	
 	// Generated message map functions
 	//{{AFX_MSG(CChangeOrder)
-	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnUpElement();
 	afx_msg void OnDownElement();

@@ -31,7 +31,7 @@ public:
 
 	//поддержка работы со слоями (аля 1С 7.7)
 	CLayerSelect m_Layers;
-	CChangeOrder m_ChangeOrder;
+	CArray <CChangeOrderItem,CChangeOrderItem&> m_aChangeOrder;
 	
 	//Методы:
 	CString GetStrLayers();
