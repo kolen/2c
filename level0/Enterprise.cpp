@@ -150,7 +150,7 @@ BOOL CEnterpriseApp::InitInstance()
 	SetRegistryKey(_T("2C"));
 	//заставка
 	#define SAMPLE_TEXT_INTERVAL_MILSEC 1000 
-	m_wndSplash.LoadBitmap(IDB_BITMAP_SPLASH);
+	//m_wndSplash.LoadBitmap(IDB_BITMAP_SPLASH);
 	//Sleep(700);
 
     AfxInitRichEdit();
@@ -594,7 +594,7 @@ BOOL CEnterpriseApp::InitInstance()
 
 
 
-	m_wndSplash.Hide();
+	//	m_wndSplash.Hide();
 	return TRUE;
 }
 

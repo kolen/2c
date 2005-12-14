@@ -208,6 +208,7 @@
 #define IDC_CHECK2                      1250
 #define IDC_CHECK3                      1251
 #define IDC_GRID1                       1256
+#define IDC_EDIT_INFO1                  1257
 #define IDB_ELB_ADD                     20516
 #define IDB_ELB_DELETE                  20517
 #define IDB_ELB_UP                      20518
@@ -489,7 +490,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        282
 #define _APS_NEXT_COMMAND_VALUE         33106
-#define _APS_NEXT_CONTROL_VALUE         1257
+#define _APS_NEXT_CONTROL_VALUE         1258
 #define _APS_NEXT_SYMED_VALUE           416
 #endif
 #endif

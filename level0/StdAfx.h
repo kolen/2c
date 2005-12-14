@@ -20,6 +20,7 @@
 #include <afxodlgs.h>       // MFC OLE dialog classes
 #include <afxdisp.h>        // MFC Automation classes
 #include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
+#include <afxadv.h> 
 
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>			// MFC support for Windows Common Controls
@@ -88,10 +89,10 @@ extern CString afxFormPath;
 //поддержка таблицы
 //TODO
 
-#include "SourceUT\OXSplashWnd.h"
-#include "SourceUT\OXStaticText.h"
-#include "SourceUT\OXSizeCtrlBar.h"
-#include "SourceUT\OXFrameWndDock.h"
+//#include "SourceUT\OXSplashWnd.h"
+//#include "SourceUT\OXStaticText.h"
+//#include "SourceUT\OXSizeCtrlBar.h"
+//#include "SourceUT\OXFrameWndDock.h"
 //#include "SourceUT\OXSizeDlgBar.h"
 //#include "OXSizeDlgBar.h"
 
