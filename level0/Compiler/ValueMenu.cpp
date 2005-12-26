@@ -30,7 +30,7 @@ int GetUniqueMenuID()
 	return nMenuId;
 }
 
-void AssignToMenuID(CMenuItem &item,int nId)
+void AssignToMenuID(CMyMenuItem &item,int nId)
 {
 	int n=nId-MENU_START_ID;
 	aAllMenuItems.SetAtGrow(n,item);
@@ -38,9 +38,9 @@ void AssignToMenuID(CMenuItem &item,int nId)
 
 
 
-CMenuItem GetElementFromValues(CValue **p)
+CMyMenuItem GetElementFromValues(CValue **p)
 {
-	CMenuItem element;
+	CMyMenuItem element;
 	element.csName=p[0]->GetString();
 	if(!element.csName.IsEmpty())
 	{
@@ -119,7 +119,7 @@ CValue CValueMenu::Method(int iName,CValue **p)
 	{
 		case enAddMenu:
 			{
-				CMenuItem element=GetElementFromValues(p);
+				CMyMenuItem element=GetElementFromValues(p);
 				aMenu.Add(element);
 				break;
 			}

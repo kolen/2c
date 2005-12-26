@@ -19,9 +19,9 @@ extern CMainFrame *pMainFrame;
 extern CString csProfileName;
 extern TMenuItemArray aAllMenuItems;
 
-void AssignToMenuID(CMenuItem &item,int nId);
+void AssignToMenuID(CMyMenuItem &item,int nId);
 int GetUniqueMenuID();
-extern CMenuItem GetElementFromValues(CValue **p);
+extern CMyMenuItem GetElementFromValues(CValue **p);
 
 
 CMethods CValueToolBar::Methods;
@@ -152,7 +152,7 @@ BOOL CValueToolBar::AddButton(CValue &rez,CValue**p)
 	Create();
 	int nImage=p[0]->GetNumber();
 
-	CMenuItem element=GetElementFromValues(p);
+	CMyMenuItem element=GetElementFromValues(p);
 	if(nImage<0)
 	{
 		m_pToolBar->InsertButton();

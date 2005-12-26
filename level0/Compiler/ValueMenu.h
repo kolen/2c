@@ -12,7 +12,7 @@
 
 #include "Value.h"
 
-typedef CArray<class CMenuItem,class CMenuItem> TMenuItemArray;
+typedef CArray<class CMyMenuItem,class CMyMenuItem> TMenuItemArray;
 enum
 {
 	MENU_SEPARATOR=0,
@@ -21,10 +21,10 @@ enum
 	MENU_POPUP,
 	MENU_BAR,
 };
-class CMenuItem
+class CMyMenuItem
 {
 public:
-	CMenuItem()
+	CMyMenuItem()
 	{
 //		nId=0;
 		nType=MENU_SEPARATOR;
@@ -63,7 +63,7 @@ enum
 };
 
 	TMenuItemArray aMenu;
-    CMenuItem CurrentItem;
+    CMyMenuItem CurrentItem;
 
 	//–¿¡Œ“¿  ¿  ¿√–≈√¿“ÕŒ√Œ Œ¡⁄≈ “¿
 	CString csObjectName;
