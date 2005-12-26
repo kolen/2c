@@ -1,28 +1,27 @@
-// *** gpl2c ***
+// XColorStatic.h  Version 1.0
 //
-// XColorStatic.h  Version 1.1
+// Author:  Hans Dietrich
+//          hdietrich2@hotmail.com
 //
-//  Copyright (C) 2005 gpl2c <gpl2c@pochta.ru>
+// This software is released into the public domain.
+// You are free to use it in any way you like.
 //
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Library General Public
-//  License as published by the Free Software Foundation; either
-//  version 2 of the License, or (at your option) any later version.
-//
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Library General Public License for more details.
-//
-//  You should have received a copy of the GNU Library General Public
-//  License along with this library; if not, write to the Free
-//  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// This software is provided "as is" with no expressed
+// or implied warranty.  I accept no liability for any
+// damage or loss of business that this software may cause.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef XCOLORSTATIC_H
 #define XCOLORSTATIC_H
+
+#define X_ALIGNHORZ_LEFT		0
+#define X_ALIGNHORZ_CENTER		1
+#define X_ALIGNHORZ_RIGHT		2
+#define X_ALIGNVERT_TOP			3
+#define X_ALIGNVERT_CENTER		4
+#define X_ALIGNVERT_BOTTOM		5
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CXColorStatic window
@@ -51,6 +50,11 @@ public:
 	void SetFont(CFont *pFont, BOOL bRedraw = TRUE);
 	void SetIcon(HICON hIcon, BOOL bRedraw = TRUE);
 	void SetMargins(int x, int y) { m_nXMargin = x; m_nYMargin = y; }
+	BOOL SetHorzAlignment(int nAlignment, BOOL bRedraw = FALSE);
+	int GetHorzAlignment() const {return m_nHorzAlignment;};
+
+	BOOL SetVertAlignment(int nAlignment, BOOL bRedraw = FALSE);
+	int GetVertAlignment() const {return m_nVertAlignment;};
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -68,7 +72,9 @@ protected:
 	BOOL		m_bBold;
 	int			m_nXMargin, m_nYMargin;
 	HICON		m_hIcon;
-	
+	int			m_nHorzAlignment;
+	int			m_nVertAlignment;
+
 	int GetFontPointSize(int nHeight);
 	int GetFontHeight(int nPointSize);
 	// Generated message map functions

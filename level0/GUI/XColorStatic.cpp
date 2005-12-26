@@ -1,22 +1,14 @@
-// *** gpl2c ***
+// XColorStatic.cpp  Version 1.0
 //
-// XColorStatic.cpp  Version 1.1
+// Author:  Hans Dietrich
+//          hdietrich2@hotmail.com
 //
-//  Copyright (C) 2005 gpl2c <gpl2c@pochta.ru>
+// This software is released into the public domain.
+// You are free to use it in any way you like.
 //
-//  This library is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU Library General Public
-//  License as published by the Free Software Foundation; either
-//  version 2 of the License, or (at your option) any later version.
-//
-//  This library is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//  Library General Public License for more details.
-//
-//  You should have received a copy of the GNU Library General Public
-//  License along with this library; if not, write to the Free
-//  Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// This software is provided "as is" with no expressed
+// or implied warranty.  I accept no liability for any
+// damage or loss of business that this software may cause.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -188,15 +180,19 @@ void CXColorStatic::OnPaint()
 		DWORD dwStyle = GetStyle();
 
 		// set DrawText format from static style settings
-		if (dwStyle & SS_CENTER)
+		if (m_nHorzAlignment==X_ALIGNHORZ_CENTER)
 			nFormat |= DT_CENTER;
-		else if (dwStyle & SS_LEFT)
+		else if (m_nHorzAlignment==X_ALIGNHORZ_LEFT)
 			nFormat |= DT_LEFT;
-		else if (dwStyle & SS_RIGHT)
+		else if (m_nHorzAlignment==X_ALIGNHORZ_RIGHT)
 			nFormat |= DT_RIGHT;
 
-		if (dwStyle & SS_CENTERIMAGE)	// vertical centering ==> single line only
+		if (m_nVertAlignment==X_ALIGNVERT_CENTER)	// vertical centering ==> single line only
 			nFormat |= DT_VCENTER | DT_SINGLELINE;
+		//else if (m_nVertAlignment==X_ALIGNVERT_TOP)
+		//	nFormat |= DT_TOP;
+		//else if (m_nVertAlignment==X_ALIGNVERT_BOTTOM)
+		//	nFormat |= DT_BOTTOM;
 		else
 			nFormat |= DT_WORDBREAK;
 
@@ -388,4 +384,28 @@ BOOL CXColorStatic::SetPlainBorder(BOOL bSet)
 	return TRUE;
 }
 
+BOOL CXColorStatic::SetHorzAlignment(int nAlignment, BOOL bRedraw /* = FALSE */)
+{
+	if(nAlignment!=X_ALIGNHORZ_LEFT && nAlignment!=X_ALIGNHORZ_CENTER && 
+		nAlignment!=X_ALIGNHORZ_RIGHT)
+	{
+		return FALSE;
+	}
+	m_nHorzAlignment = nAlignment;
+	if (bRedraw)
+		RedrawWindow();
+	return TRUE;
+}
 
+BOOL CXColorStatic::SetVertAlignment(int nAlignment, BOOL bRedraw /* = FALSE */)
+{
+	if(nAlignment!=X_ALIGNVERT_TOP && nAlignment!=X_ALIGNVERT_CENTER && 
+		nAlignment!=X_ALIGNVERT_BOTTOM)
+	{
+		return FALSE;
+	}
+	m_nVertAlignment = nAlignment;
+	if (bRedraw)
+		RedrawWindow();
+	return TRUE;
+}
