@@ -84,6 +84,8 @@ protected:
 	afx_msg void OnEditAdd();
 	afx_msg void OnEditDel();
 	afx_msg void OnFormatCells();
+	afx_msg void OnChangingRowHeight();
+	afx_msg void OnChangingColWidth();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

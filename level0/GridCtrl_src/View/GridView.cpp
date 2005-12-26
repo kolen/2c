@@ -9,7 +9,7 @@
 
 #include "../../MainFrm.h"
 #include "../../MetadataTree.h"
-
+#include "../../InputNumeric.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -40,6 +40,10 @@ BEGIN_MESSAGE_MAP(CGridView, CView)
 	ON_UPDATE_COMMAND_UI(ID_GRID_VIEW_SECTION, OnUpdateGridViewSection)
 	ON_COMMAND(ID_GRID_SETKA, OnGridSetka)
 	ON_UPDATE_COMMAND_UI(ID_GRID_SETKA, OnUpdateGridSetka)
+	ON_COMMAND(ID_ROW_HEIGHT, OnChangingRowHeight)
+	//ON_UPDATE_COMMAND_UI(ID_ROW_HEIGHT, OnUpdateChangedRowHeight)
+	ON_COMMAND(ID_COL_WIDTH, OnChangingColWidth)
+	//ON_UPDATE_COMMAND_UI(ID_COL_WIDTH, OnUpdateChangedColWidth)
 	ON_COMMAND(ID_EDIT_ADD, OnEditAdd)
 	ON_COMMAND(ID_EDIT_DEL, OnEditDel)
 	ON_COMMAND(ID_FORMAT_CELLS, OnFormatCells)
@@ -431,7 +435,82 @@ void CGridView::OnGridSection()
 		return;
 }
 
+void CGridView::OnChangingRowHeight() 
+{
+	if(!m_pGridCtrl)
+		return;
+#ifndef SMALL_TRANSLATE
+	CInputNumeric dlg;
+	dlg.csValue="0";
+	dlg.csTitle="¬ведите высоту строки:";
+	dlg.nLength=4;
+	dlg.nPrec=0;
+	dlg.nTimer=0;
+	if(dlg.DoModal()==IDOK)
+	{
+		int nHeight=int(String(dlg.csValue).GetNumber());
+		CCellRange Range=m_pGridCtrl->GetSelectedCellRange();
+		for(int i=Range.GetMinRow();i<=Range.GetMaxRow();i++)
+		{
+			m_pGridCtrl->SetRowHeight(i,nHeight);
+			Invalidate();
+			m_pGridCtrl->SetModified(TRUE, i,0);
+		}
+	}
+	
+#endif
+}
 
+//DEL void CGridView::OnUpdateChangedRowHeight(CCmdUI* pCmdUI) 
+//DEL {
+//DEL 	if(!m_pGridCtrl)
+//DEL 		return;
+//DEL 	if(!m_pGridCtrl->IsEditable())
+//DEL 	{
+//DEL 		pCmdUI->Enable(0);
+//DEL 		return;
+//DEL 	}
+//DEL 	Invalidate();
+//DEL }
+
+void CGridView::OnChangingColWidth() 
+{
+	if(!m_pGridCtrl)
+		return;
+#ifndef SMALL_TRANSLATE
+	CInputNumeric dlg;
+	dlg.csValue="0";
+	dlg.csTitle="¬ведите ширину колонки:";
+	dlg.nLength=4;
+	dlg.nPrec=0;
+	dlg.nTimer=0;
+	if(dlg.DoModal()==IDOK)
+	{
+		int nWidth=int(String(dlg.csValue).GetNumber());
+		CCellRange Range=m_pGridCtrl->GetSelectedCellRange();
+		for(int i=Range.GetMinCol();i<=Range.GetMaxCol();i++)
+		{
+			m_pGridCtrl->SetColumnWidth(i,nWidth);
+			Invalidate();
+			m_pGridCtrl->SetModified(TRUE,0,i);
+		}
+			
+	}
+	
+#endif
+}
+
+//DEL void CGridView::OnUpdateChangedColWidth(CCmdUI* pCmdUI) 
+//DEL {
+//DEL 	if(!m_pGridCtrl)
+//DEL 		return;
+//DEL 	if(!m_pGridCtrl->IsEditable())
+//DEL 	{
+//DEL 		pCmdUI->Enable(0);
+//DEL 		return;
+//DEL 	}
+//DEL 	Invalidate();
+//DEL }
 
 void CGridView::OnEditAdd() 
 {

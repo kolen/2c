@@ -833,6 +833,7 @@ BOOL CGridCtrlExt::SaveMXL()
 		if(nColCount>0)
 		{
 			m_Data.aRowNumber[nRowCount]=nRow;
+
 			nRowCount++;
 		}
 	}
