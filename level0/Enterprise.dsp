@@ -1986,9 +1986,5 @@ SOURCE=.\Enterprise.reg
 
 SOURCE=.\ReadMe.txt
 # End Source File
-# Begin Source File
-
-SOURCE=.\bin\GuiTk115.lib
-# End Source File
 # End Target
 # End Project

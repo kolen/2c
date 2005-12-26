@@ -1425,7 +1425,7 @@ CString PeriodStr(CValue &cData1,CValue &cData2)
 			Str.Format("1 %s %d %s", sd.SemiYear, nYear1, sd.SmallYear);
 		if(cData2==EndOfMonth(Date(nYear1,9,1)))
 			Str.Format("%s %d %s", sd.Month_9, nYear1, sd.SmallYear);
-		if(cData2==EndOfYear(Date(nYear1,1,1)));
+		if(cData2==EndOfYear(Date(nYear1,1,1)))
 			Str.Format("%d %s", nYear1,sd.SmallYear);
 	}
 	else

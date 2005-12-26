@@ -21,18 +21,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "GuiLib"=.\GuiLib\GuiLib.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "ServerCOM"=.\PLUGINS\ServerCOM\ServerCOM.dsp - Package Owner=<4>
 
 Package=<5>

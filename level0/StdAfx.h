@@ -93,7 +93,7 @@ extern CString afxFormPath;
 //#include "SourceUT\OXStaticText.h"
 //#include "SourceUT\OXSizeCtrlBar.h"
 //#include "SourceUT\OXFrameWndDock.h"
-//#include "SourceUT\OXSizeDlgBar.h"
+//#include "GuiLib\GuiLib.h"
 //#include "OXSizeDlgBar.h"
 
 
