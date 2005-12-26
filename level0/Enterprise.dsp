@@ -1346,6 +1346,10 @@ SOURCE=.\Edit\xrnumericedit.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\EditLog\_editlog_stream.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\EditLog\debug.h
 # End Source File
 # Begin Source File
@@ -1922,6 +1926,18 @@ SOURCE=.\MySQL\ODBCRecordset.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\SourceUT\OXDllExt.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\SourceUT\OXTabView.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\SourceUT\OXTabView.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\GUI\XColorStatic.cpp
 # End Source File
 # Begin Source File
@@ -1935,22 +1951,6 @@ SOURCE=.\GUI\XHyperLink.cpp
 # Begin Source File
 
 SOURCE=.\GUI\XHyperLink.h
-# End Source File
-# End Group
-# Begin Group "SourceUT"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\SourceUT\OXDllExt.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXTabView.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\SourceUT\OXTabView.h
 # End Source File
 # End Group
 # End Group
@@ -1985,6 +1985,10 @@ SOURCE=.\Enterprise.reg
 # Begin Source File
 
 SOURCE=.\ReadMe.txt
+# End Source File
+# Begin Source File
+
+SOURCE=.\bin\GuiTk115.lib
 # End Source File
 # End Target
 # End Project

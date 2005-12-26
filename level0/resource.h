@@ -407,6 +407,11 @@
 #define ID_ORDER_ELEMENTS               33103
 #define ID_UP                           33104
 #define ID_DOWN                         33105
+#define ID_ROW_HEIGTH                   33106
+#define ID_COL_WIDTH                    33107
+#define ID_ROW_HEIGHT                   33108
+#define ID_ACCEL33109                   33109
+#define ID_VIEW_TABLELIST               -32426
 #define ID_EDIT_DELETE                  37000
 #define ID_EDIT_FIND_PREVIOUS           37126
 #define ID_FORMAT_BLOCK                 37199
@@ -489,8 +494,8 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        282
-#define _APS_NEXT_COMMAND_VALUE         33106
+#define _APS_NEXT_COMMAND_VALUE         33111
 #define _APS_NEXT_CONTROL_VALUE         1258
-#define _APS_NEXT_SYMED_VALUE           416
+#define _APS_NEXT_SYMED_VALUE           417
 #endif
 #endif

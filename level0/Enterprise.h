@@ -43,7 +43,7 @@ public:
 
 
 	static CReportManager	*m_pSystemManager;
-	COXSplashWnd m_wndSplash;
+	CEdit m_wndSplash;
 
 	void DeleteConfigName();
 	virtual BOOL DoPromptFileName(CString& fileName, UINT nIDSTitle,
