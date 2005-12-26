@@ -27,10 +27,10 @@
 //
 //
 
-class CEditLog : protected CSubclassWnd
+class CEditLog : protected CMySubclassWnd
 {
 public:
-	typedef CSubclassWnd root_type;
+	typedef CMySubclassWnd root_type;
 
 	// Constructs the CEditLog. You can pass the edit controls handle
 	// here or set it later using the SetEditCtrl() function.

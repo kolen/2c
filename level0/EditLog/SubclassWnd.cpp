@@ -1,6 +1,6 @@
 /** @file SubclassWnd.cpp
  *
- * Implementation file for CSubclassWnd.
+ * Implementation file for CMySubclassWnd.
  *
  * @author William E. Kempf
  * @version 2.0
@@ -55,7 +55,7 @@ namespace
 };
 
 /*
- * Message used to unsubclass CSubclassWnd objects.
+ * Message used to unsubclass CMySubclassWnd objects.
  */
 const UINT WM_UNSUBCLASS = RegisterWindowMessage("{207D9568-FF3C-11D3-A469-000629B2F855}");
 /*
@@ -81,7 +81,7 @@ struct MSGREFLECTSTRUCT
 /*
  * Message handler used to reflect messages from a parent window to a child window.
  */
-class CMessageReflector : public CSubclassWnd
+class CMessageReflector : public CMySubclassWnd
 {
 private:
 	CMessageReflector(HWND hWnd);
@@ -235,7 +235,7 @@ void CMessageReflector::OnFinalMessage()
  * Default contructor.
  */
 
-CSubclassWnd::CSubclassWnd()
+CMySubclassWnd::CMySubclassWnd()
 	: m_hWnd(0), m_pfnSuperWindowProc(::DefWindowProc), m_pCurrentMsg(0)
 {
 }
@@ -244,7 +244,7 @@ CSubclassWnd::CSubclassWnd()
  * Destructor.
  */
 
-CSubclassWnd::~CSubclassWnd()
+CMySubclassWnd::~CMySubclassWnd()
 {
 	if (m_hWnd != NULL)
 		UnsubclassWindow();
@@ -263,7 +263,7 @@ CSubclassWnd::~CSubclassWnd()
  *		window was not subclassed, the return value is zero.
  */
 
-BOOL CSubclassWnd::SubclassWindow(HWND hWnd, BOOL bReflect)
+BOOL CMySubclassWnd::SubclassWindow(HWND hWnd, BOOL bReflect)
 {
 	if (m_hWnd != NULL || !::IsWindow(hWnd))
 		return FALSE;
@@ -293,7 +293,7 @@ BOOL CSubclassWnd::SubclassWindow(HWND hWnd, BOOL bReflect)
  * @return The handle to the window previously subclassed.
  */
 
-HWND CSubclassWnd::UnsubclassWindow()
+HWND CMySubclassWnd::UnsubclassWindow()
 {
 	return (HWND)SendMessage(WM_UNSUBCLASS, 0, (LPARAM)this);
 }
@@ -311,10 +311,10 @@ HWND CSubclassWnd::UnsubclassWindow()
  *		depends on the message sent.
  */
 
-LRESULT CALLBACK CSubclassWnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam,
+LRESULT CALLBACK CMySubclassWnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam,
 										  LPARAM lParam)
 {
-	CSubclassWnd* pThis = (CSubclassWnd*)hWnd;
+	CMySubclassWnd* pThis = (CMySubclassWnd*)hWnd;
 
 	// set a ptr to this message and save the old value
 	MSG msg = { pThis->m_hWnd, message, wParam, lParam, 0, { 0, 0 } };
@@ -373,7 +373,7 @@ LRESULT CALLBACK CSubclassWnd::WindowProc(HWND hWnd, UINT message, WPARAM wParam
  *		recursively to all children.
  */
 
-void CSubclassWnd::SendMessageToDescendants(UINT message, WPARAM wParam, LPARAM lParam,
+void CMySubclassWnd::SendMessageToDescendants(UINT message, WPARAM wParam, LPARAM lParam,
 											BOOL bDeep)
 {
 	SendMessageToDescendantsImp(GetHandle(), message, wParam, lParam, bDeep);
@@ -383,7 +383,7 @@ void CSubclassWnd::SendMessageToDescendants(UINT message, WPARAM wParam, LPARAM 
  * Called after the last message has been dispatched to the window.
  */
 
-void CSubclassWnd::OnFinalMessage()
+void CMySubclassWnd::OnFinalMessage()
 {
 }
 
@@ -403,12 +403,12 @@ void CSubclassWnd::OnFinalMessage()
  *		message was not handled, the return value is zero.
  */
 
-BOOL CSubclassWnd::ProcessWindowMessage(UINT message, WPARAM wParam, LPARAM lParam,
+BOOL CMySubclassWnd::ProcessWindowMessage(UINT message, WPARAM wParam, LPARAM lParam,
 										LRESULT& lResult)
 {
 	if (message == WM_UNSUBCLASS)
 	{
-		if ((CSubclassWnd*)lParam == this)
+		if ((CMySubclassWnd*)lParam == this)
 		{
 			if (m_hWnd == NULL)
 				lResult = NULL;
@@ -416,7 +416,7 @@ BOOL CSubclassWnd::ProcessWindowMessage(UINT message, WPARAM wParam, LPARAM lPar
 			{
 				if (wParam)
 				{
-					CSubclassWnd* pPrevious = (CSubclassWnd*)wParam;
+					CMySubclassWnd* pPrevious = (CMySubclassWnd*)wParam;
 					ASSERT(pPrevious->m_pfnSuperWindowProc == (WNDPROC)&(m_thunk.thunk));
 					pPrevious->m_pfnSuperWindowProc = m_pfnSuperWindowProc;
 					lResult = (LRESULT)m_hWnd;

@@ -1,6 +1,6 @@
 /** @file SubclassWnd.h
  *
- * Definition of CSubclassWnd.h.
+ * Definition of CMySubclassWnd.h.
  *
  * @author William E. Kempf
  * @version 2.0
@@ -34,13 +34,13 @@
  *
  * This class can be used to "subclass" a window in the C API sense of the term.
  * It is a base class, meant to be derived from.  Derived classes should provide
- * an interface that will call CSubclassWnd::SubclassWindow in order to hook into
+ * an interface that will call CMySubclassWnd::SubclassWindow in order to hook into
  * a window's message handling interface.  Typically this will be done in the
  * derived's constructor and the OnFinalMessage method will be overriden to delete
  * the object's instance (delete this).
  */
 
-class CSubclassWnd
+class CMySubclassWnd
 {
 private:
 	class WndProcThunk
@@ -96,8 +96,8 @@ private:
 	};
 
 protected:
-	CSubclassWnd();
-	virtual ~CSubclassWnd();
+	CMySubclassWnd();
+	virtual ~CMySubclassWnd();
 
 	virtual BOOL ProcessWindowMessage(UINT message, WPARAM wParam, LPARAM lParam,
 		LRESULT& lResult);
@@ -146,7 +146,7 @@ private:
  * @return TRUE if successful; otherwise FALSE.
  */
 
-inline BOOL CSubclassWnd::SubclassWindow(CWnd* pWnd, BOOL bReflect)
+inline BOOL CMySubclassWnd::SubclassWindow(CWnd* pWnd, BOOL bReflect)
 {
 	return SubclassWindow(pWnd->GetSafeHwnd(), bReflect);
 }
@@ -157,7 +157,7 @@ inline BOOL CSubclassWnd::SubclassWindow(CWnd* pWnd, BOOL bReflect)
  *
  * @return Returns a pointer to the "current" MSG structure being handled.
  */
-inline const MSG* CSubclassWnd::GetCurrentMessage() const
+inline const MSG* CMySubclassWnd::GetCurrentMessage() const
 {
 	return m_pCurrentMsg;
 }
@@ -171,7 +171,7 @@ inline const MSG* CSubclassWnd::GetCurrentMessage() const
  *		depends on the message.
  */
 
-inline LRESULT CSubclassWnd::DefWindowProc()
+inline LRESULT CMySubclassWnd::DefWindowProc()
 {
 	const MSG* pMsg = m_pCurrentMsg;
 	LRESULT lRes = 0;
@@ -192,7 +192,7 @@ inline LRESULT CSubclassWnd::DefWindowProc()
  * @return The return value is the result of the message processing and
  *		depends on the message.
  */
-inline LRESULT CSubclassWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+inline LRESULT CMySubclassWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 #ifdef STRICT
 	return ::CallWindowProc(m_pfnSuperWindowProc, m_hWnd, message, wParam, lParam);
@@ -207,7 +207,7 @@ inline LRESULT CSubclassWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM l
  * @return The handle to the currently subclassed window.
  */
 
-inline HWND CSubclassWnd::GetHandle() const
+inline HWND CMySubclassWnd::GetHandle() const
 {
 	return m_hWnd;
 }
@@ -223,7 +223,7 @@ inline HWND CSubclassWnd::GetHandle() const
  *		depends on the message.
  */
 
-inline LRESULT CSubclassWnd::SendMessage(UINT message, WPARAM wParam, LPARAM lParam)
+inline LRESULT CMySubclassWnd::SendMessage(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return ::SendMessage(GetHandle(), message, wParam, lParam);
 }
@@ -240,7 +240,7 @@ inline LRESULT CSubclassWnd::SendMessage(UINT message, WPARAM wParam, LPARAM lPa
  *		information, call GetLastError. 
  */
 
-inline BOOL CSubclassWnd::PostMessage(UINT message, WPARAM wParam, LPARAM lParam)
+inline BOOL CMySubclassWnd::PostMessage(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return ::PostMessage(GetHandle(), message, wParam, lParam);
 }
