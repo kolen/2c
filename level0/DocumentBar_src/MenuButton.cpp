@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////
-// CMenuButton
+// CMyMenuButton
 // Yogesh Jagota :- Please note that this class is originally written by 
 //					Mr. Kirk Stowell, CodeJockey.com named CJFlatButton as 
 //					a part of his great CJLibrary. I only copied the code 
@@ -14,19 +14,19 @@
 #include "menubutton.h"
 #include "../resource.h"
 
-CMenuButton::CMenuButton()
+CMyMenuButton::CMyMenuButton()
 {
 	m_bLBtnDown = FALSE;
 	m_bPainted  = FALSE;
 }
 
-CMenuButton::~CMenuButton()
+CMyMenuButton::~CMyMenuButton()
 {
 }
 
 
-BEGIN_MESSAGE_MAP(CMenuButton, CButton)
-	//{{AFX_MSG_MAP(CMenuButton)
+BEGIN_MESSAGE_MAP(CMyMenuButton, CButton)
+	//{{AFX_MSG_MAP(CMyMenuButton)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
@@ -38,7 +38,7 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CMenuButton message handlers
-void CMenuButton::OnMouseMove(UINT nFlags, CPoint point) 
+void CMyMenuButton::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	SetTimer(1, 10, NULL);
 	OnTimer(1);
@@ -46,13 +46,13 @@ void CMenuButton::OnMouseMove(UINT nFlags, CPoint point)
 	CButton::OnMouseMove(nFlags, point);
 }
 
-void CMenuButton::OnLButtonDown(UINT nFlags, CPoint point) 
+void CMyMenuButton::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	m_bLBtnDown = TRUE;
 	CButton::OnLButtonDown(nFlags, point);
 }
 
-void CMenuButton::OnLButtonUp(UINT nFlags, CPoint point) 
+void CMyMenuButton::OnLButtonUp(UINT nFlags, CPoint point) 
 {
 	m_bLBtnDown = FALSE;
 	CButton::OnLButtonUp(nFlags, point);
@@ -60,7 +60,7 @@ void CMenuButton::OnLButtonUp(UINT nFlags, CPoint point)
 	GetParent()->SendMessage( ID_DS_POPUP_BUTTON, 0, 0 );
 }
 
-void CMenuButton::OnTimer(UINT nIDEvent) 
+void CMyMenuButton::OnTimer(UINT nIDEvent) 
 {
 	CRect rcItem;
 	GetWindowRect(rcItem);
@@ -92,7 +92,7 @@ void CMenuButton::OnTimer(UINT nIDEvent)
 	CButton::OnTimer(nIDEvent);
 }
 
-void CMenuButton::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) 
+void CMyMenuButton::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) 
 {
 	ASSERT(lpDrawItemStruct != NULL);
 
@@ -120,7 +120,7 @@ void CMenuButton::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	DrawButtonBitmap(pDC, nState, rcItem);
 }
 
-void CMenuButton::DrawButtonBitmap(CDC* pDC, UINT nState, CRect& rcItem)
+void CMyMenuButton::DrawButtonBitmap(CDC* pDC, UINT nState, CRect& rcItem)
 {
 	CBitmap bBitmap;
 	bBitmap.LoadBitmap( IDB_MENU_BUTTON );
@@ -137,14 +137,14 @@ void CMenuButton::DrawButtonBitmap(CDC* pDC, UINT nState, CRect& rcItem)
 		( nState & ODS_DISABLED )?DSS_DISABLED:DSS_NORMAL);
 }
 
-BOOL CMenuButton::OnEraseBkgnd(CDC* pDC) 
+BOOL CMyMenuButton::OnEraseBkgnd(CDC* pDC) 
 {
 	// KStowell - overridden for flicker-free drawing.
 	UNUSED_ALWAYS(pDC);
 	return TRUE;
 }
 
-void CMenuButton::OnPaint() 
+void CMyMenuButton::OnPaint() 
 {
 	CPaintDC dc(this); // device context for painting
 	

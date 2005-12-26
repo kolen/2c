@@ -90,7 +90,7 @@
 #include "../resource.h"
 #include "docselect.h"
 #include "switcherbutton.h"
-#include "menubutton.h"
+#include "MenuButton.h"
 
 #include <afxpriv.h>
 
@@ -101,6 +101,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 #define MINWIDTH		60
+
 
 // Yogesh Jagota
 #define DS_HEIGHT				22		// Default is 22.

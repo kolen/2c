@@ -10,12 +10,12 @@
 #define ID_DS_POPUP_BUTTON		20002	// Default is 20002.
 
 /////////////////////////////////////////////////////////////////////////////
-// CMenuButton window
-class CMenuButton : public CButton
+// CMyMenuButton window
+class CMyMenuButton : public CButton
 {
 // Construction
 public:
-	CMenuButton();
+	CMyMenuButton();
 
 // Attributes
 public:
@@ -28,18 +28,18 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMenuButton)
+	//{{AFX_VIRTUAL(CMyMenuButton)
 	public:
 	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CMenuButton();
+	virtual ~CMyMenuButton();
 
 	// Generated message map functions
 protected:
-	//{{AFX_MSG(CMenuButton)
+	//{{AFX_MSG(CMyMenuButton)
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);

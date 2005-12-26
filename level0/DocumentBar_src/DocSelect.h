@@ -9,7 +9,7 @@
 
 
 #include "SwitcherButton.h"
-#include "menubutton.h"
+#include "Menubutton.h"
 
 //#include <ExtTempl.h>
 
@@ -26,7 +26,7 @@ public:
 	// Yogesh Jagota
 	int				m_cxAvailable;
 	UINT			m_nDisplayedButtons;
-	CMenuButton		m_btnMenuButton;
+	CMyMenuButton		m_btnMenuButton;
 	// End Yogesh Jagota
 
 // Operations
