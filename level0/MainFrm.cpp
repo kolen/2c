@@ -686,7 +686,7 @@ void CMainFrame::OnSelectMenu(UINT nID)
 	try
 	{
 
-		CMenuItem element=aAllMenuItems[nMenu];
+		CMyMenuItem element=aAllMenuItems[nMenu];
 		if(element.nType==MENU_FUNCTION)
 		{
 			if(element.pRun)
