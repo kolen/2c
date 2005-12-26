@@ -17,21 +17,21 @@ static char THIS_FILE[]=__FILE__;
 //œŒƒƒ≈–∆ ¿ “≈ —“¿
 void SetStaticParams(CXColorStatic &m_StaticText,int hAlign=0,int vAlign=0,CString csFont="MS Sans Serif",bool bBold=0,bool bItalic=0,bool bUnderL=0,int nHeight=15,int nColor=0)
 {
-	/*
+	
 	if(hAlign==0)
-	m_StaticText.SetHorzAlignment(OX_ALIGNHORZ_LEFT,TRUE);
+	m_StaticText.SetHorzAlignment(X_ALIGNHORZ_LEFT,TRUE);
 	else if(hAlign==1)
-	m_StaticText.SetHorzAlignment(OX_ALIGNHORZ_CENTER,TRUE);
+	m_StaticText.SetHorzAlignment(X_ALIGNHORZ_CENTER,TRUE);
 	else if(hAlign==2)
-	m_StaticText.SetHorzAlignment(OX_ALIGNHORZ_RIGHT,TRUE);
+	m_StaticText.SetHorzAlignment(X_ALIGNHORZ_RIGHT,TRUE);
 
 	if(vAlign==0)
-	m_StaticText.SetVertAlignment(OX_ALIGNVERT_TOP,TRUE);
+	m_StaticText.SetVertAlignment(X_ALIGNVERT_TOP,TRUE);
 	else if(vAlign==1)
-	m_StaticText.SetVertAlignment(OX_ALIGNVERT_CENTER,TRUE);
+	m_StaticText.SetVertAlignment(X_ALIGNVERT_CENTER,TRUE);
 	else if(vAlign==2)
-	m_StaticText.SetVertAlignment(OX_ALIGNVERT_BOTTOM,TRUE);
-	*/
+	m_StaticText.SetVertAlignment(X_ALIGNVERT_BOTTOM,TRUE);
+	
 
 	m_StaticText.SetFont(csFont,nHeight);
 	m_StaticText.SetBold(bBold,TRUE);
