@@ -1,4 +1,4 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      // credits.cpp : implementation file
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  // credits.cpp : implementation file
 //**************************************************************************
 
 // NOTE: Be sure you have defined your bitmaps by assigning them a resource
@@ -73,23 +73,18 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 // 
 // Array count. Make sure this keeps up with how many lines there are
 // in the array!
-char *pArrCredit[] = { 	"gpl-2C: Предприятие \n",
+char *pArrCredit[] = { 	"Благодарности: \r\n",
 						"",
-						"Copyright (C)  VTOOLS.RU, 2003-2004 \f",
-						"All Rights Reserved \f",
-						"",
-						"Благодарности: \t",
-						"",
-						"1.Щербаченко Андрею - за компоненту \"Crystal Edit\" \f",
-						"2.Е. Манькову и др. - за \"Основы построения трансляторов\"\f",
-						"3.Mark Findl - за данный контрол \f",
-						"4.Alexey Kusiy (alexqc@narod.ru) - за функции преобразования дат, \f",
-						"функции форматирования, плагины \f",
-						"",
-						"",
-						"",
-						"",
-						"",
+						"1.Щербаченко Андрею - за компоненту \"Crystal Edit\" \r\n",
+						"2.Е. Манькову и др. - за \"Основы построения трансляторов\"\r\n",
+						"3.Alexey Kusiy (alexqc@narod.ru) - за функции преобразования\r\n",
+						"  дат, функции форматирования, плагины \r\n",
+						"4.Chris Maunder - за GridCtrl \r\n ",
+						"5.Jean-loup Gailly и Mark Adler - за ZipArchive\r\n",
+						"6.Иванову Юрию, автору большей части проекта - \r\n"
+						"  за все, что он сделал\r\n",
+						"7.Езееву Федору - за предоставленные ресурсы\r\n",
+						"8.Всем остальным - за помощь и моральную поддержку проекта\r\n",
 						"",
 						};
 
@@ -185,7 +180,8 @@ BOOL CCredits::OnInitDialog()
 		}
 
 	}
-	m_Info1="gpl-2C Enterprise";
+	for(int i=0;i<12;i++)
+		m_Info1+=pArrCredit[i];
 	m_DBDir.SetWindowText(CString("Каталог базы данных:\n")+csIBDir);
 	UpdateData(0);
 
