@@ -1115,7 +1115,7 @@ void CDynControl::AddControl(CPoint* ppoint)
 	else
 	if (m_nControlType == ID_DYNBUTTONGROUP) // GROUPBOX
 	{
-		AddDialog(new CButton(),ppoint,90,DEFAULT_DIALOG_H*5,"BUTTON",WS_CHILD | BS_GROUPBOX,0);
+		AddDialog(new CButton(),ppoint,90,DEFAULT_DIALOG_H*5,"BUTTON",WS_CHILD | BS_GROUPBOX &~WS_TABSTOP,0);
 		OnUpdate();
 	}
 	else
@@ -1130,10 +1130,7 @@ void CDynControl::AddControl(CPoint* ppoint)
 		int nStyle = WS_CHILD;
 		if(aDataList[0].bData) 
 			nStyle=nStyle | BS_DEFPUSHBUTTON;
-		if(aDataList[5].nData&&m_csValue.IsEmpty())
-			nStyle=nStyle | BS_FLAT;
-		else
-			nStyle=nStyle | BS_OWNERDRAW;
+		nStyle=nStyle | BS_OWNERDRAW;
 		AddDialog(new CImageButton(),ppoint,80,22,"BUTTON",nStyle);
 		OnUpdate();
 	}
