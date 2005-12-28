@@ -419,13 +419,16 @@ CString CModuleManager::GetTable(CString csFileName)
 {
 	CMetaObject* pObject=0;
 	BOOL bRes=FindObject(csFileName,"",pObject,OBJMAKET,MAKETSNAME);
+
 	if(!bRes)
 	{
 		Error(CString("Ошибка задания имени таблицы: \"")+csFileName+"\"");
 	}
 	if(!afxFormPath.IsEmpty())
 	{
-		return LoadFromFile(afxFormPath);
+		CString Ret=LoadFromFile(afxFormPath);
+		afxFormPath="";
+		return Ret;
 	}
 	ASSERT(pObject);
 	return pObject->csFile;
