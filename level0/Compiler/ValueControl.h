@@ -393,53 +393,7 @@ public:
 		}
 		return nRes;
 	};
-/*
-	virtual CString GetString(void)const
-	{
-		CString csRes;
-		CWnd *hParent=GetParent();
-		if(hParent)
-		{
-			int n1=GetDlgCtrlID();
-			int n2=n1+MAX_RADIO;
-			int nCheck=hParent->GetCheckedRadioButton(n1,n2);
-			nCheck=nCheck-n1+1;
-			if(nCheck<0)
-				nCheck=0;
-			if(nCheck>MAX_RADIO)
-				nCheck=0;
-			csRes.Format("%d",nCheck);
-		}
-		return csRes;
-	};
-	virtual void SetString(CString csParam)
-	{
-		int nValue=atoi(csParam);
-		CWnd *hParent=GetParent();
-		if(hParent)
-		{
-			int n1=GetDlgCtrlID();
-			int n2=n1;
-
-			//определяем n2
-		    for(int nID=n1+1;nID<n1+MAX_RADIO;nID++)
-			{
-				CWnd* pWnd=hParent->GetDlgItem(nID);
-				if(!pWnd)
-					break;
-
-				CRuntimeClass* prt = pWnd->GetRuntimeClass();
-				if(prt->m_lpszClassName!="CRadio")
-					break;
-				if((1<<17)&pWnd->GetStyle())
-					break;
-				n2=nID;
-			}
-			hParent->CheckRadioButton(n1,n2,n1+nValue-1);
-		}
-	};
-	*/
-
+	
 };
 #undef PWINDOW
 

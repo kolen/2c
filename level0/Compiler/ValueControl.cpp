@@ -265,12 +265,27 @@ CString CValueControl::GetString(void)const
 		if(hParent)
 		{
 			int n1=pObj->GetDlgCtrlID();
-			int n2=n1+MAX_RADIO;
+			int n2=n1;
+			
+			//определяем n2
+		    for(int nID=n1+1;nID<n1+MAX_RADIO;nID++)
+			{
+				CWnd* pWnd=CWnd::FromHandle(hParent)->GetDlgItem(nID);
+				if(!pWnd)
+					break;
+
+				CRuntimeClass* prt = pWnd->GetRuntimeClass();
+				if(prt->m_lpszClassName!="CRadio")
+					break;
+				if((1<<17)&pWnd->GetStyle())
+					break;
+				n2=nID;
+			}
 			int nCheck=CWnd::FromHandle(hParent)->GetCheckedRadioButton(n1,n2);
 			nCheck=nCheck-n1+1;
 			if(nCheck<0)
 				nCheck=0;
-			if(nCheck>MAX_RADIO)
+			if(nCheck>n2-n1+1)
 				nCheck=0;
 			csRes.Format("%d",nCheck);
 		}
@@ -389,8 +404,7 @@ void CValueControl::SetString(CString csParam)
 					break;
 				n2=nID;
 			}
-
-
+						
 			CWnd::FromHandle(hParent)->CheckRadioButton(n1,n2,n1+nValue-1);
 		}
 	}
