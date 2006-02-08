@@ -160,4 +160,7 @@ int CValueContext::GetType(void)const
 	return nType;
 }
 
-
+NUMBER CValueContext::GetNumber(void)const
+{
+	return (int)pRun;
+}

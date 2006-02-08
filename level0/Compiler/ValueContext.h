@@ -33,6 +33,7 @@ public:
 	int  GetType(void)const;
 	CString GetTypeString()const;
 	CString GetString(void)const;
+	NUMBER GetNumber(void)const;
 	void SaveToString(CString &Str);
 	void LoadFromString(CString &Str);
 
