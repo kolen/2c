@@ -89,7 +89,7 @@ BOOL CInputPeriod::OnInitDialog()
 	SetWindowText(csTitle);
 	UpdatePeriod();
 	m_MonthCtrl.SetCurSel(m_Date1.GetMonth()-1);
-	m_QuartCtrl.SetCurSel(int(m_Date1.GetMonth()/3));
+	m_QuartCtrl.SetCurSel(int((m_Date1.GetMonth()-1)/3));
 	m_MonthCtrl.EnableWindow(FALSE);
 	m_QuartCtrl.EnableWindow(FALSE);
 	m_Date1Ctrl.EnableWindow(FALSE);
