@@ -1719,7 +1719,10 @@ CValue GetCallContext(CValue **p)//ПолучитьКонтекстВызова
 {
 	//CRunContext *p0=AfxGetCurrentRunContext();
 	CRunContext *pContext=AfxGetPrevRunContext();
-	return (int)pContext;
+	if(pContext)
+		return pContext->pProcUnit->vContext;
+	else
+		return CValue();//return (int)pContext;
 }
 
 
