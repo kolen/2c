@@ -1137,6 +1137,14 @@ SOURCE=.\Compiler\ValueOLE.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Compiler\ValueRange.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Compiler\ValueRange.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Compiler\ValueSQL.cpp
 # End Source File
 # Begin Source File

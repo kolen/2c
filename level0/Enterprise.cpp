@@ -23,6 +23,7 @@
 #include "Compiler/ValueModule.h"
 #include "Compiler/ValueText.h"
 #include "Compiler/ValueToolBar.h"
+#include "Compiler/ValueRange.h"
 
 #include "MainFrm.h"
 #include "ChildFrm.h"
@@ -210,6 +211,9 @@ BOOL CEnterpriseApp::InitInstance()
 
 	RegisterObject(RUNTIME_CLASS(CValueToolBar),"ѕанель»нструментов");
 	RegisterObject(RUNTIME_CLASS(CValueToolBar),"ToolBar");
+
+	RegisterObject(RUNTIME_CLASS(CValueRange),"ќбласть");
+	RegisterObject(RUNTIME_CLASS(CValueRange),"Area");
 
 
 	if (!AfxOleInit())
